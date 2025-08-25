@@ -43,22 +43,6 @@ The goal of this project is to deliver a modern, scalable, and user-friendly onl
 
 ---
 
-## 📂 Project Structure
-
-unity-stores/
-│
-├── server/ # Django REST API
-│ ├── manage.py
-│ └── ...
-│
-├── ui/ # Next.js + TypeScript frontend
-│ ├── package.json
-│ └── ...
-│
-└── README.md
-
----
-
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the repository
