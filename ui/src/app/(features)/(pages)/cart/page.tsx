@@ -82,21 +82,11 @@ const initialCartItems: CartItem[] = [
 
 const Index = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
-    const [promoCode, setPromoCode] = useState('');
-    const [promoApplied, setPromoApplied] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const savings = cartItems.reduce((sum, item) => {
-        if (item.originalPrice) {
-            return sum + ((item.originalPrice - item.price) * item.quantity);
-        }
-        return sum;
-    }, 0);
-    const promoDiscount = promoApplied ? 50 : 0;
     const shipping = subtotal > 50 ? 0 : 9.99;
-    const tax = (subtotal - promoDiscount) * 0.08;
-    const total = subtotal - promoDiscount + shipping + tax;
+    const tax = subtotal * 0.08;
+    const total = subtotal + shipping + tax;
 
     const updateQuantity = (id: number, newQuantity: number) => {
         setCartItems(items =>
@@ -116,20 +106,6 @@ const Index = () => {
         removeItem(id);
     };
 
-    // const applyPromoCode = () => {
-    //     setIsLoading(true);
-    //     setTimeout(() => {
-    //         if (promoCode.toLowerCase() === 'save50') {
-    //             setPromoApplied(true);
-    //         }
-    //         setIsLoading(false);
-    //     }, 1000);
-    // };
-
-    // const removePromoCode = () => {
-    //     setPromoApplied(false);
-    //     setPromoCode('');
-    // };
 
     if (cartItems.length === 0) {
         return (
@@ -339,62 +315,11 @@ const Index = () => {
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
                             <h2 className="text-lg font-semibold text-gray-900 mb-6">Order Summary</h2>
 
-                            {/*<div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Promo Code
-                                </label>
-                                {!promoApplied ? (
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            value={promoCode}
-                                            onChange={(e) => setPromoCode(e.target.value)}
-                                            placeholder="Enter code"
-                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        />
-                                        <button
-                                            onClick={applyPromoCode}
-                                            disabled={!promoCode || isLoading}
-                                            className="px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white text-sm rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            {isLoading ? '...' : 'Apply'}
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
-                                        <div className="flex items-center gap-2">
-                                            <Tag className="h-4 w-4 text-green-600" />
-                                            <span className="text-sm font-medium text-green-800">SAVE50 applied</span>
-                                        </div>
-                                        <button
-                                            onClick={removePromoCode}
-                                            className="text-xs text-green-700 hover:text-green-800"
-                                        >
-                                            Remove
-                                        </button>
-                                    </div>
-                                )}
-                            </div> */}
-
                             <div className="space-y-3 mb-6">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">Subtotal</span>
                                     <span className="font-medium">${subtotal.toFixed(2)}</span>
                                 </div>
-
-                                {savings > 0 && (
-                                    <div className="flex justify-between text-sm text-green-600">
-                                        <span>Savings</span>
-                                        <span>-${savings.toFixed(2)}</span>
-                                    </div>
-                                )}
-
-                                {promoApplied && (
-                                    <div className="flex justify-between text-sm text-green-600">
-                                        <span>Promo Discount</span>
-                                        <span>-${promoDiscount.toFixed(2)}</span>
-                                    </div>
-                                )}
 
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">Shipping</span>
