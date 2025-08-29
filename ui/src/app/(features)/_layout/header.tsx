@@ -12,8 +12,8 @@ export const Header = () => {
                 <div className="flex items-center justify-between max-w-6xl mx-auto py-2 px-2 md:py-4 md:px-4">
                     <Link href="/" className="flex-shrink-0">
                         <div className="flex items-center gap-2 ">
-                            <img src="/logo.png" alt="UnityStore" className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12" />
-                            <div className="text-primary font-bold text-base sm:text-lg md:text-xl">UnityStore</div>
+                            <img src="/logo.png" alt="UnityStore" className="h-10 w-10 md:h-12 md:w-12" />
+                            <div className="text-primary font-bold text-lg md:text-xl">UnityStore</div>
                         </div>
                     </Link>
 

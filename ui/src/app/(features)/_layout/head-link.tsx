@@ -3,20 +3,19 @@ import Link from "next/link";
 import { List } from "lucide-react";
 
 interface NavItem {
-  label: string;
-  url: string;
+  category: string;
 }
 
 export const navItems: NavItem[] = [
-  { label: "All Categories", url: "/" },
-  { label: "Electronics", url: "/" },
-  { label: "Fashion", url: "/" },
-  { label: "Women’s", url: "/" },
-  { label: "Kids’ Fashion", url: "/" },
-  { label: "Healthy & Beauty", url: "/" },
-  { label: "Pharmacy", url: "/" },
-  { label: "Groceries", url: "/" },
-  { label: "Luxury Item", url: "/" },
+  { category: "All Categories" },
+  { category: "Electronics" },
+  { category: "Fashion", },
+  { category: "Women’s" },
+  { category: "Kids’ Fashion" },
+  { category: "Healthy & Beauty" },
+  { category: "Pharmacy" },
+  { category: "Groceries" },
+  { category: "Luxury Item" },
 ];
 
 export const HeadLink = () => {
@@ -26,13 +25,13 @@ export const HeadLink = () => {
         {navItems.map((item, index) => (
           <Link
             key={index}
-            href={item.url}
+            href={`/products/${item.category}`}
             className="flex items-center gap-1 hover:text-gray-500 transition-colors"
           >
-            {item.label === "All Categories" && (
+            {item.category === "All Categories" && (
               <List className="w-4 h-4" strokeWidth={2} />
             )}
-            <span>{item.label}</span>
+            <span>{item.category}</span>
           </Link>
         ))}
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, Star, ArrowRight, Tag } from 'lucide-react';
@@ -107,8 +107,17 @@ const products: Product[] = [
     },
 ];
 
+
 const RelatedProducts = () => {
     const [wishlist, setWishlist] = useState<number[]>([]);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 640);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     const toggleWishlist = (productId: number) => {
         setWishlist(prev =>
@@ -123,8 +132,8 @@ const RelatedProducts = () => {
             <Star
                 key={i}
                 className={`h-3 w-3 ${i < Math.floor(rating)
-                        ? 'fill-amber-400 text-amber-400'
-                        : 'text-gray-300'
+                    ? 'fill-amber-400 text-amber-400'
+                    : 'text-gray-300'
                     }`}
             />
         ));
@@ -142,6 +151,10 @@ const RelatedProducts = () => {
                 return 'bg-gradient-to-r from-blue-500 to-indigo-500';
         }
     };
+
+    const displayedProducts = isMobile
+        ? products.slice(0, 20)
+        : products.slice(0, 25);
 
     return (
         <section className="py-8">
@@ -162,7 +175,7 @@ const RelatedProducts = () => {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-2 md:gap-4 sm:grid-cols-3">
-                {products.map((product) => (
+                {displayedProducts.map((product) => (
                     <Link
                         href={`/products/${product.id}`}
                         key={product.id}
@@ -183,8 +196,8 @@ const RelatedProducts = () => {
                             <button
                                 onClick={() => toggleWishlist(product.id)}
                                 className={`absolute bottom-1.5 right-1.5 z-10 p-1.5 rounded-full transition-all duration-200 ${wishlist.includes(product.id)
-                                        ? 'bg-red-50 text-red-500'
-                                        : 'bg-white/80 text-gray-400 hover:bg-red-50 hover:text-red-500'
+                                    ? 'bg-red-50 text-red-500'
+                                    : 'bg-white/80 text-gray-400 hover:bg-red-50 hover:text-red-500'
                                     } shadow-sm`}
                             >
                                 <Heart className={`h-3 w-3 ${wishlist.includes(product.id) ? 'fill-current' : ''}`} />
