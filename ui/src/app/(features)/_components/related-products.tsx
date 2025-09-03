@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Image from "next/image";
 import Link from "next/link";
 import { Heart, Star, ArrowRight, Tag } from 'lucide-react';
+import { useProductsList } from "@/app/(features)/_api/product";
+
 
 type Product = {
-    id: number;
+    id: string;
     img: string;
     title: string;
     rating: number;
@@ -17,88 +18,10 @@ type Product = {
     slug?: string;
 };
 
-const products: Product[] = [
-    {
-        id: 1,
-        img: "/images/product1-4.jpg",
-        title: "iPhone 16 Pro Max",
-        rating: 4.8,
-        reviewCount: 2847,
-        originalPrice: 1299,
-        price: 1199,
-    },
-    {
-        id: 2,
-        img: "/images/product1-3.jpg",
-        title: "AirPods Pro (2nd Gen)",
-        rating: 4.6,
-        reviewCount: 1523,
-        originalPrice: 249,
-        price: 199,
-        category: "shirt",
-    },
-    {
-        id: 3,
-        img: "/images/product1-2.jpg",
-        title: "MacBook Pro 16-inch",
-        rating: 4.9,
-        reviewCount: 892,
-        originalPrice: 2999,
-        price: 2699,
-        category: "shirt",
-    },
-    {
-        id: 4,
-        img: "/images/product1-4.jpg",
-        title: "iPad Pro 12.9-inch",
-        rating: 4.7,
-        reviewCount: 634,
-        price: 1099,
-        category: "shirt",
-    },
-    {
-        id: 5,
-        img: "/images/product1-3.jpg",
-        title: "Apple Watch Ultra 2",
-        rating: 4.5,
-        reviewCount: 421,
-        originalPrice: 849,
-        price: 799,
-        category: "shirt",
-    },
-    {
-        id: 6,
-        img: "/images/product1-2.jpg",
-        title: "Studio Display 5K",
-        rating: 4.4,
-        reviewCount: 289,
-        price: 1599,
-        category: "shirt",
-    },
-    {
-        id: 7,
-        img: "/images/product1-4.jpg",
-        title: "iPad 8.9-inch",
-        rating: 4.7,
-        reviewCount: 634,
-        price: 199,
-        category: "shirt",
-    },
-    {
-        id: 8,
-        img: "/images/product1-3.jpg",
-        title: "Apple Watch Ultra fsafafafafafafafaffaffafafafafafafafa",
-        rating: 4.5,
-        reviewCount: 421,
-        originalPrice: 849,
-        price: 299,
-        category: "shirt",
-    },
-];
-
 const RelatedProducts = () => {
-    const [wishlist, setWishlist] = useState<number[]>([]);
     const [isMobile, setIsMobile] = useState(false);
+
+    const { data, isLoading, error } = useProductsList();
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -107,6 +30,23 @@ const RelatedProducts = () => {
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
+    if (isLoading) return <p>Loading...</p>;
+    if (error) {
+        console.error("Product API error:", error);
+        return <p>Something went wrong!</p>;
+    }
+
+    const products: Product[] = (data?.results || []).map((p: any) => ({
+        id: p.id,
+        img: p.cover_image || "/images/product1-4.jpg",
+        title: p.product_name,
+        rating: p.rating || 0,
+        reviewCount: p.review_count || 0,
+        originalPrice: undefined,
+        price: parseFloat(p.final_price),
+        category: p.category?.name,
+        slug: p.id,
+    }));
 
     const displayedProducts = isMobile
         ? products.slice(0, 20)
@@ -137,7 +77,7 @@ const RelatedProducts = () => {
                         key={product.id}
                         className="group bg-white/85 rounded-lg  hover:shadow-sm transition-all duration-200 overflow-hidden border border-gray-100 sm:h-80"
                     >
-                        <div className="relative overflow-hidden sm:max-h-[65%]">
+                        <div className="relative overflow-hidden sm:h-[65%]">
                             <img
                                 src={product.img}
                                 alt={product.title}

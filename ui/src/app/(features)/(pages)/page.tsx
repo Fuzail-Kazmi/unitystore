@@ -3,7 +3,7 @@ import React, { useMemo, useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import RelatedProducts from "../../_components/related-products";
+import RelatedProducts from "../_components/related-products";
 
 type Slide = {
   img: string;
@@ -135,7 +135,7 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
   );
 }
 
-const Index = () => {
+export default function Home() {
   const slides = useMemo(() => HERO_SLIDES, []);
   const cats = useMemo(() => POPULAR_CATEGORIES, []);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -230,4 +230,3 @@ const Index = () => {
   );
 };
 
-export default Index;

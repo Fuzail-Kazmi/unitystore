@@ -1,0 +1,166 @@
+'use client'
+import React, { useState } from 'react';
+import { Eye, EyeOff, Mail, Lock, ArrowRight, ShoppingBag } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { loginUser } from '../_api';
+import { Brand } from '@/app/_components';
+
+export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const tokens = await loginUser({ email, password });
+      localStorage.setItem('access_token', tokens.access);
+      localStorage.setItem('refresh_token', tokens.refresh);
+      document.cookie = `authToken=${tokens.access}; path=/`;
+      router.push('/');
+    } catch (err) {
+      console.error('Login failed', err);
+      alert('Invalid email or password');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignupRedirect = () => {
+    router.push('/register');
+  };
+
+  return (
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-72 h-72 md:w-96 md:h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+        <div className="absolute top-0 right-0 w-72 h-72 md:w-96 md:h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 md:w-96 md:h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-2000"></div>
+      </div>
+
+      <div className="w-full max-w-6xl mx-auto flex items-center justify-center relative z-10">
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full max-w-4xl">
+          <div className="flex flex-col lg:flex-row min-h-[600px]">
+            <div className="lg:w-1/2 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 p-6 md:p-8 lg:p-12 flex flex-col justify-between text-white relative overflow-hidden">
+              <div className="absolute inset-0 bg-black/10"></div>
+              <div className="relative z-10">
+                <div className='mb-4'>
+                  <div className="flex items-center gap-2 ">
+                    <img
+                      src="/logo.png"
+                      alt="UnityStore"
+                      className="h-10 w-10 md:h-12 md:w-12"
+                    />
+                    <div className="text-primary-foreground font-bold text-lg md:text-2xl">
+                      UnityStore
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+                    Welcome to the Future of Shopping
+                  </h2>
+                  <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-8">
+                    Discover amazing products, enjoy seamless shopping experiences, and join our community of satisfied customers.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-300 rounded-full flex-shrink-0"></div>
+                      <span className="text-blue-100">Secure & Fast Checkout</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-purple-300 rounded-full flex-shrink-0"></div>
+                      <span className="text-blue-100">Premium Quality Products</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-pink-300 rounded-full flex-shrink-0"></div>
+                      <span className="text-blue-100">24/7 Customer Support</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:w-1/2 p-6 md:p-8 lg:p-12 flex items-center">
+              <div className="w-full max-w-md mx-auto">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                    Welcome Back
+                  </h3>
+                  <p className="text-gray-600">Sign in to continue your shopping journey</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-900" />
+                    </div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500"
+                      placeholder="Email Address"
+                      required
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Lock className="h-5 w-5 text-gray-900" />
+                    </div>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full pl-12 pr-12 py-4 border border-gray-200 rounded-2xl focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500"
+                      placeholder="Password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-2xl font-semibold hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-500/25 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? (
+                      <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    ) : (
+                      <>
+                        <span>Sign In</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                <div className="text-center mt-6">
+                  <p className="text-gray-600">
+                    Don't have an account?{' '}
+                    <button
+                      onClick={handleSignupRedirect}
+                      className="text-indigo-600 hover:text-indigo-700 font-semibold transition-colors cursor-pointer"
+                    >
+                      Sign up
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

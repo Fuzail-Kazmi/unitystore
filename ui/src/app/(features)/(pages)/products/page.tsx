@@ -11,11 +11,13 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 
+import { useProductsList } from "@/app/(features)/_api/product";
+
 const ProductPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
-  const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('featured');
+
   type FilterType = {
     category: string[];
     priceRange: [number, number];
@@ -32,119 +34,29 @@ const ProductPage = () => {
     inStock: false
   });
 
-  const products = [
-    {
-      id: 1,
-      title: "Premium Wireless Headphones",
-      brand: "TechSound",
-      price: 299,
-      originalPrice: 399,
-      rating: 4.8,
-      reviews: 245,
-      img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
-      category: "Electronics",
-      inStock: true,
-      features: ["Noise Canceling", "40H Battery", "Quick Charge"]
-    },
-    {
-      id: 2,
-      title: "Organic Cotton T-Shirt",
-      brand: "EcoWear",
-      price: 45,
-      originalPrice: null,
-      rating: 4.5,
-      reviews: 128,
-      img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
-      category: "Fashion",
-      inStock: true,
-      features: ["100% Organic", "Fair Trade", "Soft Feel"]
-    },
-    {
-      id: 3,
-      title: "Smart Fitness Watch",
-      brand: "FitTech",
-      price: 199,
-      originalPrice: 249,
-      rating: 4.6,
-      reviews: 892,
-      img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
-      category: "Electronics",
-      inStock: false,
-      features: ["Heart Rate", "GPS", "Waterproof"]
-    },
-    {
-      id: 4,
-      title: "Minimalist Backpack",
-      brand: "UrbanCarry",
-      price: 89,
-      originalPrice: null,
-      rating: 4.7,
-      reviews: 156,
-      img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
-      category: "Fashion",
-      inStock: true,
-      features: ["Water Resistant", "Laptop Pocket", "Ergonomic"]
-    },
-    {
-      id: 5,
-      title: "Skincare Gift Set",
-      brand: "BrewMaster",
-      price: 89,
-      originalPrice: 120,
-      rating: 4.3,
-      reviews: 67,
-      img: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop",
-      category: "Healthy & Beauty",
-      inStock: true,
-      features: ["Natural Ingredients", "Gift Box", "All Skin Types"]
-    },
-    {
-      id: 6,
-      title: "Wireless Charging Pad",
-      brand: "PowerFlow",
-      price: 59,
-      originalPrice: null,
-      rating: 4.4,
-      reviews: 203,
-      img: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=400&fit=crop",
-      category: "Electronics",
-      inStock: true,
-      features: ["Fast Charging", "LED Indicator", "Universal"]
-    },
-    {
-      id: 7,
-      title: "Women's Designer Dress",
-      brand: "EcoWear",
-      price: 129,
-      originalPrice: 179,
-      rating: 4.6,
-      reviews: 89,
-      img: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop",
-      category: "Women's",
-      inStock: true,
-      features: ["Premium Fabric", "Comfortable Fit", "Elegant Design"]
-    },
-    {
-      id: 8,
-      title: "Kids Colorful Sneakers",
-      brand: "FitTech",
-      price: 79,
-      originalPrice: null,
-      rating: 4.5,
-      reviews: 156,
-      img: "https://images.unsplash.com/photo-1603787081207-362bcef7c144?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      category: "Kids' Fashion",
-      inStock: true,
-      features: ["Comfortable", "Durable", "Fun Colors"]
-    }
-  ];
+  const { data, isLoading, isError } = useProductsList();
+  const apiProducts = data?.results || [];
+
+  const products = apiProducts.map((p: any) => ({
+    id: p.id,
+    title: p.product_name,
+    brand: p.brand || "Unknown",
+    price: p.final_price,
+    originalPrice: p.price > p.final_price ? p.price : null,
+    rating: p.rating || 0,
+    reviews: p.reviews_count || 0,
+    img: p.cover_image,
+    category: p.category?.name || "General",
+    inStock: true,
+    features: []
+  }));
 
   const categories = ["Electronics", "Fashion", "Women's", "Kids' Fashion", "Healthy & Beauty", "Pharmacy", "Groceries", "Luxury Item"];
   const brands = ["TechSound", "EcoWear", "FitTech", "UrbanCarry", "BrewMaster", "PowerFlow"];
 
   type FilterKey = 'category' | 'brand';
   type ProductType = {
-    id: number;
+    id: string;
     title: string;
     brand: string;
     price: number;
@@ -176,17 +88,24 @@ const ProductPage = () => {
     });
   };
 
+  if (isLoading) {
+    return <div className="text-center py-20">Loading products...</div>;
+  }
+
+  if (isError) {
+    return <div className="text-center py-20 text-red-500">Failed to load products.</div>;
+  }
+
   const filteredProducts: ProductType[] = products.filter((product) => {
-    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filters.category.length === 0 || filters.category.includes(product.category);
     const matchesBrand = filters.brand.length === 0 || filters.brand.includes(product.brand);
     const matchesPrice = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
     const matchesRating = product.rating >= filters.rating;
     const matchesStock = !filters.inStock || product.inStock;
 
-    return matchesSearch && matchesCategory && matchesBrand && matchesPrice && matchesRating && matchesStock;
+    return matchesCategory && matchesBrand && matchesPrice && matchesRating && matchesStock;
   });
+
 
   const ProductCard = ({ product }: { product: ProductType }) => (
     <Link
