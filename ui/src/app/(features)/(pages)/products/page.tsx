@@ -377,7 +377,7 @@ const ProductPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="max-w-6xl mx-auto">
       {isFilterOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setIsFilterOpen(false)} />

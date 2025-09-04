@@ -1,17 +1,14 @@
-// app/(features)/_api/cart.ts
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { API_URL } from "@/app/_api/index";
-
+import axiosClient from "@/app/_api/axiosClient";
 
 // -------- Fetch Cart --------
 export const useCart = () => {
   return useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
-      const res = await axios.get(`${API_URL}api/cart/`);
+      const res = await axiosClient.get("api/cart/");
       return res.data;
     },
   });
@@ -23,11 +20,14 @@ export const useAddToCart = () => {
 
   return useMutation({
     mutationFn: async (payload: { product_id: string; quantity: number }) => {
-      const res = await axios.post(`${API_URL}api/cart/add/`, payload);
+      const res = await axiosClient.post("api/cart/add/", payload);
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] }); 
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (error: any) => {
+      throw error.response?.data?.detail || "Failed to add to cart";
     },
   });
 };
@@ -38,8 +38,9 @@ export const useUpdateCartItem = () => {
 
   return useMutation({
     mutationFn: async (payload: { item_id: string; quantity: number }) => {
-      const res = await axios.patch(`${API_URL}api/cart/${payload.item_id}/`, {
+      const res = await axiosClient.patch(`api/cart/${payload.item_id}/`, {
         quantity: payload.quantity,
+        action: "update",
       });
       return res.data;
     },
@@ -55,7 +56,7 @@ export const useRemoveCartItem = () => {
 
   return useMutation({
     mutationFn: async (item_id: string) => {
-      const res = await axios.delete(`${API_URL}api/cart/${item_id}/remove/`);
+      const res = await axiosClient.delete(`api/cart/${item_id}/remove/`);
       return res.data;
     },
     onSuccess: () => {
@@ -70,7 +71,7 @@ export const useClearCart = () => {
 
   return useMutation({
     mutationFn: async () => {
-      const res = await axios.post(`${API_URL}api/cart/clear/`);
+      const res = await axiosClient.post("api/cart/clear/");
       return res.data;
     },
     onSuccess: () => {

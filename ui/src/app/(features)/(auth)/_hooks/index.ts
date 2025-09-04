@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { loginUser, registerUser, refreshAccessTokenFn } from "../_api"; // api/index.ts se
+import { loginUser, registerUser, refreshAccessTokenFn } from "../_api"; 
 import { useRouter } from "next/navigation";
 
 // ---------------- LOGIN ----------------
@@ -13,12 +13,10 @@ export const useLoginMutation = () => {
     mutationKey: ["login-user"],
 
     onSuccess: (data) => {
-      // tokens save in localStorage
       localStorage.setItem("tokens", JSON.stringify(data));
-
-      // redirect after login
+      console.log(data)
       router.push("/");
-    },
+    },  
     onError: (error: any) => {
       console.error("❌ Login failed:", error.response?.data || error.message);
     },
@@ -35,7 +33,6 @@ export const useRegisterMutation = () => {
 
     onSuccess: (data) => {
       console.log("✅ Registered successfully", data);
-      // Redirect to login or auto-login
       router.push("/login");
     },
     onError: (error: any) => {

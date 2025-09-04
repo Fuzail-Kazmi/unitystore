@@ -1,18 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/app/_store/hooks";
+import { loadFromStorage, logout } from "@/app/_store/authSlice";
+import { useRouter } from "next/navigation";
 
 export function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const tokens = localStorage.getItem("tokens"); 
-    if (tokens) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
+    dispatch(loadFromStorage());
+  }, [dispatch]);
 
-  return { isAuthenticated };
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("tokens");
+    router.replace("/login");
+  };
+
+  return { isAuthenticated, user, handleLogout };
 }

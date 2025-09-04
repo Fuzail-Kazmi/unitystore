@@ -1,5 +1,4 @@
-import axios from "axios";
-import { API_URL } from "@/app/_api";
+import axiosClient from "@/app/_api/axiosClient";
 
 interface LoginBody {
   email: string;
@@ -12,16 +11,16 @@ interface LoginResponse {
 }
 
 export const loginUser = async (body: LoginBody): Promise<LoginResponse> => {
-  const response = await axios.post(`${API_URL}/api/login`, body);
+  const response = await axiosClient.post("api/login/", body);
   return response.data;
 };
 
-export const registerUser = async (body: {name: string; email: string; password: string }) => {
-  const response = await axios.post(`${API_URL}/api/register`, body);
+export const registerUser = async (body: { username: string; email: string; password: string }) => {
+  const response = await axiosClient.post(`api/register/`, body);
   return response.data;
 };
 
 export const refreshAccessTokenFn = async (refresh: string): Promise<LoginResponse> => {
-  const response = await axios.post(`${API_URL}/api/login/refresh`, { refresh });
+  const response = await axiosClient.post("api/login/refresh/", { refresh });
   return response.data;
 };

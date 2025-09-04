@@ -1,14 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
-import { Brand } from "@/app/_components";
 import { useRouter } from "next/navigation";
 import { registerUser, loginUser } from "../_api";
 import Link from "next/link";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -21,24 +20,23 @@ export default function RegisterPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await registerUser({ name, email, password });
+      await registerUser({ username, email, password });
 
-      // Auto login after register
       const tokens = await loginUser({ email, password });
-      localStorage.setItem("access_token", tokens.access);
-      localStorage.setItem("refresh_token", tokens.refresh);
-      document.cookie = `access_token=${tokens.access}; path=/`;
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+      document.cookie = `authToken=${tokens.access}; path=/`;
 
       router.push("/");
-    } catch (err) {
-      console.error("Register failed", err);
+    } catch (err: any) {
+      console.error("❌ Register failed:", err.response?.data || err.message);
+      alert(err.response?.data?.message || err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4 relative overflow-hidden">
       {mounted && (
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl animate-pulse"></div>
@@ -77,10 +75,10 @@ export default function RegisterPage() {
                 <User className="absolute left-4 top-4 text-gray-400" />
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 border rounded-2xl bg-gray-50/50"
-                  placeholder="Full Name"
+                  placeholder="Username"
                   required
                 />
               </div>
@@ -96,6 +94,7 @@ export default function RegisterPage() {
                   required
                 />
               </div>
+
               <div className="relative">
                 <Lock className="absolute left-4 top-4 text-gray-400" />
                 <input

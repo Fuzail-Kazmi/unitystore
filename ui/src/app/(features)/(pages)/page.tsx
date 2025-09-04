@@ -150,7 +150,7 @@ export default function Home() {
   };
 
   return (
-    <main className="px-2 md:px-4 py-4">
+    <main className="max-w-6xl mx-auto px-2 md:px-4 py-4">
       <section className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-4 ">
         <HeroCarousel slides={slides} />
         <Link

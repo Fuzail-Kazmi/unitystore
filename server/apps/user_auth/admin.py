@@ -2,9 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User
 
-
-
-
 @admin.register(User)
 class UserAdminView(UserAdmin):
     def __init__(self, model: type, admin_site: admin.AdminSite | None) -> None:
@@ -19,7 +16,7 @@ class UserAdminView(UserAdmin):
         (None, {"fields": ("username", "password")}),
         (
             ("Personal info"),
-            {"fields": ("first_name", "last_name", "email", "mobile", "dob", "image")},
+            {"fields": ("first_name", "last_name", "email", "mobile", "dob")},
         ),
         (
             ("Permissions"),

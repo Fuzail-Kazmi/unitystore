@@ -10,7 +10,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         <Header />
         <HeadLink />
       </header>
-      <main className="max-w-6xl mx-auto">{children}</main>
+      <main className="min-h-screen w-full bg-gray-50">{children}</main>
       <footer className="border-t border-gray-200 mt-8">
         <Footer />
       </footer>

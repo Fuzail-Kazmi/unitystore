@@ -1,14 +1,14 @@
-'use client'
-import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, ArrowRight, ShoppingBag } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { loginUser } from '../_api';
-import { Brand } from '@/app/_components';
+"use client";
+
+import React, { useState } from "react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { loginUser } from "../_api";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -17,20 +17,22 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const tokens = await loginUser({ email, password });
-      localStorage.setItem('access_token', tokens.access);
-      localStorage.setItem('refresh_token', tokens.refresh);
+
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+
       document.cookie = `authToken=${tokens.access}; path=/`;
-      router.push('/');
-    } catch (err) {
-      console.error('Login failed', err);
-      alert('Invalid email or password');
+
+        router.push("/");
+    } catch (err: any) {
+      console.error("Login failed:", err.response?.data || err.message);
+      alert(err.response?.data?.detail || "Invalid email or password");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSignupRedirect = () => {
-    router.push('/register');
+    router.push("/register");
   };
 
   return (
@@ -47,7 +49,7 @@ export default function LoginPage() {
             <div className="lg:w-1/2 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 p-6 md:p-8 lg:p-12 flex flex-col justify-between text-white relative overflow-hidden">
               <div className="absolute inset-0 bg-black/10"></div>
               <div className="relative z-10">
-                <div className='mb-4'>
+                <div className="mb-4">
                   <div className="flex items-center gap-2 ">
                     <img
                       src="/logo.png"
@@ -64,7 +66,8 @@ export default function LoginPage() {
                     Welcome to the Future of Shopping
                   </h2>
                   <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-8">
-                    Discover amazing products, enjoy seamless shopping experiences, and join our community of satisfied customers.
+                    Discover amazing products, enjoy seamless shopping experiences,
+                    and join our community of satisfied customers.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
@@ -90,7 +93,9 @@ export default function LoginPage() {
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                     Welcome Back
                   </h3>
-                  <p className="text-gray-600">Sign in to continue your shopping journey</p>
+                  <p className="text-gray-600">
+                    Sign in to continue your shopping journey
+                  </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -113,7 +118,7 @@ export default function LoginPage() {
                       <Lock className="h-5 w-5 text-gray-900" />
                     </div>
                     <input
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full pl-12 pr-12 py-4 border border-gray-200 rounded-2xl focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500"
@@ -125,7 +130,11 @@ export default function LoginPage() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
                     </button>
                   </div>
 
@@ -147,7 +156,7 @@ export default function LoginPage() {
 
                 <div className="text-center mt-6">
                   <p className="text-gray-600">
-                    Don't have an account?{' '}
+                    Don't have an account?{" "}
                     <button
                       onClick={handleSignupRedirect}
                       className="text-indigo-600 hover:text-indigo-700 font-semibold transition-colors cursor-pointer"
