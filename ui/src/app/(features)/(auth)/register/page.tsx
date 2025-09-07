@@ -28,7 +28,7 @@ export default function RegisterPage() {
 
       router.push("/");
     } catch (err: any) {
-      console.error("❌ Register failed:", err.response?.data || err.message);
+      console.error("Register failed:", err.response?.data || err.message);
       alert(err.response?.data?.message || err.message);
     } finally {
       setIsLoading(false);

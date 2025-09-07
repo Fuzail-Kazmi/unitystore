@@ -149,6 +149,7 @@ import { useState } from "react";
 import { Search, ShoppingCart, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/_hooks";
+import { useCart } from "@/app/_hooks/useCart";
 
 export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -156,6 +157,7 @@ export const Header = () => {
   const router = useRouter();
 
   const { isAuthenticated, user, handleLogout } = useAuth();
+  const { cart } = useCart();
 
   return (
     <>
@@ -175,6 +177,7 @@ export const Header = () => {
           </Link>
 
           <div className="flex items-center gap-2 md:gap-4">
+            {/* Desktop Search */}
             <div className="hidden sm:flex items-center justify-between border border-accent rounded-xl p-2 text-sm w-48 sm:w-80 lg:w-140">
               <input
                 type="text"
@@ -186,15 +189,18 @@ export const Header = () => {
               </button>
             </div>
 
+            {/* Desktop Cart + User */}
             <div className="hidden sm:flex items-center gap-2 md:gap-3">
               <Link
                 href="/cart"
                 className="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors relative cursor-pointer"
               >
                 <ShoppingCart className="h-4 md:h-5 md:w-5 w-4" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
-                  2
-                </span>
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
+                    {cart.length}
+                  </span>
+                )}
               </Link>
 
               <div className="relative">
@@ -250,6 +256,7 @@ export const Header = () => {
               </div>
             </div>
 
+            {/* Mobile Icons */}
             <div className="flex sm:hidden items-center gap-2">
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -258,12 +265,17 @@ export const Header = () => {
                 <Search className="h-4 w-4" />
               </button>
 
-              <button className="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors relative">
+              <Link
+                href="/cart"
+                className="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors relative"
+              >
                 <ShoppingCart className="h-4 w-4" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
-                  2
-                </span>
-              </button>
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
+                    {cart.length}
+                  </span>
+                )}
+              </Link>
 
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -306,6 +318,7 @@ export const Header = () => {
           </div>
         </div>
 
+        {/* Mobile search open state */}
         {isSearchOpen && (
           <div className="sm:hidden border-t border-accent bg-white">
             <div className="max-w-6xl mx-auto px-3 py-3">
@@ -336,4 +349,5 @@ export const Header = () => {
     </>
   );
 };
+
 

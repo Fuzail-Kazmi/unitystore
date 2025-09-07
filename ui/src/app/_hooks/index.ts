@@ -15,10 +15,10 @@ export function useAuth() {
   }, [dispatch]);
 
   const handleLogout = () => {
-    dispatch(logout());
-    localStorage.removeItem("tokens");
-    router.replace("/login");
+  dispatch(logout())
+  router.replace("/login");
   };
 
   return { isAuthenticated, user, handleLogout };
 }
+

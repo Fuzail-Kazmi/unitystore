@@ -421,7 +421,7 @@ const ProductPage = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                    className="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-gray-500 focus:border-transparent cursor-pointer"
                   >
                     <option value="featured">Featured</option>
                     <option value="price-low">Price: Low to High</option>
@@ -433,13 +433,13 @@ const ProductPage = () => {
                   <div className="hidden sm:flex border border-gray-300 rounded-xl overflow-hidden">
                     <button
                       onClick={() => setViewMode('grid')}
-                      className={`px-3 py-2 ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
+                      className={`px-3 py-2  cursor-pointer ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
                     >
                       <Grid3X3 className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
-                      className={`px-3 py-2 ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
+                      className={`px-3 py-2  cursor-pointer ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
                     >
                       <List className="h-4 w-4" />
                     </button>
@@ -476,7 +476,7 @@ const ProductPage = () => {
 
             {filteredProducts.length > 0 && (
               <div className="text-center mt-12">
-                <button className="bg-white hover:bg-gray-50 text-gray-900 px-8 py-3 rounded-xl border border-gray-300 font-medium transition-colors">
+                <button className="bg-white hover:bg-gray-50 text-gray-900 text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 rounded-lg border border-gray-300 font-medium transition-colors cursor-pointer">
                   Load More Products
                 </button>
               </div>

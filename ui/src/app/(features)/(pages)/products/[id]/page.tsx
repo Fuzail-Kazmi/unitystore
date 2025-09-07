@@ -269,13 +269,6 @@ const ProductDetailPage = () => {
                             </div>
 
                             <div className="flex gap-3">
-                                {/* <button
-                                    onClick={handleAddToCart}
-                                    disabled={addToCart.isPending}
-                                    className="flex-1 bg-primary hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
-                                    <ShoppingCart className="h-5 w-5" />
-                                    Add to Cart
-                                </button> */}
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={addToCart.isPending}

@@ -1,11 +1,7 @@
 import "./globals.css";
 import Providers from './provider'
 import type { Metadata } from "next";
-import { ReactNode } from "react";
-
 import { Toaster } from "react-hot-toast";
-import { Provider } from "react-redux";
-import { store } from "@/app/_store/store";
 
 export const metadata: Metadata = {
   title: "Unity Store | Redefining the Art of Shopping",
@@ -15,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) { 
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <Providers >
           {children}

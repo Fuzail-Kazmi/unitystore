@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "../_api";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,13 +20,13 @@ export default function LoginPage() {
       const tokens = await loginUser({ email, password });
 
       localStorage.setItem("tokens", JSON.stringify(tokens));
-
       document.cookie = `authToken=${tokens.access}; path=/`;
 
-        router.push("/");
+      toast.success("Login successful!");
+      router.push("/");
     } catch (err: any) {
       console.error("Login failed:", err.response?.data || err.message);
-      alert(err.response?.data?.detail || "Invalid email or password");
+      toast.error(err.response?.data?.detail || "Invalid email or password");
     } finally {
       setIsLoading(false);
     }
@@ -106,6 +107,7 @@ export default function LoginPage() {
                     <input
                       type="email"
                       value={email}
+                      autoComplete="current-email"
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500"
                       placeholder="Email Address"
@@ -120,6 +122,7 @@ export default function LoginPage() {
                     <input
                       type={showPassword ? "text" : "password"}
                       value={password}
+                      autoComplete="current-password"
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full pl-12 pr-12 py-4 border border-gray-200 rounded-2xl focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500"
                       placeholder="Password"

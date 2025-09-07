@@ -1,5 +1,4 @@
 "use client";
-
 import { useMutation } from "@tanstack/react-query";
 import { loginUser, registerUser, refreshAccessTokenFn } from "../_api"; 
 import { useRouter } from "next/navigation";
@@ -18,7 +17,7 @@ export const useLoginMutation = () => {
       router.push("/");
     },  
     onError: (error: any) => {
-      console.error("❌ Login failed:", error.response?.data || error.message);
+      console.error("Login failed:", error.response?.data || error.message);
     },
   });
 };
@@ -36,7 +35,7 @@ export const useRegisterMutation = () => {
       router.push("/login");
     },
     onError: (error: any) => {
-      console.error("❌ Register failed:", error.response?.data || error.message);
+      console.error("Register failed:", error.response?.data || error.message);
     },
   });
 };
