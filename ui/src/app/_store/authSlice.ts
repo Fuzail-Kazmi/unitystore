@@ -1,7 +1,6 @@
 "use client";
-
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   id: string;
@@ -16,9 +15,12 @@ interface AuthState {
   refreshToken: string | null;
 }
 
-interface Tokens {
-  access: string;
-  refresh: string;
+interface AuthPayload {
+  tokens: {
+    access: string;
+    refresh: string;
+  };
+  user: User;
 }
 
 const initialState: AuthState = {
@@ -32,26 +34,15 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<Tokens>) => {
-      const { access, refresh } = action.payload;
-      state.accessToken = access;
-      state.refreshToken = refresh;
+    setCredentials: (state, action: PayloadAction<AuthPayload>) => {
+      const { tokens, user } = action.payload;
+      state.accessToken = tokens.access;
+      state.refreshToken = tokens.refresh;
       state.isAuthenticated = true;
+      state.user = user; 
 
-      try {
-        const decoded: any = jwtDecode(access);
-        state.user = {
-          id: decoded.user_id,
-          username: decoded.username,
-          email: decoded.email,
-        };
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-        state.user = null;
-        state.isAuthenticated = false;
-      }
-
-      localStorage.setItem("tokens", JSON.stringify({ access, refresh }));
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+      localStorage.setItem("user", JSON.stringify(user));
     },
 
     logout: (state) => {
@@ -60,30 +51,27 @@ const authSlice = createSlice({
       state.refreshToken = null;
       state.isAuthenticated = false;
       localStorage.removeItem("tokens");
+      localStorage.removeItem("user");
     },
 
     loadFromStorage: (state) => {
       const tokens = localStorage.getItem("tokens");
-      if (tokens) {
-        try {
-          const { access, refresh } = JSON.parse(tokens);
-          state.accessToken = access;
-          state.refreshToken = refresh;
-          state.isAuthenticated = true;
+      const user = localStorage.getItem("user");
 
-          const decoded: any = jwtDecode(access);
-          state.user = {
-            id: decoded.user_id,
-            username: decoded.username,
-            email: decoded.email,
-          };
+      if (tokens && user) {
+        try {
+          state.accessToken = JSON.parse(tokens).access;
+          state.refreshToken = JSON.parse(tokens).refresh;
+          state.user = JSON.parse(user);
+          state.isAuthenticated = true;
         } catch (error) {
-          console.error("Invalid token in storage:", error);
+          console.error("Invalid storage data:", error);
           state.user = null;
           state.accessToken = null;
           state.refreshToken = null;
           state.isAuthenticated = false;
           localStorage.removeItem("tokens");
+          localStorage.removeItem("user");
         }
       }
     },

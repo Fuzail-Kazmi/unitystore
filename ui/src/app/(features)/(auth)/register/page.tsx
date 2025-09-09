@@ -1,38 +1,35 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { registerUser, loginUser } from "../_api";
 import Link from "next/link";
+import { useRegisterMutation } from "../_hooks";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const router = useRouter();
+
+  const { mutate: register, isPending } = useRegisterMutation();
 
   useEffect(() => setMounted(true), []);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      await registerUser({ username, email, password });
 
-      const tokens = await loginUser({ email, password });
-      localStorage.setItem("tokens", JSON.stringify(tokens));
-      document.cookie = `authToken=${tokens.access}; path=/`;
-
-      router.push("/");
-    } catch (err: any) {
-      console.error("Register failed:", err.response?.data || err.message);
-      alert(err.response?.data?.message || err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    register(
+      { username, email, password },
+      {
+        onSuccess: () => {
+          toast.success("Account created successfully!");
+        },
+        onError: (err: any) => {
+          toast.error(err.response?.data?.detail || "Registration failed");
+        },
+      }
+    );
   };
 
   return (
@@ -50,16 +47,14 @@ export default function RegisterPage() {
           <div className="lg:w-1/2 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 p-8 lg:p-12 text-white relative">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
-              <div>
-                <div className="flex items-center gap-2 ">
-                  <img
-                    src="/logo.png"
-                    alt="UnityStore"
-                    className="h-10 w-10 md:h-12 md:w-12"
-                  />
-                  <div className="text-primary-foreground font-bold text-lg md:text-2xl">
-                    UnityStore
-                  </div>
+              <div className="flex items-center gap-2">
+                <img
+                  src="/logo.png"
+                  alt="UnityStore"
+                  className="h-10 w-10 md:h-12 md:w-12"
+                />
+                <div className="text-primary-foreground font-bold text-lg md:text-2xl">
+                  UnityStore
                 </div>
               </div>
               <h2 className="text-3xl font-bold mt-8">Create Account</h2>
@@ -76,6 +71,7 @@ export default function RegisterPage() {
                 <input
                   type="text"
                   value={username}
+                  autoComplete="username"
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 border rounded-2xl bg-gray-50/50"
                   placeholder="Username"
@@ -88,6 +84,7 @@ export default function RegisterPage() {
                 <input
                   type="email"
                   value={email}
+                  autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 border rounded-2xl bg-gray-50/50"
                   placeholder="Email Address"
@@ -100,6 +97,7 @@ export default function RegisterPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
+                  autoComplete="current-password" 
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-12 pr-12 py-4 border rounded-2xl bg-gray-50/50"
                   placeholder="Password"
@@ -116,10 +114,10 @@ export default function RegisterPage() {
 
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isPending}
                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-2xl font-semibold flex items-center justify-center"
               >
-                {isLoading ? (
+                {isPending ? (
                   <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 ) : (
                   <>

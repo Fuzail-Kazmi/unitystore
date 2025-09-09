@@ -73,7 +73,6 @@ class CartAddItemAPIView(APIView):
 
 
 # Update cart item
-# Update cart item
 class CartUpdateItemAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

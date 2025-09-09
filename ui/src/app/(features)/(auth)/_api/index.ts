@@ -6,8 +6,15 @@ interface LoginBody {
 }
 
 interface LoginResponse {
-  access: string;
-  refresh: string;
+  tokens: {
+    access: string;
+    refresh: string;
+  };
+  user: {
+    id: string;
+    username: string;
+    email: string;
+  };
 }
 
 export const loginUser = async (body: LoginBody): Promise<LoginResponse> => {

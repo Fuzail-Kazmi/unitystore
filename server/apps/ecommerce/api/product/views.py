@@ -24,7 +24,6 @@ class ProductListAPIView(generics.ListAPIView):
     def get_queryset(self):
         queryset = Product.objects.all()
 
-        # Annotate final_price so we can filter on it
         queryset = queryset.annotate(
             annotated_final_price=Case(
                 When(discount_price__isnull=False, discount_price__lt=F("price"), then=F("discount_price")),

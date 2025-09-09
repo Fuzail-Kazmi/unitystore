@@ -2,11 +2,6 @@ from rest_framework import serializers
 from apps.ecommerce.models.cart import Cart, CartItem
 from apps.ecommerce.models.product import Product
 
-# class ProductNestedSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Product
-#         fields = ["id", "product_name", "cover_image", "description", "category"]
-
 class ProductNestedSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(source="cover_image")
 

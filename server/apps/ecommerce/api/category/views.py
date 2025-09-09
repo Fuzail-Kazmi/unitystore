@@ -31,7 +31,6 @@ class CategoryDetailAPIView(generics.RetrieveAPIView):
         serializer = self.get_serializer(category)
         data = serializer.data
 
-        # Include products in this category
         products = category.product_set.all() 
         from apps.ecommerce.serializers.product import ProductListSerializer
         data["products"] = ProductListSerializer(products, many=True, context={"request": request}).data

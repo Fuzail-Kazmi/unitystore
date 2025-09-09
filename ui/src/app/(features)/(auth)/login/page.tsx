@@ -1,35 +1,35 @@
+
 "use client";
 
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { loginUser } from "../_api";
 import toast from "react-hot-toast";
+import { useLoginMutation } from "../_hooks/index";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const { mutate: login, isPending } = useLoginMutation();
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      const tokens = await loginUser({ email, password });
 
-      localStorage.setItem("tokens", JSON.stringify(tokens));
-      document.cookie = `authToken=${tokens.access}; path=/`;
-
-      toast.success("Login successful!");
-      router.push("/");
-    } catch (err: any) {
-      console.error("Login failed:", err.response?.data || err.message);
-      toast.error(err.response?.data?.detail || "Invalid email or password");
-    } finally {
-      setIsLoading(false);
-    }
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          toast.success("Login successful!");
+          router.push("/");
+        },
+        onError: (err: any) => {
+          toast.error(err.response?.data?.detail || "Invalid email or password");
+        },
+      }
+    );
   };
 
   const handleSignupRedirect = () => {
@@ -143,10 +143,10 @@ export default function LoginPage() {
 
                   <button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isPending}
                     className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-2xl font-semibold hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-500/25 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isLoading ? (
+                    {isPending ? (
                       <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                     ) : (
                       <>
@@ -176,3 +176,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

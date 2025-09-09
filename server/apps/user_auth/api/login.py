@@ -18,19 +18,23 @@ class LoginAPI(APIView):
             )
 
             if user is not None:
-                # token_object = AuthTokenSerializer.get_token(user)
-                # tokens = {
-                #     "access": str(token_object.access_token),
-                #     "refresh": str(token_object),
-                # }
-                
                 refresh = RefreshToken.for_user(user)
                 tokens = {
                     "access": str(refresh.access_token),
                     "refresh": str(refresh)
                 }
+
+                user_data = {
+                    "id": str(user.id),
+                    "username": user.username,
+                    "email": user.email,
+                }
+
                 return Response(
-                    data=tokens,
+                    data={
+                        "tokens": tokens,
+                        "user": user_data,
+                    },
                     status=status.HTTP_200_OK,
                 )
 

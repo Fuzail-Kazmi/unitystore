@@ -1,6 +1,6 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import { loginUser, registerUser, refreshAccessTokenFn } from "../_api"; 
+import { loginUser, registerUser, refreshAccessTokenFn } from "../_api";
 import { useRouter } from "next/navigation";
 
 // ---------------- LOGIN ----------------
@@ -12,10 +12,13 @@ export const useLoginMutation = () => {
     mutationKey: ["login-user"],
 
     onSuccess: (data) => {
-      localStorage.setItem("tokens", JSON.stringify(data));
-      console.log(data)
+      localStorage.setItem("tokens", JSON.stringify(data.tokens));
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      console.log("Login success:", data);
       router.push("/");
-    },  
+    },
+
     onError: (error: any) => {
       console.error("Login failed:", error.response?.data || error.message);
     },
@@ -25,20 +28,33 @@ export const useLoginMutation = () => {
 // ---------------- REGISTER ----------------
 export const useRegisterMutation = () => {
   const router = useRouter();
+  const { mutate: login } = useLoginMutation();
 
   return useMutation({
     mutationFn: registerUser,
     mutationKey: ["register-user"],
 
-    onSuccess: (data) => {
-      console.log("✅ Registered successfully", data);
-      router.push("/login");
+    onSuccess: (data, variables) => {
+      console.log("Registered successfully", data);
+
+      const { email, password } = variables;
+
+      login(
+        { email, password },
+        {
+          onSuccess: () => {
+            router.push("/");
+          },
+        }
+      );
     },
+
     onError: (error: any) => {
       console.error("Register failed:", error.response?.data || error.message);
     },
   });
 };
+
 
 // ---------------- LOGOUT ----------------
 export const useLogout = () => {
