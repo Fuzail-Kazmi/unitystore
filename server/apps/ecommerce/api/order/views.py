@@ -1,24 +1,41 @@
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from apps.ecommerce.models.order import Order, OrderItem, OrderStatus
 from apps.ecommerce.models.cart import Cart
 from apps.ecommerce.serializers.order import OrderSerializer
+from apps.ecommerce.models.customer import Customer
 
 
-class OrderListAPIView(generics.ListAPIView):
-    serializer_class = OrderSerializer
+class OrderAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        print("==== DEBUG REQUEST HEADERS ====")
-        print(self.request.headers)
-        print("==== DEBUG USER ====")
-        print(self.request.user)
-        print("===============================")
-        return Order.objects.filter(
-            customer=self.request.user.customer
-        ).order_by("-order_date")
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        order_id = self.request.GET.get("id")
+        customer = Customer.objects.filter(user=user).first()
+
+        if not customer:
+            return Response(
+                {"detail": "Customer not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if order_id:
+            try:
+                orders_queryset = Order.objects.get(id=order_id)
+                serializer = OrderSerializer(orders_queryset)
+            except Order.DoesNotExist:
+                return Response(
+                    {"detail": "Order not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+            return Response(serializer.data)
+        else:
+            orders_queryset = Order.objects.filter(customer=customer).order_by(
+                "-order_date"
+            )
+            serializer = OrderSerializer(orders_queryset, many=True)
+        return Response(serializer.data)
 
 
 class OrderDetailAPIView(generics.RetrieveAPIView):

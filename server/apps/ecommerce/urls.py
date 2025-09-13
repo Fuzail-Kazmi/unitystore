@@ -10,7 +10,7 @@ from apps.ecommerce.api.cart.views import (
     CartClearAPIView,
 )
 from apps.ecommerce.api.order.views import (
-    OrderListAPIView,
+    OrderAPIView,
     OrderDetailAPIView,
     OrderCreateAPIView,
     OrderCancelAPIView,
@@ -39,9 +39,9 @@ urlpatterns = [
     path("api/cart/clear/", CartClearAPIView.as_view(), name="cart-clear"),
 
     # Orders
-    path("api/orders/", OrderListAPIView.as_view(), name="order-list"),
+    path("api/orders", OrderAPIView.as_view(), name="order-list"),
     path("api/orders/create/", OrderCreateAPIView.as_view(), name="order-create"),
-    path("api/orders/<uuid:pk>/", OrderDetailAPIView.as_view(), name="order-detail"),
+    # path("api/orders/<uuid:pk>/", OrderDetailAPIView.as_view(), name="order-detail"),
     path("api/orders/<uuid:pk>/cancel/", OrderCancelAPIView.as_view(), name="order-cancel"),
 
     # Reviews

@@ -2,13 +2,17 @@ from uuid import uuid4
 from django.db import models
 from django.contrib.auth import get_user_model
 
+
 class BaseModel(models.Model):
-    id = models.CharField(primary_key=True, default=uuid4, editable=False)
+    id = models.CharField(
+        max_length=999, primary_key=True, default=uuid4, editable=False
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
+
 
 class Address(BaseModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -28,8 +32,7 @@ class Address(BaseModel):
         return f"{self.address_line_1}, {self.city}, {self.state}, {self.country}"
 
     def save(self, *args, **kwargs):
-
         if self.default:
             Address.objects.filter(user=self.user, default=True).update(default=False)
 
-        super().save(*args, **kwargs)        
+        super().save(*args, **kwargs)
