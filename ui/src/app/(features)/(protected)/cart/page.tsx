@@ -14,12 +14,14 @@ import {
   Truck,
   RotateCcw,
 } from "lucide-react";
+import { toast } from "react-hot-toast";
 import {
   useCart,
   useUpdateCartItem,
   useRemoveCartItem,
   useClearCart,
 } from "@/app/(features)/_api/cart";
+import { useCreateOrder } from "@/app/(features)/_api/orders";
 
 type CartItem = {
   id: string;
@@ -39,6 +41,7 @@ type CartItem = {
 
 const Page = () => {
   const { data: cartData, isLoading, isError, error } = useCart();
+  const createOrder = useCreateOrder();
 
   const updateCartItem = useUpdateCartItem();
   const removeCartItem = useRemoveCartItem();
@@ -107,6 +110,18 @@ const Page = () => {
       </div>
     );
   }
+
+  const handleCheckout = () => {
+    createOrder.mutate(undefined, {
+      onSuccess: (data) => {
+        toast.success("Your order has been created!");
+      },
+      onError: (err: any) => {
+        console.error("Order create error:", err.response?.data || err);
+        toast.error("Failed to create order. Try again!");
+      },
+    });
+  };
 
   if (isError) {
     console.error("Cart fetch error:", error);
@@ -348,8 +363,16 @@ const Page = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-primary hover:bg-primary/85 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4">
+              {/* <button className="w-full bg-primary hover:bg-primary/85 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4">
                 Proceed to Checkout
+              </button> */}
+
+              <button
+                onClick={handleCheckout}
+                disabled={createOrder.isPending}
+                className="w-full bg-primary hover:bg-primary/85 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4"
+              >
+                {createOrder.isPending ? "Placing Order..." : "Proceed to Checkout"}
               </button>
 
               <div className="text-center">

@@ -3,7 +3,6 @@ import { API_URL } from "./index";
 
 const axiosClient = axios.create({
   baseURL: API_URL,
-  withCredentials: true,
 });
 
 axiosClient.interceptors.request.use((config) => {
@@ -19,5 +18,6 @@ axiosClient.interceptors.request.use((config) => {
   }
   return config;
 });
+
 
 export default axiosClient;

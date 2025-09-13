@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from apps.user_auth.serializers.register import RegisterUserSerializer
 from apps.ecommerce.models.customer import Customer 
 
+
 class RegisterAPI(APIView):
     def post(self, *args, **kwargs):
         serializer = RegisterUserSerializer(data=self.request.data)
