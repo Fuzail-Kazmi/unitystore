@@ -24,7 +24,7 @@ export const useOrders = () => {
   return useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
-      const res = await axiosClient.get("api/orders/");
+      const res = await axiosClient.get("api/orders");
       return res.data;
     },
   });
