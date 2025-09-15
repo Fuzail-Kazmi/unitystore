@@ -4,7 +4,7 @@ from django.utils import timezone
 from .product import Product, BaseModel
 from .customer import Customer
 from apps.user_auth.models.base import Address
-from .base import PriceList
+from .product import PriceList
 
 class OrderStatus(models.TextChoices):
     PENDING = "pending", "Pending"

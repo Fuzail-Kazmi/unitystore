@@ -25,14 +25,6 @@ class Currency(BaseModel):
     def __str__(self): 
         return f"{self.code} - {self.name}"
 
-class PriceList(BaseModel):
-    name = models.CharField(max_length=100)
-    currency = models.ForeignKey(Currency, on_delete=models.PROTECT)
-    buying = models.BooleanField(default=False)
-    selling = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.name} ({self.currency.code})"
     
 class UOM(BaseModel):
     name = models.CharField(max_length=100)
