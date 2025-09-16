@@ -1,4 +1,4 @@
-import axiosClient from "@/app/_api/axiosClient";
+import axiosClient from "../../../../../_api/axiosClient";
 
 interface LoginBody {
   email: string;

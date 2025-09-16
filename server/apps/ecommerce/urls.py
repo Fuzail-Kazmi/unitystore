@@ -28,7 +28,7 @@ urlpatterns = [
     path("api/products/<uuid:pk>/", ProductDetailAPIView.as_view(), name="product-detail"),
 
     # Categories
-    path("api/categories/", CategoryListAPIView.as_view(), name="category-list"),
+    path("api/categories", CategoryListAPIView.as_view(), name="category-list"),
     path("api/categories/<uuid:pk>/", CategoryDetailAPIView.as_view(), name="category-detail"),
 
     # Cart

@@ -50,7 +50,29 @@ const OrdersPage: React.FC = () => {
   const [expandedOrders, setExpandedOrders] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("newest");
 
-  const { data: orders = [], isLoading, isError } = useOrders();
+  const { data: rawOrders = [], isError, isLoading } = useOrders();
+
+  const orders: Order[] = rawOrders.map((o: any) => ({
+    id: o.id,
+    orderNumber: o.order_id,
+    date: o.order_date,
+    status: o.status,
+    total: parseFloat(o.total_amount),
+    itemCount: parseInt(o.total_qty),
+    trackingNumber: o.tracking_number || null,
+    items: o.items?.map((i: any) => ({
+      id: i.id,
+      name: i.product?.product_name,
+      price: parseFloat(i.price),
+      quantity: parseInt(i.quantity),
+      image: i.product?.cover_image
+        ? `${process.env.NEXT_PUBLIC_DJANGO_API_URL}${i.product.cover_image}`
+        : undefined,
+      size: i.size || undefined,
+      color: i.color || undefined,
+    })) || [],
+  }));
+
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -93,6 +115,8 @@ const OrdersPage: React.FC = () => {
         : [...prev, orderId]
     );
   };
+
+
 
   const filteredOrders = orders
     .filter((order: Order) => {

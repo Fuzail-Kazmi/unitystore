@@ -1,4 +1,3 @@
-"use client";
 import RelatedProducts from "../_components/related-products";
 import Category from "../_components/category";
 import Carousel from "../_components/carousel";

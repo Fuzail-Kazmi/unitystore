@@ -104,7 +104,7 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-2 md:px-4 py-4">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-4">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <div className="p-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
                 <div className="flex items-center space-x-4">
@@ -156,7 +156,7 @@ const ProfilePage = () => {
           </div>
 
           {/* Main Content */}
-          <div className="mt-8 lg:mt-0 lg:col-span-9">
+          <div className="mt-8 lg:mt-0 lg:col-span-8">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200">
               {activeTab === 'overview' && (
                 <div className="p-6">
@@ -263,24 +263,12 @@ const ProfilePage = () => {
                             </div>
                           </div>
                         </div>
-                        
-                        <div className="bg-gray-50 rounded-lg p-4">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-3">
-                              <Star className="h-8 w-8 text-yellow-500" />
-                              <div>
-                                <p className="text-2xl font-bold text-gray-900">{profileData.loyaltyPoints}</p>
-                                <p className="text-sm text-gray-600">Loyalty Points</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Recent Activity */}
-                  <div>
+                  {/* <div>
                     <h3 className="font-medium text-gray-900 border-b border-gray-200 pb-2 mb-4">Recent Orders</h3>
                     <div className="space-y-3">
                       {recentOrders.slice(0, 3).map((order) => (
@@ -301,7 +289,7 @@ const ProfilePage = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
 
