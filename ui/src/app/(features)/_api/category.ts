@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import axiosClient from "../../../../_api/axiosClient";
+import axiosClient from "../../../_api/axiosClient";
 
 export type Category = {
   id: string;

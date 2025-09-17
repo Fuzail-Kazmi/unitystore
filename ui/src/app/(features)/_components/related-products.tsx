@@ -89,13 +89,13 @@ const RelatedProducts = () => {
                                     <Heart className="h-4 w-4 text-gray-700" />
                                 </button>
                             </div>
-                            {product.originalPrice && (
+                            {/* {product.originalPrice && (
                                 <div className="absolute top-4 left-4">
                                     <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">
                                         -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                                     </span>
                                 </div>
-                            )}
+                            )} */}
                         </div>
                         <div className='sm:h-[35%] p-2 flex flex-col justify-between gap-2'>
                             <div className='space-y-1'>
