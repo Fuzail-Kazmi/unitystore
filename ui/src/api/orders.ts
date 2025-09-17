@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axiosClient from "../../../../_api/axiosClient";
+import axiosClient from "../../_api/axiosClient";
 
 // -------- Create Order --------
 export const useCreateOrder = () => {

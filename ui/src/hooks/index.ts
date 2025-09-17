@@ -1,8 +1,8 @@
   "use client";
 
   import { useEffect } from "react";
-  import { useAppSelector, useAppDispatch } from "../../../_store/hooks";
-  import { loadFromStorage, logout } from "../../../_store/authSlice";
+  import { useAppSelector, useAppDispatch } from "@/store/hooks";
+  import { loadFromStorage, logout } from "@/store/authSlice";
   import { useRouter } from "next/navigation";
 
   export function useAuth() {

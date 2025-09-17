@@ -18,7 +18,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
-import { useOrders } from "@/app/(features)/_api/orders";
+import { useOrders } from "@/api/orders";
 
 interface OrderItem {
   id: string;
