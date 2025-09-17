@@ -114,7 +114,7 @@ const ProductPage = () => {
     >
       {viewMode === 'grid' ? (
         <>
-          <div className="group bg-white/85 rounded-lg  hover:shadow-sm transition-all duration-200 overflow-hidden border border-gray-100 sm:h-80"
+          <div className="group bg-white/85 rounded-lg  hover:shadow-sm transition-all duration-200 overflow-hidden border border-gray-100 sm:h-90"
           >
             <div className="relative overflow-hidden sm:max-h-[65%]">
               <img
@@ -130,7 +130,7 @@ const ProductPage = () => {
               </div>
               {product.originalPrice && (
                 <div className="absolute top-4 left-4">
-                  <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">
                     -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                   </span>
                 </div>
@@ -197,7 +197,7 @@ const ProductPage = () => {
               </div>
               {product.originalPrice && (
                 <div className="absolute top-4 left-4">
-                  <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">
                     -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                   </span>
                 </div>
@@ -233,17 +233,21 @@ const ProductPage = () => {
                     </span>
                   </span>
                 </div>
-              </div>
 
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-900">${product.price}</span>
-                  {product.originalPrice && (
-                    <span className="text-gray-400 line-through text-xs sm:text-base">${product.originalPrice}</span>
-                  )}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-900">${product.price}</span>
+                    {product.originalPrice && (
+                      <span className="text-gray-400 line-through text-xs sm:text-base">${product.originalPrice}</span>
+                    )}
+                  </div>
                 </div>
               </div>
+
+              <button className='w-max bg-primary hover:bg-primary/95 text-white py-2 px-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 cursor-pointer'>
+                Add to cart
+              </button>
             </div>
           </div>
         </>

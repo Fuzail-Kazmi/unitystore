@@ -75,7 +75,7 @@ const RelatedProducts = () => {
                     <Link
                         href={`/products/${product.id}`}
                         key={product.id}
-                        className="group bg-white/85 rounded-lg  hover:shadow-sm transition-all duration-200 overflow-hidden border border-gray-100 sm:h-80"
+                        className="group bg-white/85 rounded-lg  hover:shadow-sm transition-all duration-200 overflow-hidden border border-gray-100 sm:h-90"
                     >
                         <div className="relative overflow-hidden sm:h-[65%]">
                             <img
@@ -99,7 +99,7 @@ const RelatedProducts = () => {
                         </div>
                         <div className='sm:h-[35%] p-2 flex flex-col justify-between gap-2'>
                             <div className='space-y-1'>
-                                <h4 className="text-sm md:text-base text-gray-700 max-h-15 text-ellipsis overflow-hidden">
+                                <h4 className="text-sm md:text-base text-gray-700 max-h-12 text-ellipsis overflow-hidden">
                                     {product.title}
                                 </h4>
 
@@ -124,9 +124,9 @@ const RelatedProducts = () => {
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-sm sm:text-base font-bold text-gray-900">${product.price}</span>
+                                    <span className="text-sm sm:text-base font-bold text-gray-900">Rs.{product.price}</span>
                                     {product.originalPrice && (
-                                        <span className="text-gray-400 line-through text-xs">${product.originalPrice}</span>
+                                        <span className="text-gray-400 line-through text-xs">Rs{product.originalPrice}</span>
                                     )}
                                 </div>
                             </div>

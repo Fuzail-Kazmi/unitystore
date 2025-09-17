@@ -6,33 +6,33 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 
 type Slide = {
     img: string;
-    title: string;
-    priceLine?: string;
-    desc?: string;
-    cta?: { label: string; href: string };
+    // title: string;
+    // priceLine?: string;
+    // desc?: string;
+    // cta?: { label: string; href: string };
 };
 
 const HERO_SLIDES: Slide[] = [
     {
-        img: "/images/header1.jpg",
-        title: "iPhone 16 Pro Max",
-        priceLine: "From $ 50,769*",
-        desc: "A18 chip. Superfast. Supersmart. History’s Biggest Price Drop",
-        cta: { label: "Shop Now", href: "#" },
+        img: "/images/carousel-1-1.webp",
+        // title: "iPhone 16 Pro Max",
+        // priceLine: "From $ 50,769*",
+        // desc: "A18 chip. Superfast. Supersmart. History’s Biggest Price Drop",
+        // cta: { label: "Shop Now", href: "#" },
     },
     {
-        img: "/images/header4.jpg",
-        title: "Pure Sound",
-        priceLine: "Save up to 40%",
-        desc: "Noise cancelling over-ear headphones.",
-        cta: { label: "Shop Audio", href: "#" },
+        img: "/images/carousel-1-2.webp",
+        // title: "Pure Sound",
+        // priceLine: "Save up to 40%",
+        // desc: "Noise cancelling over-ear headphones.",
+        // cta: { label: "Shop Audio", href: "#" },
     },
     {
-        img: "/images/header5.jpg",
-        title: "Creator Laptops",
-        priceLine: "Mega Offers",
-        desc: "Top performance for pros and students.",
-        cta: { label: "Explore Laptops", href: "#" },
+        img: "/images/carousel-1-3.webp",
+        // title: "Creator Laptops",
+        // priceLine: "Mega Offers",
+        // desc: "Top performance for pros and students.",
+        // cta: { label: "Explore Laptops", href: "#" },
     },
 ];
 
@@ -72,14 +72,15 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                     <div key={i} className="min-w-full relative h-[260px] md:h-[360px]">
                         <Image
                             src={s.img}
-                            alt={s.title}
+                            // alt={s.title}
+                            alt=""
                             fill
                             sizes="100vw"
                             className="object-cover"
                             priority={i === 0}
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-                        <div className="absolute inset-0 flex flex-col justify-center gap-2 px-5 md:px-10">
+                        {/* <div className="absolute inset-0 flex flex-col justify-center gap-2 px-5 md:px-10">
                             <h2 className="text-white font-bold text-2xl md:text-4xl leading-tight drop-shadow">
                                 {s.title}
                             </h2>
@@ -104,7 +105,7 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                                     {s.cta.label}
                                 </Link>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 ))}
             </div>
@@ -144,12 +145,13 @@ export default function Carousel() {
                 className="relative rounded-xl overflow-hidden bg-gray-100 h-[260px] md:h-[360px] hidden md:block"
             >
                 <Image
-                    src="/images/box1-4.jpg"
-                    alt="SALE up to 50% OFF"
+                    src="/images/carousel-2-1.webp"
+                    // alt="SALE up to 50% OFF"
+                    alt="pc build"
                     fill
                     className="object-cover"
                 />
-                <div className="absolute top-4 left-4">
+                {/* <div className="absolute top-4 left-4">
                     <div className="inline-flex items-center rounded-md bg-white/95 px-3 py-1 text-xs font-semibold">
                         SALE
                     </div>
@@ -161,7 +163,7 @@ export default function Carousel() {
                         </div>
                         <div className="text-base md:text-lg font-semibold">OFF</div>
                     </div>
-                </div>
+                </div> */}
             </Link>
         </section>
     );

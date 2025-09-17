@@ -1,1 +1,1 @@
-export * from '@/app/_components/brand';
+export * from '@/components/brand';

@@ -1,12 +1,9 @@
 "use client";
-<<<<<<< HEAD
-import React, { useState, useEffect, useRef } from "react";
-import { useCategories } from "@/app/(features)/_api/category";
-=======
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect, useRef } from "react";
+// import { useCategories } from "@/app/(features)/_api/category";
+import React, { useState, useEffect,useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCategories } from "@/api/category"; 
->>>>>>> 1cacfdbb913508e9275751d7c01e0ded61b01dbd
 
 const CategoryCarousel: React.FC<{
   autoPlayInterval?: number;
@@ -63,7 +60,7 @@ const CategoryCarousel: React.FC<{
       <div className="relative overflow-hidden rounded-lg">
         <div
           ref={containerRef}
-          className="flex transition-transform duration-500 ease-in-out  space-x-5"
+          className="flex transition-transform duration-500 ease-in-out space-x-2"
           style={{
             transform: `translateX(-${currentIndex * itemWidth}px)`,
           }}
@@ -82,7 +79,7 @@ const CategoryCarousel: React.FC<{
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <h3 className="text-sm font-medium text-center text-gray-500 group-hover:text-red-400 transition-colors max-w-22 truncate">
+                <h3 className="text-sm font-medium text-center text-gray-500 group-hover:text-blue-400 transition-colors max-w-22 truncate">
                   {category.name}
                 </h3>
               </div>
@@ -99,7 +96,7 @@ const CategoryCarousel: React.FC<{
               onClick={() => goToSlide(index)}
               className={`h-2 rounded-full transition-all duration-300 cursor-pointer  ${
                 index === currentIndex
-                  ? "bg-red-400 w-6"
+                  ? "bg-blue-400 w-6"
                   : "bg-gray-400 w-2 hover:bg-gray-500"
               }`}
               aria-label={`Go to slide ${index + 1}`}

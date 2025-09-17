@@ -26,7 +26,7 @@ import RelatedProducts from "@/app/(features)/_components/related-products";
 import { useProductDetails, useProductReviews } from "@/api/product";
 import { useAddToCart} from "@/api/cart"; 
 import axios from "axios";
-import { API_URL } from "../../../../../../_api";
+import { API_URL } from "../../../../../_api";
 
 
 const _Index = () => {

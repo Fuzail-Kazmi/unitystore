@@ -4,13 +4,9 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown, LogOut, Search, ShoppingCart, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
-import { useAuth } from "@/_hooks";
-import { useCart } from "@/_hooks/useCart";
-=======
+
 import { useAuth } from "@/hooks/index";
 import { useCart } from "@/hooks/useCart";
->>>>>>> 1cacfdbb913508e9275751d7c01e0ded61b01dbd
 
 export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
