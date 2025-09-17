@@ -18,7 +18,6 @@ export const useCategories = () => {
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await axiosClient.get("api/categories");
-      console.log(res.data)
       return res.data;
     },
   });

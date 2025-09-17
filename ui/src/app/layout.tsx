@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Unity Store | Redefining the Art of Shopping",
+  title: "Al Hameed Computers – Gaming PCs, Laptops & Accessories",
   description:
-    "Discover Unity Store's — your one-stop destination for quality products, unbeatable deals, and a seamless shopping experience that redefines modern e-commerce.",
+    "Al Hameed Computers is Karachi&#039;s trusted computer shop for gaming PCs, graphics cards, motherboards, and accessories—all at affordable and competitive prices.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) { 

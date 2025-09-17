@@ -1,6 +1,4 @@
 "use client";
-// import React, { useState, useEffect, useRef } from "react";
-// import { useCategories } from "@/app/(features)/_api/category";
 import React, { useState, useEffect,useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCategories } from "@/api/category"; 

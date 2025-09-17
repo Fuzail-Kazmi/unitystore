@@ -40,17 +40,23 @@ export const Header = () => {
   return (
     <>
       <header className="border-b border-accent sticky top-0 z-50 bg-white">
-        <div className="flex items-center justify-between max-w-6xl mx-auto py-2 px-2 md:py-4 md:px-4">
-          <Link href="/" className="flex-shrink-0">
-            <div className="flex items-center gap-2 ">
+        <div className="flex items-center justify-between max-w-6xl mx-auto px-2 md:px-4 py-2">
+          {/* <Link href="/" className="flex-shrink-0">
+            <div className="h-15 w-20 md:h-22 md:w-28">
               <img
                 src="/logo.png"
-                alt="UnityStore"
-                className="h-10 w-10 md:h-12 md:w-12"
+                alt="Al Hameed Computers"
+                className="h-full w-full "
               />
-              <div className="text-primary font-bold text-lg md:text-xl">
-                UnityStore
-              </div>
+            </div>
+          </Link> */}
+          <Link href="/" className="flex-shrink-0">
+            <div className="h-16 md:h-20 flex items-center">
+              <img
+                src="/logo.png"
+                alt="Al Hameed Computers"
+                className="h-full w-auto object-contain"
+              />
             </div>
           </Link>
 
