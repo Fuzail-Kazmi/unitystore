@@ -11,7 +11,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 
-import { useProductsList } from "@/app/(features)/_api/product";
+import { useProductsList } from "@/api/product";
 
 const ProductPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);

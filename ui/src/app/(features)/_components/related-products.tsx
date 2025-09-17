@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { Heart, Star, ArrowRight, Tag } from 'lucide-react';
-import { useProductsList } from "@/app/(features)/_api/product";
+import { useProductsList } from "@/api/product";
 
 
 type Product = {

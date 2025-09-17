@@ -1,6 +1,12 @@
 "use client";
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from "react";
 import { useCategories } from "@/app/(features)/_api/category";
+=======
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCategories } from "@/api/category"; 
+>>>>>>> 1cacfdbb913508e9275751d7c01e0ded61b01dbd
 
 const CategoryCarousel: React.FC<{
   autoPlayInterval?: number;

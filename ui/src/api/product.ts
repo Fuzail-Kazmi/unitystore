@@ -1,4 +1,8 @@
+<<<<<<< HEAD:ui/src/app/(features)/_api/product.ts
 import { API_URL } from "../../../_api/index";
+=======
+import { API_URL } from "../../_api/index";
+>>>>>>> 1cacfdbb913508e9275751d7c01e0ded61b01dbd:ui/src/api/product.ts
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 

@@ -1,5 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+<<<<<<< HEAD:ui/src/app/(features)/_api/cart.ts
 import axiosClient from "../../../_api/axiosClient";
+=======
+import axiosClient from "../../_api/axiosClient";
+>>>>>>> 1cacfdbb913508e9275751d7c01e0ded61b01dbd:ui/src/api/cart.ts
 
 // -------- Fetch Cart --------
 export const useCart = () => {

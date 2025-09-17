@@ -20,8 +20,8 @@ import {
   useUpdateCartItem,
   useRemoveCartItem,
   useClearCart,
-} from "@/app/(features)/_api/cart";
-import { useCreateOrder } from "@/app/(features)/_api/orders";
+} from "@/api/cart";
+import { useCreateOrder } from "@/api/orders";
 
 type CartItem = {
   id: string;

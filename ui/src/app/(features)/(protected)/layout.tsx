@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { useAuth } from "@/_hooks/index";
+=======
+import { useAuth } from "@/hooks/index";
+>>>>>>> 1cacfdbb913508e9275751d7c01e0ded61b01dbd
 import { useRouter } from "next/navigation";
 import { Header } from "../_layout/header";
 import { Footer } from "../_layout/footer";
