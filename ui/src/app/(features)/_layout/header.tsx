@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/hooks/index";
 import { useCart } from "@/hooks/useCart";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 
 export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -44,7 +45,7 @@ export const Header = () => {
           <Link href="/" className="flex-shrink-0">
             <div className="h-16 md:h-20 flex items-center">
               <img
-                src="/logo.png"
+                src="/cover-logo.png"
                 alt="Al Hameed Computers"
                 className="h-full w-auto object-contain"
               />
@@ -52,16 +53,7 @@ export const Header = () => {
           </Link>
 
           <div className="flex items-center gap-2 md:gap-4">
-            <div className="hidden sm:flex items-center justify-between border border-accent rounded-xl p-2 text-sm w-48 sm:w-80 lg:w-140">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="outline-none border-none text-sm px-2 w-full bg-transparent placeholder:text-gray-400"
-              />
-              <button className="text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
-                <Search className="h-4 w-4" />
-              </button>
-            </div>
+            <Searchbar />
 
             <div className="hidden sm:flex items-center gap-2 md:gap-3">
               <Link
@@ -240,3 +232,39 @@ export const Header = () => {
     </>
   );
 };
+
+const Searchbar = () => {
+  const results = [
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card fafasfaf fafa ',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card fafasfaf fafa ',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Cardwdadadasda ',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card',
+  ]
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <div className="hidden sm:flex items-center justify-between border border-accent rounded-xl p-2 text-sm w-48 sm:w-80 lg:w-140 relative">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="outline-none border-none text-sm px-2 w-full bg-transparent placeholder:text-gray-400"
+          />
+          <button className="text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
+            <Search className="h-4 w-4" />
+          </button>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent>
+        <ul className="bg-white hidden sm:block w-45 sm:w-77 lg:w-137 rounded-b-lg overflow-hidden">
+          {results.map((r, i) => {
+            return (
+              <li key={i} className="hover:bg-gray-100 py-2 cursor-pointer px-2 max-h-12 whitespace-nowrap overflow-hidden text-ellipsis text-sm font-normal">{r}</li>
+            )
+          })
+          }
+        </ul>
+      </PopoverContent>
+    </Popover>
+  )
+}
