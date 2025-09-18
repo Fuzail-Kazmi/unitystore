@@ -26,7 +26,7 @@ import RelatedProducts from "@/app/(features)/_components/related-products";
 import { useProductDetails, useProductReviews } from "@/api/product";
 import { useAddToCart} from "@/api/cart"; 
 import axios from "axios";
-import { API_URL } from "../../../../../_api";
+import { API_URL } from "../../../../../api";
 
 
 const _Index = () => {
@@ -99,15 +99,6 @@ const _Index = () => {
   );
 };
 
-
-    //             
-
-    //             <div>
-    //                 <RelatedProducts />
-    //             </div>
-    //         </div>
-    //     </div>
-    // );
        return (
         <div className="max-w-6xl mx-auto">
             <div className="bg-white border-b border-gray-200 overflow-x-auto whitespace-nowrap w-full hide-scrollbar">

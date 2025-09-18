@@ -45,8 +45,8 @@ urlpatterns = [
     path("api/orders/<uuid:pk>/cancel/", OrderCancelAPIView.as_view(), name="order-cancel"),
 
     # Reviews
-    path("api/products/<uuid:product_id>/reviews/", ProductReviewListCreateAPIView.as_view(), name="product-reviews"),
-    path("api/reviews/<uuid:pk>/", ProductReviewDetailAPIView.as_view(), name="review-detail"),
+    path("api/products/<uuid:product_id>/reviews", ProductReviewListCreateAPIView.as_view(), name="product-reviews"),
+    path("api/reviews/<uuid:pk>", ProductReviewDetailAPIView.as_view(), name="review-detail"),
 
     # Wishlist
     path("api/wishlist/", WishlistRetrieveAPIView.as_view(), name="wishlist-retrieve"),

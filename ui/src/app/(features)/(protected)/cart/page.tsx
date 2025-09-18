@@ -76,7 +76,6 @@ const Page = () => {
     );
   };
 
-
   const removeItem = (itemId: string) => {
     removeCartItem.mutate(itemId, {
       onError: (err: any) => {

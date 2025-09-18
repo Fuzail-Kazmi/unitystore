@@ -30,14 +30,27 @@ export const useProductDetails = (id: string) => {
   });
 };
 
+// export const useProductReviews = (id: string) => {
+//   return useQuery({
+//     queryKey: ["product-reviews", id],
+//     queryFn: async () => {
+//       const { data } = await axios.get(`${API_URL}reviews/?product=${id}`);
+//       console.log(data)
+//       return data;
+//     },
+//     enabled: !!id,
+//   });
+// };
+
 export const useProductReviews = (id: string) => {
   return useQuery({
     queryKey: ["product-reviews", id],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}reviews/?product=${id}`);
+      console.log("Fetching reviews for product id:", id);
+      const { data } = await axios.get(`${API_URL}api/products/${id}/reviews`);
+      console.log("Reviews fetched:", data);
       return data;
     },
     enabled: !!id,
   });
 };
-
