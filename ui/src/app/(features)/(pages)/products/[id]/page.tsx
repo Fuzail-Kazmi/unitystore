@@ -75,10 +75,10 @@ export default async function ProductPage({ params }: { params: { id: string } }
           </div>
         </div>
       </div>
-      <div>
+      <div className=" px-2 md:px-4 py-4">
           <ProductTab/>
       </div>
-      <div>
+      <div className=" px-2 md:px-4 py-4">
           <RelatedProducts/>
       </div>
     </div>

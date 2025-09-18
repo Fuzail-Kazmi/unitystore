@@ -92,7 +92,7 @@ const RelatedProducts = () => {
                         </div>
                         <div className='sm:h-[35%] p-2 flex flex-col justify-between gap-2'>
                             <div className='space-y-2'>
-                                <h4 className="text-sm md:text-base text-gray-700 sm:max-h-12 text-ellipsis overflow-hidden">
+                                <h4 className="text-sm md:text-base text-gray-700 max-h-10 sm:max-h-12 text-ellipsis overflow-hidden">
                                     {product.title}
                                 </h4>
 

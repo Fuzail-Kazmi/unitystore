@@ -6,6 +6,7 @@ import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useLoginMutation } from "../_hooks/index";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,24 +52,22 @@ export default function LoginPage() {
               <div className="absolute inset-0 bg-black/10"></div>
               <div className="relative z-10">
                 <div className="mb-4">
-                  <div className="flex items-center gap-2 ">
-                    <img
-                      src="/logo.png"
-                      alt="UnityStore"
-                      className="h-10 w-10 md:h-12 md:w-12"
-                    />
-                    <div className="text-primary-foreground font-bold text-lg md:text-2xl">
-                      UnityStore
+                  <Link href="/" className="flex-shrink-0  text-center">
+                    <div className="h-16 md:h-30 flex items-center">
+                      <img
+                        src="/logo.png"
+                        alt="Al Hameed Computers"
+                        className="h-full w-auto object-contain"
+                      />
                     </div>
-                  </div>
+                  </Link>
                 </div>
                 <div className="mb-8">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                    Welcome to the Future of Shopping
+                  <h2 className="text-2xl md:text-3xl font-bold mb-6 leading-tight">
+                    Welcome to the AL Hameed computers
                   </h2>
-                  <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-8">
-                    Discover amazing products, enjoy seamless shopping experiences,
-                    and join our community of satisfied customers.
+                  <p className="text-blue-100 text-sm md:text-base leading-relaxed mb-8">
+                    Offers all kinds of Gaming accessories and Gaming components in Karachi. Find gaming keyboards, mice, headsets, graphic cards, casings, and more at the best prices.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
@@ -88,8 +87,17 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="lg:w-1/2 p-6 md:p-8 lg:p-12 flex items-center">
+            <div className="lg:w-1/2 p-6 md:p-8 flex items-center">
               <div className="w-full max-w-md mx-auto">
+                {/* <Link href="/" className="flex-shrink-0">
+                  <div className="h-16 md:h-30 flex justify-center items-center">
+                    <img
+                      src="/logo.png"
+                      alt="Al Hameed Computers"
+                      className="h-full w-auto object-contain"
+                    />
+                  </div>
+                </Link> */}
                 <div className="text-center mb-8">
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                     Welcome Back

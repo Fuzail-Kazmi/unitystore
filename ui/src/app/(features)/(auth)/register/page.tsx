@@ -48,18 +48,19 @@ export default function RegisterPage() {
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
               <div className="flex items-center gap-2">
-                <img
-                  src="/logo.png"
-                  alt="UnityStore"
-                  className="h-10 w-10 md:h-12 md:w-12"
-                />
-                <div className="text-primary-foreground font-bold text-lg md:text-2xl">
-                  UnityStore
-                </div>
+                <Link href="/" className="flex-shrink-0">
+                  <div className="h-16 md:h-20 flex items-center">
+                    <img
+                      src="/logo.png"
+                      alt="Al Hameed Computers"
+                      className="h-full w-auto object-contain"
+                    />
+                  </div>
+                </Link>
               </div>
               <h2 className="text-3xl font-bold mt-8">Create Account</h2>
               <p className="mt-4 text-blue-100">
-                Join UnityStore and start shopping today.
+                Join Al Hameed Computers and start shopping today.
               </p>
             </div>
           </div>
@@ -97,7 +98,7 @@ export default function RegisterPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  autoComplete="current-password" 
+                  autoComplete="current-password"
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-12 pr-12 py-4 border rounded-2xl bg-gray-50/50"
                   placeholder="Password"
