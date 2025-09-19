@@ -43,7 +43,7 @@ export const Header = () => {
       <header className="border-b border-accent sticky top-0 z-50 bg-white">
         <div className="flex items-center justify-between max-w-6xl mx-auto px-2 md:px-4 py-2">
           <Link href="/" className="flex-shrink-0">
-            <div className="h-16 md:h-20 flex items-center">
+            <div className="h-15 md:h-20 flex items-center">
               <img
                 src="/cover-logo.png"
                 alt="Al Hameed Computers"
@@ -203,19 +203,9 @@ export const Header = () => {
         </div>
 
         {isSearchOpen && (
-          <div className="sm:hidden border-t border-accent bg-white ">
-            <div className="max-w-6xl mx-auto px-3 py-3">
-              <div className="flex items-center justify-between border border-accent rounded-lg p-2">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="outline-none border-none text-sm px-2 w-full bg-transparent placeholder:text-gray-400"
-                  autoFocus
-                />
-                <button className="text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
-                  <Search className="h-4 w-4" />
-                </button>
-              </div>
+          <div className="sm:hidden border-t border-accent bg-white w-full">
+            <div className="max-w-6xl mx-auto px-2 py-3">
+              <MobileSearchbar/>
             </div>
           </div>
         )}
@@ -256,10 +246,12 @@ const Searchbar = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        <ul className="bg-white hidden sm:block w-45 sm:w-77 lg:w-137 rounded-b-lg overflow-hidden">
+        <ul className="bg-white hidden sm:block sm:w-77 lg:w-137 rounded-b-lg overflow-hidden">
           {results.map((r, i) => {
             return (
-              <li key={i} className="hover:bg-gray-100 py-2 cursor-pointer px-2 max-h-12 whitespace-nowrap overflow-hidden text-ellipsis text-sm font-normal">{r}</li>
+              <li key={i} className="hover:bg-gray-100 py-2 cursor-pointer px-2 max-h-12 whitespace-nowrap overflow-hidden text-ellipsis text-sm font-normal">
+                <Link href={`/products`}>{r}</Link>
+              </li>
             )
           })
           }
@@ -267,4 +259,44 @@ const Searchbar = () => {
       </PopoverContent>
     </Popover>
   )
+}
+
+const MobileSearchbar = () => {
+  const results = [
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card fafasfaf fafa ',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card fafasfaf fafa ',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Cardwdadadasda ',
+    'MSI GeForce RTX 5090 32G Gaming Trio OC Graphics Card',
+  ]
+  return (
+    <Popover >
+      <PopoverTrigger asChild>
+        <div className="flex items-center justify-between border border-accent rounded-lg p-2">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="outline-none border-none text-sm px-2 w-full bg-transparent placeholder:text-gray-400"
+            autoFocus
+          />
+          <button className="text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
+            <Search className="h-4 w-4" />
+          </button>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent>
+        <ul className="bg-red-300 min-w-80 max-w-147 mx-2 rounded-b-lg">
+          {results.map((r, i) => {
+            return (
+              <li key={i} className="hover:bg-gray-100 py-2 cursor-pointer px-2 max-h-12 whitespace-nowrap overflow-hidden text-ellipsis text-xs font-normal">
+                <Link href={`/products`}>{r}</Link>
+              </li>
+            )
+          })
+          }
+        </ul>
+      </PopoverContent>
+    </Popover>
+)
+
 }

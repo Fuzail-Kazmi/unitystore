@@ -344,17 +344,19 @@ export const Footer = () => {
             </div>
             <div className="max-w-6xl mx-auto px-2 md:px-4 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div className="lg:col-span-1 space-y-2">
-                        <Link href="/" className="flex items-center gap-3 mb-4">
+                    <div className="col-span-2 space-y-2">
+                        <Link href="/" className="flex items-center justify-center gap-3 mb-4">
                             <Image
-                                src="/logo.png"
+                                src="/logo2.png"
                                 alt="Al Hameed Computers"
-                                width={160}  
-                                height={160}  
+                                // width={50}  
+                                // height={80}  
+                                width={140}  
+                                height={140}  
                                 className="object-contain"
                             />
                         </Link>
-                        <p className="text-blue-100 text-sm leading-relaxed">
+                        <p className="text-blue-100 text-sm leading-relaxed text-center">
                             Offers all kinds of Gaming accessories and Gaming components in Karachi. Find gaming keyboards, mice, headsets, graphic cards, casings, and more at the best prices.
                         </p>
                     </div>
@@ -416,7 +418,7 @@ export const Footer = () => {
                         </ul>
                     </div>
 
-                    <div className="flex flex-col justify-between">
+                    <div className="flex flex-col justify-between gap-8 sm:gap-2 ">
                         <div className="">
 
                             <h3 className="font-bold text-lg text-white mb-4">CONTACT</h3>
@@ -447,15 +449,14 @@ export const Footer = () => {
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div className="flex flex-col justify-center items-center">
                             <h4 className="text-white font-semibold mb-3">Connect with Us</h4>
                             <div className="flex gap-4">
                                 {[
-                                    { icon: Facebook, label: 'Facebook', url: '#' },
+                                    { icon: Facebook, label: 'Facebook', url: 'https://www.facebook.com/Al.Hameed.Computers' },
+                                    { icon: Instagram, label: 'Instagram', url: 'https://www.instagram.com/alhameedcomputersgamingshop?igsh=MTc2bzlrMWd3dmRxMQ==' },
+                                    { icon: Youtube, label: 'Youtube', url: 'https://www.youtube.com/@alhameedcomputers' },
                                     { icon: Twitter, label: 'Twitter', url: '#' },
-                                    { icon: Instagram, label: 'Instagram', url: '#' },
-                                    { icon: Youtube, label: 'Youtube', url: '#' },
-                                    { icon: Linkedin, label: 'LinkedIn', url: '#' },
                                 ].map(({ icon: Icon, label, url }) => (
                                     <Link
                                         key={label}
@@ -476,7 +477,7 @@ export const Footer = () => {
 
                 <div className="border-t border-gray-700 mt-8 pt-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="text-blue-100 text-sm">
+                        <div className="text-blue-100 text-sm text-center">
                             Copyright © 2019 AlhameedComputers. All rights reserved.
                         </div>
 
