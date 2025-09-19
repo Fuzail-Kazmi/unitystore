@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCategories } from "@/api/category"; 
+import { useCategories } from "@/api/category";
 
 const CategoryCarousel: React.FC<{
   autoPlayInterval?: number;
@@ -86,22 +86,23 @@ const CategoryCarousel: React.FC<{
         </div>
       </div>
 
-      {showDots && categories.length > 1 && (
-        <div className="flex justify-center mt-4 space-x-2">
-          {categories.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 cursor-pointer  ${
-                index === currentIndex
-                  ? "bg-blue-400 w-6"
-                  : "bg-gray-400 w-2 hover:bg-gray-500"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      <div className="hidden sm:block">
+        {showDots && categories.length > 1 && (
+          <div className="flex justify-center mt-4 space-x-2">
+            {categories.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer  ${index === currentIndex
+                    ? "bg-blue-400 w-6"
+                    : "bg-gray-400 w-2 hover:bg-gray-500"
+                  }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -344,8 +344,8 @@ export const Footer = () => {
             </div>
             <div className="max-w-6xl mx-auto px-2 md:px-4 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div className="col-span-2 space-y-2">
-                        <Link href="/" className="flex items-center justify-center gap-3 mb-4">
+                    <div className="col-span-2 sm:col-span-1 space-y-2">
+                        <Link href="/" className="flex items-center justify-center sm:justify-start gap-3 mb-4">
                             <Image
                                 src="/logo2.png"
                                 alt="Al Hameed Computers"
@@ -356,12 +356,12 @@ export const Footer = () => {
                                 className="object-contain"
                             />
                         </Link>
-                        <p className="text-blue-100 text-sm leading-relaxed text-center">
+                        <p className="text-blue-100 text-sm leading-relaxed text-center sm:text-left">
                             Offers all kinds of Gaming accessories and Gaming components in Karachi. Find gaming keyboards, mice, headsets, graphic cards, casings, and more at the best prices.
                         </p>
                     </div>
 
-                    <div>
+                    <div className="col-span-1">
                         <h3 className="font-bold text-lg text-white mb-4">PRODUCTS</h3>
                         <ul className="space-y-2">
                             <li>
@@ -392,7 +392,7 @@ export const Footer = () => {
                         </ul>
                     </div>
 
-                    <div>
+                    <div className="col-span-1">
                         <h3 className="font-bold text-lg text-white mb-4">ACCOUNT</h3>
                         <ul className="space-y-2">
                             <li>
@@ -418,10 +418,9 @@ export const Footer = () => {
                         </ul>
                     </div>
 
-                    <div className="flex flex-col justify-between gap-8 sm:gap-2 ">
+                    <div className="flex flex-col justify-between gap-12 sm:gap-4 col-span-2 sm:col-span-1">
                         <div className="">
-
-                            <h3 className="font-bold text-lg text-white mb-4">CONTACT</h3>
+                            <h3 className="font-bold text-lg text-white mb-4 text-center sm:text-start">CONTACT</h3>
                             <div className="space-y-3">
                                 <div className="flex items-start gap-3">
                                     <MapPin className="h-4 w-4 text-yellow-400 mt-0.5 flex-shrink-0" />
@@ -449,8 +448,8 @@ export const Footer = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center">
-                            <h4 className="text-white font-semibold mb-3">Connect with Us</h4>
+                        <div className="flex flex-col items-center sm:items-start">
+                            <h4 className="text-white font-semibold mb-4">Connect with Us</h4>
                             <div className="flex gap-4">
                                 {[
                                     { icon: Facebook, label: 'Facebook', url: 'https://www.facebook.com/Al.Hameed.Computers' },

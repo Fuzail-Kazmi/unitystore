@@ -6,33 +6,17 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 
 type Slide = {
     img: string;
-    // title: string;
-    // priceLine?: string;
-    // desc?: string;
-    // cta?: { label: string; href: string };
 };
 
 const HERO_SLIDES: Slide[] = [
     {
         img: "/images/carousel-1-1.webp",
-        // title: "iPhone 16 Pro Max",
-        // priceLine: "From $ 50,769*",
-        // desc: "A18 chip. Superfast. Supersmart. History’s Biggest Price Drop",
-        // cta: { label: "Shop Now", href: "#" },
     },
     {
         img: "/images/carousel-1-2.webp",
-        // title: "Pure Sound",
-        // priceLine: "Save up to 40%",
-        // desc: "Noise cancelling over-ear headphones.",
-        // cta: { label: "Shop Audio", href: "#" },
     },
     {
         img: "/images/carousel-1-3.webp",
-        // title: "Creator Laptops",
-        // priceLine: "Mega Offers",
-        // desc: "Top performance for pros and students.",
-        // cta: { label: "Explore Laptops", href: "#" },
     },
 ];
 
@@ -72,7 +56,6 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                     <div key={i} className="min-w-full relative h-[260px] md:h-[360px]">
                         <Image
                             src={s.img}
-                            // alt={s.title}
                             alt=""
                             fill
                             sizes="100vw"
@@ -80,32 +63,6 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                             priority={i === 0}
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-                        {/* <div className="absolute inset-0 flex flex-col justify-center gap-2 px-5 md:px-10">
-                            <h2 className="text-white font-bold text-2xl md:text-4xl leading-tight drop-shadow">
-                                {s.title}
-                            </h2>
-                            {s.priceLine && (
-                                <p className="text-white/95 text-lg md:text-2xl font-semibold">
-                                    {s.priceLine}
-                                    <span className="text-xs md:text-sm opacity-80 ml-1">
-                                        *Incl. All Offers
-                                    </span>
-                                </p>
-                            )}
-                            {s.desc && (
-                                <p className="text-white/90 max-w-xl text-sm md:text-base">
-                                    {s.desc}
-                                </p>
-                            )}
-                            {s.cta && (
-                                <Link
-                                    href={s.cta.href}
-                                    className="mt-2 inline-flex w-fit items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                                >
-                                    {s.cta.label}
-                                </Link>
-                            )}
-                        </div> */}
                     </div>
                 ))}
             </div>
@@ -146,24 +103,10 @@ export default function Carousel() {
             >
                 <Image
                     src="/images/carousel-2-1.webp"
-                    // alt="SALE up to 50% OFF"
                     alt="pc build"
                     fill
                     className="object-cover"
                 />
-                {/* <div className="absolute top-4 left-4">
-                    <div className="inline-flex items-center rounded-md bg-white/95 px-3 py-1 text-xs font-semibold">
-                        SALE
-                    </div>
-                    <div className="mt-2 text-white drop-shadow">
-                        <div className="text-4xl md:text-5xl font-extrabold leading-none">
-                            UP TO
-                            <br />
-                            50%
-                        </div>
-                        <div className="text-base md:text-lg font-semibold">OFF</div>
-                    </div>
-                </div> */}
             </Link>
         </section>
     );
