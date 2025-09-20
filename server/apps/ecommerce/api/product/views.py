@@ -47,12 +47,12 @@ class ProductListAPIView(generics.ListAPIView):
         max_price = params.get("max_price")
         if min_price:
             try:
-                queryset = queryset.filter(final_price__gte=float(min_price))
+                queryset = queryset.filter(annotated_final_price__gte=float(min_price))
             except ValueError:
                 pass
         if max_price:
             try:
-                queryset = queryset.filter(final_price__lte=float(max_price))
+                queryset = queryset.filter(annotated_final_price__lte=float(max_price))
             except ValueError:
                 pass
 
@@ -61,10 +61,13 @@ class ProductListAPIView(generics.ListAPIView):
         if search:
             queryset = queryset.filter(
                 Q(product_name__icontains=search) |
-                Q(description__icontains=search)
+                Q(description__icontains=search) |
+                Q(category__name__icontains=search) |
+                Q(brand__name__icontains=search)
             )
 
         return queryset.order_by("-created_at")
+    
 
     def list(self, request, *args, **kwargs):
         """Custom response with pagination"""

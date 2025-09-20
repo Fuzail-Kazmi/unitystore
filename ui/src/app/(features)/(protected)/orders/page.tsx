@@ -48,6 +48,7 @@ const OrdersPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
   const [expandedOrders, setExpandedOrders] = useState<string[]>([]);
+  // const [orderAction, setOrderAction] = useState(!true);
   const [sortBy, setSortBy] = useState("newest");
 
   const { data: rawOrders = [], isError, isLoading } = useOrders();
@@ -115,6 +116,7 @@ const OrdersPage: React.FC = () => {
         : [...prev, orderId]
     );
   };
+
 
 
 
@@ -190,16 +192,16 @@ const OrdersPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-8">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search orders, products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
               />
             </div>
 
@@ -207,7 +209,7 @@ const OrdersPage: React.FC = () => {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px]"
+                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px] text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="delivered">Delivered</option>
@@ -220,7 +222,7 @@ const OrdersPage: React.FC = () => {
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px]"
+                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px] text-sm"
               >
                 <option value="all">All Time</option>
                 <option value="30days">Last 30 Days</option>
@@ -231,7 +233,7 @@ const OrdersPage: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px]"
+                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px] text-sm"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -332,7 +334,9 @@ const OrdersPage: React.FC = () => {
                         </button>
 
                         <div className="relative">
-                          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                          <button
+                              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                          >
                             <MoreHorizontal className="w-5 h-5 text-gray-600" />
                           </button>
                         </div>
@@ -340,7 +344,7 @@ const OrdersPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
+                
                 {expandedOrders.includes(order.id) && (
                   <div className="p-6 bg-gray-50">
                     <div className="mb-6">

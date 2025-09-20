@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import QuantitySelector from "@/components/products/QuantitySelector";
-import AddToCartButton from "@/components/products/AddToCartButton";
 import type { Product } from "@/app/(features)/(pages)/products/types";
+import AddToCartButton from "@/components/products/AddToCartButton";
 
 export default function ProductActions({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);

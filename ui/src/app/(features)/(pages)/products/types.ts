@@ -1,6 +1,7 @@
 export interface Product {
     id: string;
-    brand: string;
+    // brand: string;
+    brand: string | { id: string; name: string };
     product_name: string;
     price: number;
     final_price: number;
