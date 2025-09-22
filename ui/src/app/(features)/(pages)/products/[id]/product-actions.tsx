@@ -4,13 +4,15 @@ import { useState } from "react";
 import QuantitySelector from "@/components/products/QuantitySelector";
 import type { Product } from "@/app/(features)/(pages)/products/types";
 import AddToCartButton from "@/components/products/AddToCartButton";
+import BuyButton from "@/components/products/BuyButton";
+
 
 export default function ProductActions({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="flex items-center gap-2">
-        <QuantitySelector
+      <QuantitySelector
         initialQty={1}
         min={1}
         onChange={(qty) => setQuantity(qty)}
@@ -22,9 +24,12 @@ export default function ProductActions({ product }: { product: Product }) {
         quantity={quantity}
       />
 
-      <button className="bg-black text-white py-3 px-6 rounded-lg">
+      <BuyButton onClick={() => alert("Buying...")}>
         Buy Now
-      </button>
+      </BuyButton>
+
     </div>
   );
 }
+
+

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useOrders } from "@/api/orders";
+import BuyButton from "@/components/products/BuyButton";
 
 interface OrderItem {
   id: string;
@@ -184,17 +185,15 @@ const OrdersPage: React.FC = () => {
     <main className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-            Order History
-          </h1>
-          <p className="text-gray-600">
+          <h2 className="text-xl font-semibold text-gray-900">Order History</h2>
+          <p className="text-gray-600 text-sm">
             Track and manage all your orders in one place
           </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-8">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="relative flex-1 max-w-md">
+            {/* <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
@@ -203,37 +202,39 @@ const OrdersPage: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
               />
-            </div>
+            </div> */}
 
-            <div className="flex flex-wrap gap-3">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px] text-sm"
-              >
-                <option value="all">All Status</option>
-                <option value="delivered">Delivered</option>
-                <option value="shipped">Shipped</option>
-                <option value="processing">Processing</option>
-                <option value="cancelled">Cancelled</option>
-                <option value="returned">Returned</option>
-              </select>
+            <div className="flex justify-between w-full gap-2">
+              <div className="flex gap-2">
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                >
+                  <option value="all">All Status</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="processing">Processing</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="returned">Returned</option>
+                </select>
 
-              <select
-                value={dateFilter}
-                onChange={(e) => setDateFilter(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px] text-sm"
-              >
-                <option value="all">All Time</option>
-                <option value="30days">Last 30 Days</option>
-                <option value="90days">Last 3 Months</option>
-                <option value="year">This Year</option>
-              </select>
+                <select
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                >
+                  <option value="all">All Time</option>
+                  <option value="30days">Last 30 Days</option>
+                  <option value="90days">Last 3 Months</option>
+                  <option value="year">This Year</option>
+                </select>
+              </div>
 
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-w-[140px] text-sm"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -333,20 +334,20 @@ const OrdersPage: React.FC = () => {
                           )}
                         </button>
 
-                        <div className="relative">
-                          <button
+                        {/* <div className="relative">
+                            <button
                               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                          >
-                            <MoreHorizontal className="w-5 h-5 text-gray-600" />
-                          </button>
-                        </div>
+                            >
+                              <MoreHorizontal className="w-5 h-5 text-gray-600" />
+                            </button>
+                          </div> */}
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 {expandedOrders.includes(order.id) && (
-                  <div className="p-6 bg-gray-50">
+                  <div className="p-4 bg-gray-50">
                     <div className="mb-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">
                         Order Items
@@ -390,6 +391,12 @@ const OrdersPage: React.FC = () => {
                             </div>
                           </div>
                         ))}
+                      </div>
+                      <div className="mt-4 flex justify-end gap-2">
+                        <Link href="/" className="bg-black text-white cursor-pointer px-4 py-2 text-xs rounded-lg">
+                          Buy it again
+                        </Link>
+                        <button className="border border-red-600 text-red-600 cursor-pointer px-4 py-2 text-xs rounded-lg">Cancel</button>
                       </div>
                     </div>
                   </div>
