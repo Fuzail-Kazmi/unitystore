@@ -6,14 +6,16 @@ import { toast } from "react-hot-toast";
 import { useUpdateCartItem } from "@/api/cart";
 
 interface QuantitySelectorProps {
-  itemId?: string;             // cart item id (agar cart me use karna hai)
-  initialQty?: number;         // default quantity
-  min?: number;                // minimum allowed quantity
-  onChange?: (qty: number) => void; // callback for product-detail page
+  itemId?: string;            
+  initialQty?: number;        
+  min?: number;            
+  onChange?: (qty: number) => void; 
+  className?: string;
 }
 
 export default function QuantitySelector({
   itemId,
+  className = "",
   initialQty = 1,
   min = 1,
   onChange,
@@ -50,20 +52,20 @@ export default function QuantitySelector({
       <button
         onClick={() => handleChange(quantity - 1)}
         disabled={quantity <= min}
-        className="p-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <Minus className="h-3 w-3" />
+        <Minus className="h-4 w-4" />
       </button>
 
-      <span className="px-3 py-1 text-sm font-medium min-w-[2rem] text-center">
+      <span className="px-3 py-3 text-sm font-medium min-w-[2rem] text-center">
         {quantity}
       </span>
 
       <button
         onClick={() => handleChange(quantity + 1)}
-        className="p-1 hover:bg-gray-100"
+        className={`p-2 hover:bg-gray-100 ${className}`}
       >
-        <Plus className="h-3 w-3" />
+        <Plus className="h-4 w-4" />
       </button>
     </div>
   );

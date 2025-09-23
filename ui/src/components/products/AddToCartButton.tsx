@@ -9,12 +9,14 @@ interface AddToCartButtonProps {
     productId: string;
     productName: string;
     quantity?: number;
+    className?: string;
 }
 
 export default function AddToCartButton({
     productId,
     productName,
     quantity = 1,
+    className = "",
 }: AddToCartButtonProps) {
     const [loading, setLoading] = useState(false);
     const addToCart = useAddToCart();
@@ -22,10 +24,6 @@ export default function AddToCartButton({
     const handleAddToCart = () => {
         setLoading(true);
         addToCart.mutate(
-            //   {
-            //     product_id: String(productId),
-            //     quantity: 1,
-            //   },
             {
                 product_id: productId,
                 quantity
@@ -49,7 +47,7 @@ export default function AddToCartButton({
         <button
             onClick={handleAddToCart}
             disabled={loading}
-            className="flex-1 bg-primary hover:bg-primary/95 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+            className={`px-4 py-2 rounded-md font-medium transition-colors disabled:opacity-50 ${className}`}
         >
             <ShoppingCart className="h-5 w-5" />
             {loading ? "Adding..." : "Add to Cart"}

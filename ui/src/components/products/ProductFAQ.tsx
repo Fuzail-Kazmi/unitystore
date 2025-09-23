@@ -39,23 +39,6 @@ const faqData: FAQItem[] = [
       "Digital products and personalized items are non-returnable unless defective.",
     ],
   },
-  // {
-  //   question: "Payment Options",
-  //   answers: [
-  //     "We accept Cash on Delivery (COD) across Pakistan.",
-  //     "Online payments via credit/debit cards are available.",
-  //     "Bank transfers and mobile wallets are supported for convenience.",
-  //     "All payment methods are secure and encrypted.",
-  //   ],
-  // },
-  // {
-  //   question: "Product Support",
-  //   answers: [
-  //     "Our customer support team is available 24/7 for assistance.",
-  //     "Support includes installation guidance, troubleshooting, and general queries.",
-  //     "Contact support via phone, email, or live chat.",
-  //   ],
-  // },
 ];
 
 const ProductFAQ: React.FC = () => {

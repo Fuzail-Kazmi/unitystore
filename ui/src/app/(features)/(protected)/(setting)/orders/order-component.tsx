@@ -1,28 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Package,
   Truck,
   Calendar,
-  Search,
-  Eye,
-  Download,
   RotateCcw,
-  Star,
   ChevronDown,
   ChevronRight,
   Clock,
   CheckCircle,
   XCircle,
-  MoreHorizontal,
   ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import { useOrders } from "@/api/orders";
-import BuyButton from "@/components/products/BuyButton";
+import BuyNowButton from "@/components/products/BuyButton";
 
 interface OrderItem {
   id: string;
+  productId: string;
   name: string;
   price: number;
   quantity: number;
@@ -33,6 +29,7 @@ interface OrderItem {
 
 interface Order {
   id: string;
+  productId: string;
   orderNumber: string;
   date: string;
   status: string;
@@ -44,12 +41,11 @@ interface Order {
   deliveredDate?: string;
 }
 
-const OrdersPage: React.FC = () => {
+export const OrdersPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
   const [expandedOrders, setExpandedOrders] = useState<string[]>([]);
-  // const [orderAction, setOrderAction] = useState(!true);
   const [sortBy, setSortBy] = useState("newest");
 
   const { data: rawOrders = [], isError, isLoading } = useOrders();
@@ -64,6 +60,7 @@ const OrdersPage: React.FC = () => {
     trackingNumber: o.tracking_number || null,
     items: o.items?.map((i: any) => ({
       id: i.id,
+      productId: i.product?.id,
       name: i.product?.product_name,
       price: parseFloat(i.price),
       quantity: parseInt(i.quantity),
@@ -75,6 +72,11 @@ const OrdersPage: React.FC = () => {
     })) || [],
   }));
 
+  useEffect(() => {
+    if (orders.length > 0 && expandedOrders.length === 0) {
+      setExpandedOrders(orders.map((o) => o.id));
+    }
+  }, [orders, expandedOrders]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -260,7 +262,7 @@ const OrdersPage: React.FC = () => {
                   : "You haven't placed any orders yet"}
               </p>
               <Link
-                href="/products"
+                href="/"
                 className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold"
               >
                 <ShoppingBag className="w-5 h-5 mr-2" />
@@ -276,12 +278,12 @@ const OrdersPage: React.FC = () => {
                 <div className="p-6 border-b border-gray-100">
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                     <div className="flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                        <h3 className="text-sm sm:text-base font-semibold text-gray-900">
                           Order #{order.orderNumber || order.id}
                         </h3>
                         <div
-                          className={`inline-flex items-center px-3 py-1 rounded-full border text-sm font-medium ${getStatusColor(
+                          className={`inline-flex items-center px-2 py-1 rounded-full border text-xs sm:text-sm font-medium ${getStatusColor(
                             order.status
                           )}`}
                         >
@@ -317,8 +319,8 @@ const OrdersPage: React.FC = () => {
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-gray-900">
-                          ${order.total.toFixed(2)}
+                        <div className="text-base sm:text-lg font-bold text-gray-900">
+                          Rs.{order.total.toFixed(2)}
                         </div>
                       </div>
 
@@ -328,19 +330,11 @@ const OrdersPage: React.FC = () => {
                           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                         >
                           {expandedOrders.includes(order.id) ? (
-                            <ChevronDown className="w-5 h-5 text-gray-600" />
+                            <ChevronDown className="w-5 h-5 text-gray-600 cursor-pointer" />
                           ) : (
-                            <ChevronRight className="w-5 h-5 text-gray-600" />
+                            <ChevronRight className="w-5 h-5 text-gray-600 cursor-pointer" />
                           )}
                         </button>
-
-                        {/* <div className="relative">
-                            <button
-                              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                            >
-                              <MoreHorizontal className="w-5 h-5 text-gray-600" />
-                            </button>
-                          </div> */}
                       </div>
                     </div>
                   </div>
@@ -392,11 +386,19 @@ const OrdersPage: React.FC = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="mt-4 flex justify-end gap-2">
-                        <Link href="/" className="bg-black text-white cursor-pointer px-4 py-2 text-xs rounded-lg">
-                          Buy it again
-                        </Link>
-                        <button className="border border-red-600 text-red-600 cursor-pointer px-4 py-2 text-xs rounded-lg">Cancel</button>
+                      <div className="mt-4 flex flex-col sm:flex-row justify-end gap-2">
+                        <BuyNowButton
+                          items={order.items.map((i) => ({
+                            productId: i.productId,
+                            productName: i.name,
+                            quantity: i.quantity,
+                          }))}
+                          className="bg-black text-white cursor-pointer px-4 py-2 text-xs rounded-lg text-center"
+                          label="Buy Again"
+                        />
+                        <button className="border border-red-600 text-red-600 cursor-pointer px-4 py-2 text-xs rounded-lg">
+                          Cancel
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -410,4 +412,3 @@ const OrdersPage: React.FC = () => {
   );
 };
 
-export default OrdersPage;

@@ -8,7 +8,6 @@ const SideInfo = () => {
             <Truck className="h-5 w-5 text-green-600" />
         </div>
         <div>
-            {/* <p className="text-sm font-medium">We Deliver All Over Pakistan</p> */}
             <p className="text-xs text-gray-500">We Deliver All Over Pakistan</p>
         </div>
     </div>
@@ -18,7 +17,6 @@ const SideInfo = () => {
             <RotateCcw className="h-5 w-5 text-blue-600" />
         </div>
         <div>
-            {/* <p className="text-sm font-medium">14-Day Returns</p> */}
             <p className="text-xs text-gray-500">15-Day Returns</p>
         </div>
     </div>
@@ -28,7 +26,6 @@ const SideInfo = () => {
             <Shield className="h-5 w-5 text-purple-600" />
         </div>
         <div>
-            {/* <p className="text-sm font-medium">Warranty & Returns</p> */}
             <p className="text-xs text-gray-500">Warranty & Returns</p>
         </div>
     </div>
