@@ -13,6 +13,9 @@ class Customer(BaseModel):
     address = models.TextField(blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
+    profile_picture = models.ImageField(
+        upload_to="profile_pictures/", blank=True, null=True
+    )
 
     def __str__(self):
         return self.user.get_full_name() or self.user.email
@@ -20,3 +23,6 @@ class Customer(BaseModel):
     @property
     def full_name(self):
         return self.user.get_full_name() or self.user.username
+
+
+

@@ -25,6 +25,14 @@ from apps.ecommerce.api.brand.views import (
     BrandListAPIView, BrandDetailAPIView
 )
 
+from apps.ecommerce.api.customer.views import (  
+    CustomerProfileAPIView
+)
+
+from apps.ecommerce.api.address.views import (  
+    AddressListCreateAPIView, AddressDetailAPIView
+)
+
 urlpatterns = [
     # Products
     path("api/products/", ProductListAPIView.as_view(), name="product-list"),
@@ -57,9 +65,17 @@ urlpatterns = [
     path("api/wishlist/<uuid:product_id>/remove/", WishlistRemoveItemAPIView.as_view(), name="wishlist-remove-item"),
     path("api/wishlist/clear/", WishlistClearAPIView.as_view(), name="wishlist-clear"),
 
-    # Brand URLs 👇
+    # Brand URLs 
     path("api/brands", BrandListAPIView.as_view(), name="brand-list"),
     path("api/brands/<uuid:pk>", BrandDetailAPIView.as_view(), name="brand-detail"),
+ 
+    # Customer Profile
+    path("api/profile", CustomerProfileAPIView.as_view(), name="customer-profile"),
+
+    # Address Management
+    path("api/addresses", AddressListCreateAPIView.as_view(), name="address-list-create"),
+    path("api/addresses/<uuid:pk>", AddressDetailAPIView.as_view(), name="address-detail"),
+
 ]
 
 

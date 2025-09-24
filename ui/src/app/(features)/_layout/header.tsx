@@ -956,7 +956,6 @@ const Searchbar = () => {
         </div>
       </PopoverTrigger>
 
-      {/* ✅ Suggestions Dropdown */}
       {query.length > 0 && (
         <PopoverContent>
           <ul className="bg-white hidden sm:block sm:w-77 lg:w-137 rounded-b-lg overflow-hidden shadow-md">

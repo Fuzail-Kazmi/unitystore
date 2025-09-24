@@ -224,7 +224,7 @@ export const OrdersPage: React.FC = () => {
                 <select
                   value={dateFilter}
                   onChange={(e) => setDateFilter(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm hidden sm:block"
                 >
                   <option value="all">All Time</option>
                   <option value="30days">Last 30 Days</option>
@@ -317,7 +317,7 @@ export const OrdersPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <div className="flex items-start sm:items-center gap-3">
                       <div className="text-right">
                         <div className="text-base sm:text-lg font-bold text-gray-900">
                           Rs.{order.total.toFixed(2)}
