@@ -184,8 +184,8 @@ export const OrdersPage: React.FC = () => {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-gray-50 py-4 md:py-8">
+      <div className="max-w-6xl mx-auto p-4 sm:p-6">
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900">Order History</h2>
           <p className="text-gray-600 text-sm">
@@ -193,7 +193,7 @@ export const OrdersPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-8">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 p-2 sm:p-4 mb-4 sm:mb-6">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -211,7 +211,7 @@ export const OrdersPage: React.FC = () => {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                  className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-xs sm:text-sm"
                 >
                   <option value="all">All Status</option>
                   <option value="delivered">Delivered</option>
@@ -236,7 +236,7 @@ export const OrdersPage: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-xs sm:text-sm"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -273,17 +273,17 @@ export const OrdersPage: React.FC = () => {
             filteredOrders.map((order: Order) => (
               <div
                 key={order.id}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
+                className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
               >
-                <div className="p-6 border-b border-gray-100">
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div className="p-4 sm:p-6 border-b border-gray-100">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 sm:gap-4">
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                         <h3 className="text-sm sm:text-base font-semibold text-gray-900">
                           Order #{order.orderNumber || order.id}
                         </h3>
                         <div
-                          className={`inline-flex items-center px-2 py-1 rounded-full border text-xs sm:text-sm font-medium ${getStatusColor(
+                          className={`inline-flex items-center px-2 py-1 rounded-full border text-xs sm:text-sm font-medium w-min ${getStatusColor(
                             order.status
                           )}`}
                         >
@@ -295,7 +295,7 @@ export const OrdersPage: React.FC = () => {
                       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                         <div className="flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
-                          {new Date(order.date).toLocaleDateString("en-US", {
+                          {new Date(order.date).toLocaleDateString("en-PK", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
@@ -317,7 +317,7 @@ export const OrdersPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-start sm:items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <div className="text-right">
                         <div className="text-base sm:text-lg font-bold text-gray-900">
                           Rs.{order.total.toFixed(2)}
@@ -350,9 +350,9 @@ export const OrdersPage: React.FC = () => {
                         {order.items.map((item: OrderItem) => (
                           <div
                             key={item.id}
-                            className="flex items-center p-4 bg-white rounded-xl"
+                            className="flex flex-col sm:flex-row items-center py-2 sm:py-4 sm:px-4 bg-white rounded-xl"
                           >
-                            <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                            <div className="w-45 h-45 sm:w-16 sm:h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                               {item.image ? (
                                 <img
                                   src={item.image}
@@ -364,23 +364,23 @@ export const OrdersPage: React.FC = () => {
                               )}
                             </div>
 
-                            <div className="flex-1 ml-4">
-                              <h5 className="font-semibold text-gray-900 mb-1">
-                                {item.name}
-                              </h5>
-                              <div className="flex items-center text-sm text-gray-600 space-x-4">
-                                {item.color && <span>Color: {item.color}</span>}
-                                {item.size && <span>Size: {item.size}</span>}
-                                <span>Qty: {item.quantity}</span>
+                            <div className="flex-1 w-full mt-4 sm:mt-0 sm:ml-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                              <div className="flex-1 ml-4 sm:bg-transparent">
+                                <h5 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base max-h-10 overflow-hidden text-ellipsis">
+                                  {item.name}
+                                </h5>
+                                <div className="flex items-center text-sm text-gray-600 space-x-4">
+                                  <span>Qty: {item.quantity}</span>
+                                </div>
                               </div>
-                            </div>
 
-                            <div className="text-right">
-                              <div className="font-bold text-gray-900">
-                                ${(item.price * item.quantity).toFixed(2)}
-                              </div>
-                              <div className="text-sm text-gray-600">
-                                ${item.price.toFixed(2)} each
+                              <div className="text-right">
+                                <div className="font-bold text-gray-900">
+                                  ${(item.price * item.quantity).toFixed(2)}
+                                </div>
+                                <div className="text-sm text-gray-600">
+                                  ${item.price.toFixed(2)} each
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -407,8 +407,8 @@ export const OrdersPage: React.FC = () => {
             ))
           )}
         </div>
-      </div>
-    </main>
+      </div >
+    </main >
   );
 };
 

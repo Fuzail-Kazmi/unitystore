@@ -5,12 +5,20 @@ import axiosClient from "@/_api/axiosClient";
 
 export interface Address {
   id: string;
-  street: string;
+  title: string;
+  default: boolean;
+  address_type: string;
+  address_line_1: string;
+  address_line_2?: string;
   city: string;
   state: string;
-  zip: string;
+  postal_code: string;
   country: string;
+  phone_number?: string;
+  email?: string;
+  created_at?: string;
 }
+
 
 // -------- Fetch Addresses (list) --------
 export const useAddresses = () => {
@@ -50,3 +58,18 @@ export const useUpdateAddress = () => {
     },
   });
 };
+// -------- Delete Address --------
+
+export const useDeleteAddress = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const res = await axiosClient.delete(`api/addresses/${id}`);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
+    },
+  });
+};
+

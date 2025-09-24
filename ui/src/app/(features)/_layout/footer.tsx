@@ -322,7 +322,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Mail, ChevronUp, Facebook, Twitter, Instagram, Youtube, Linkedin } from "lucide-react";
+import { MapPin, Phone, Mail, ChevronUp, Facebook, Twitter, Instagram, Youtube} from "lucide-react";
 import { contactEmail, contactPhone } from "@/app/global";
 
 export const Footer = () => {
@@ -342,7 +342,7 @@ export const Footer = () => {
                     </button>
                 </div>
             </div>
-            <div className="max-w-6xl mx-auto px-2 md:px-4 py-12">
+            <div className="max-w-6xl mx-auto p-4 sm:p-6 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div className="col-span-2 sm:col-span-1 space-y-2">
                         <Link href="/" className="flex items-center justify-center sm:justify-start gap-3 mb-4">

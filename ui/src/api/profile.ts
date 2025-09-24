@@ -20,16 +20,16 @@ export const useUpdateProfile = () => {
 
   return useMutation({
     mutationFn: async (data: {
-      first_name?: string;
-      last_name?: string;
+      full_name?: string;
       phone_number?: string;
       profile_picture?: File;
     }) => {
       const formData = new FormData();
-      if (data.first_name) formData.append("first_name", data.first_name);
-      if (data.last_name) formData.append("last_name", data.last_name);
-      if (data.phone_number) formData.append("phone_number", data.phone_number);
-      if (data.profile_picture) formData.append("profile_picture", data.profile_picture);
+      formData.append("full_name", data.full_name ?? "");
+      formData.append("phone_number", data.phone_number ?? "");
+      if (data.profile_picture) {
+        formData.append("profile_picture", data.profile_picture);
+      }
 
       const res = await axiosClient.put("api/profile", formData, {
         headers: { "Content-Type": "multipart/form-data" },

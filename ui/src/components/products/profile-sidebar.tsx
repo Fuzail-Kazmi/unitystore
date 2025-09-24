@@ -8,7 +8,6 @@ import {
   Package,
   MapPin,
   Heart,
-  CreditCard,
   LogOut,
 } from "lucide-react";
 
@@ -42,7 +41,7 @@ const ProfileSidebar = () => {
                 onClick={tab.action}
                 className="flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-colors text-red-600 hover:bg-red-50 w-full text-left"
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>{tab.label}</span>
               </button>
             );
@@ -60,7 +59,7 @@ const ProfileSidebar = () => {
                   : "text-gray-600 hover:bg-gray-50"
                 }`}
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>{tab.label}</span>
             </Link>
           );
