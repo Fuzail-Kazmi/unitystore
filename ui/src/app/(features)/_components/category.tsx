@@ -67,17 +67,18 @@ const CategoryCarousel: React.FC<{
             <div
               key={index}
               className="flex-shrink-0"
+              // className="flex-shrink-0 w-30 h-25 sm:w-40 sm:h-40"
               style={{ width: `${itemWidth}px` }}
             >
               <div className="flex flex-col items-center p-2 rounded-lg bg-white shadow hover:bg-gray-100 transition-all duration-300 hover:scale-105 cursor-pointer group">
-                <div className="w-20 h-20 md:w-24 md:h-24 mb-3 rounded-lg overflow-hidden flex items-center justify-center">
+                <div className="w-18 h-18 md:w-24 md:h-24 mb-3 rounded-lg overflow-hidden flex items-center justify-center">
                   <img
                     src={category.image}
                     alt={category.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <h3 className="text-sm font-medium text-center text-gray-500 group-hover:text-blue-400 transition-colors max-w-22 truncate">
+                <h3 className="text-xs sm:text-sm font-medium text-center text-gray-500 group-hover:text-blue-400 transition-colors max-w-20 sm:max-w-22 truncate">
                   {category.name}
                 </h3>
               </div>

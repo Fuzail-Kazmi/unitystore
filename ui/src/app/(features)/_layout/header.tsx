@@ -748,9 +748,9 @@ export const Header = () => {
 
               <div className="relative" ref={dropdownRef}>
                 <div className="flex gap-2 items-center">
-                  <button className="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors cursor-pointer">
+                  <div className="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors cursor-pointer">
                     <UserRound className="h-4 md:h-5 md:w-5 w-4" />
-                  </button>
+                  </div>
                   <div>
                     <p className="text-xs text-gray-500">Hello</p>
                     <div

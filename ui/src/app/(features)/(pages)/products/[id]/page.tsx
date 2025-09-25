@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import ProductTab from "@/components/products/ProductTab";
 import RelatedProducts from "@/app/(features)/_components/related-products";
+import Review from "@/components/products/review";
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const res = await fetch(`${API_URL}api/products/${params.id}/`, {
@@ -77,6 +78,9 @@ export default async function ProductPage({ params }: { params: { id: string } }
       </div>
       <div className=" px-2 md:px-4 py-4">
           <ProductTab/>
+      </div>
+      <div className=" px-2 md:px-4 py-4">
+          <Review/>
       </div>
       <div className=" px-2 md:px-4 py-4">
           <RelatedProducts/>

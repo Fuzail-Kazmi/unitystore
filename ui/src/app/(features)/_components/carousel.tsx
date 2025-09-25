@@ -53,7 +53,7 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                 style={{ transform: `translateX(-${index * 100}%)` }}
             >
                 {slides.map((s, i) => (
-                    <div key={i} className="min-w-full relative h-[260px] md:h-[360px]">
+                    <div key={i} className="min-w-full relative h-[150px] md:h-[360px]">
                         <Image
                             src={s.img}
                             alt=""
@@ -72,8 +72,8 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                     <button
                         key={i}
                         onClick={() => setIndex(i)}
-                        className={`h-2.5 w-2.5 rounded-full transition-all ${i === index ? "bg-white scale-110" : "bg-white/50"
-                            }`}
+                        className={`h-1.5 w-1.5 sm:h-2.5 sm:w-2.5 rounded-full transition-all ${i === index ? "bg-white scale-110" : "bg-white/50"
+                        }`}
                     />
                 ))}
             </div>
@@ -99,7 +99,7 @@ export default function Carousel() {
             <HeroCarousel slides={slides} />
             <Link
                 href="/products"
-                className="relative rounded-xl overflow-hidden bg-gray-100 h-[260px] md:h-[360px] hidden md:block"
+                className="relative rounded-xl overflow-hidden bg-gray-100 h-[150px] md:h-[360px] hidden md:block"
             >
                 <Image
                     src="/images/carousel-2-1.webp"

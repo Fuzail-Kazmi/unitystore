@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/index";
 
@@ -9,6 +9,7 @@ import {
   MapPin,
   Heart,
   LogOut,
+  LayoutDashboardIcon,
 } from "lucide-react";
 
 const ProfileSidebar = () => {
@@ -16,7 +17,7 @@ const ProfileSidebar = () => {
   const pathname = usePathname();
 
   const tabs = [
-    { id: "overview", label: "Overview", icon: User, href: "/profile" },
+    { id: "overview", label: "Profile", icon: User, href: "/profile" },
     { id: "orders", label: "Orders", icon: Package, href: "/orders" },
     { id: "addresses", label: "Addresses", icon: MapPin, href: "/addresses" },
     { id: "wishlist", label: "Wishlist", icon: Heart, href: "/wishlist" },
@@ -31,6 +32,12 @@ const ProfileSidebar = () => {
           overflow-x-auto lg:overflow-visible 
           bg-white rounded-lg shadow-sm border border-gray-200"
       >
+        <h2
+          className="flex justify-center items-center gap-2 sm:justify-start p-4 text-base font-semibold"
+        >
+          <LayoutDashboardIcon className="h-5 w-5 text-blue-600"/>
+          Overview
+        </h2>
         {tabs.map((tab) => {
           const Icon = tab.icon;
 
@@ -39,7 +46,7 @@ const ProfileSidebar = () => {
               <button
                 key={tab.id}
                 onClick={tab.action}
-                className="flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-colors text-red-600 hover:bg-red-50 w-full text-left"
+                className="flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-colors text-red-600 hover:bg-red-50 w-full text-left cursor-pointer"
               >
                 <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>{tab.label}</span>

@@ -9,6 +9,7 @@ import {
   Camera,
   Save,
   X,
+  UserRound,
 } from "lucide-react";
 import Image from "next/image";
 import { useProfile, useUpdateProfile } from "@/api/profile";
@@ -86,7 +87,7 @@ const ProfilePage = () => {
                   className="object-cover w-full h-full"
                 />
               ) : (
-                <User className="h-8 w-8 text-gray-600" />
+                <UserRound className="h-8 w-8 text-gray-600" />
               )}
             </div>
 
@@ -162,7 +163,7 @@ const ProfilePage = () => {
             </div>
 
             <div className="flex items-center space-x-3">
-              <User className="h-4 w-4 text-gray-400" />
+              <UserRound className="h-4 w-4 text-gray-400" />
               {isEditing ? (
                 <input
                   type="text"

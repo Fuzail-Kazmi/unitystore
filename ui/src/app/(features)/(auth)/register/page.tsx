@@ -45,7 +45,7 @@ export default function RegisterPage() {
       <div className="w-full flex items-center justify-center relative z-10">
         <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full max-w-4xl flex flex-col lg:flex-row">
           {/* <div className="lg:w-1/2 bg-gradient-to-br from-blue-600 via-black to-red-600 p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden"> */}
-          <div className="lg:w-1/2 bg-gradient-to-br from-gray-50 to-gray-50 p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden">
+          <div className="lg:w-1/2 bg-gradient-to-br from-blue-100 to-white p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
               <div className="sm:mb-4">
@@ -60,22 +60,22 @@ export default function RegisterPage() {
                 </Link>
               </div>
               <div className="hidden lg:block">
-                <h2 className="text-gray-600 text-2xl font-bold mt-4 text-center">Create Account</h2>
-                <p className="text-gray-400 my-2 text-center">
+                <h2 className="text-gray-700 text-2xl font-bold mt-4 text-center">Create Account</h2>
+                <p className="text-gray-600 my-2 text-center">
                   Join Al Hameed Computers and start shopping today.
                 </p>
                 <div className="space-y-4 my-8">
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-purple-300 rounded-full flex-shrink-0"></div>
-                    <span className="text-gray-400 text-sm ">Secure & Fast Checkout</span>
+                    <span className="text-gray-500 text-sm ">Secure & Fast Checkout</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-pink-300 rounded-full flex-shrink-0"></div>
-                    <span className="text-gray-400 text-sm ">Premium Quality Products</span>
+                    <span className="text-gray-500 text-sm ">Premium Quality Products</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-gray-600 rounded-full flex-shrink-0"></div>
-                    <span className="text-gray-400 text-sm ">24/7 Customer Support</span>
+                    <span className="text-gray-500 text-sm ">24/7 Customer Support</span>
                   </div>
                 </div>
               </div>

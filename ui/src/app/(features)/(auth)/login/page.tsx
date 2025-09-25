@@ -49,7 +49,7 @@ export default function LoginPage() {
         <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full max-w-4xl">
           <div className="flex flex-col lg:flex-row md:min-h-[500px]">
             {/* <div className="lg:w-1/2 bg-gradient-to-br from-blue-600 via-black to-red-600 p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden"> */}
-            <div className="lg:w-1/2 bg-gradient-to-br from-gray-50 to-gray-50 p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden">
+            <div className="lg:w-1/2 bg-gradient-to-br from-blue-100 to-white p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden">
               <div className="absolute inset-0 bg-black/10"></div>
               <div className="relative z-10">
                 <div className="sm:mb-4">
@@ -64,24 +64,24 @@ export default function LoginPage() {
                   </Link>
                 </div>
                 <div className="hidden lg:block mb-8">
-                  <h2 className="text-gray-600 text-2xl font-bold mb-6 leading-tight">
+                  <h2 className="text-gray-700 text-2xl font-bold mb-6 leading-tight">
                     Welcome to the AL Hameed Computers
                   </h2>
-                  <p className="text-gray-400 text-base leading-relaxed mb-8">
+                  <p className="text-gray-600 text-base leading-relaxed mb-8">
                     Offers all kinds of Gaming accessories and Gaming components in Karachi. Find gaming keyboards, mice, headsets, graphic cards, casings, and more at the best prices.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-purple-300 rounded-full flex-shrink-0"></div>
-                      <span className="text-gray-400 text-sm ">Secure & Fast Checkout</span>
+                      <span className="text-gray-500 text-sm ">Secure & Fast Checkout</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-pink-300 rounded-full flex-shrink-0"></div>
-                      <span className="text-gray-400 text-sm ">Premium Quality Products</span>
+                      <span className="text-gray-500 text-sm ">Premium Quality Products</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-gray-600 rounded-full flex-shrink-0"></div>
-                      <span className="text-gray-400 text-sm ">24/7 Customer Support</span>
+                      <span className="text-gray-500 text-sm ">24/7 Customer Support</span>
                     </div>
                   </div>
                 </div>
