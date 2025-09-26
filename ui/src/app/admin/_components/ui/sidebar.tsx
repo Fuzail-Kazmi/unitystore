@@ -18,6 +18,8 @@ const AdminSidebar = () => {
         { id: "dashboard", label: "Dashboard", icon: UserRound, href: "/admin" },
         { id: "orders", label: "Orders", icon: Package, href: "/admin/orders" },
         { id: "products", label: "Products", icon: MapPin, href: "/admin/products" },
+        { id: "category", label: "Category", icon: MapPin, href: "/admin/category" },
+        { id: "brands", label: "Brands", icon: MapPin, href: "/admin/brands" },
         { id: "logout", label: "Logout", icon: LogOut, action: handleLogout },
     ];
 

@@ -61,13 +61,6 @@ const RelatedProducts = () => {
                         Related Products
                     </h3>
                 </div>
-                <Link
-                    href="/products"
-                    className="text-sm text-gray-600 hover:text-gray-700 font-medium flex items-center gap-1 group"
-                >
-                    View All
-                    <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 sm:grid-cols-3">
@@ -128,7 +121,7 @@ const RelatedProducts = () => {
                 ))}
             </div>
 
-            <div className="mt-6 flex justify-center sm:hidden">
+            {/* <div className="mt-6 flex justify-center sm:hidden">
                 <Link
                     href="/products"
                     className="bg-white/85 hover:bg-white text-gray-900 text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -136,7 +129,7 @@ const RelatedProducts = () => {
                     <Tag className="h-4 w-4" />
                     View All Deals
                 </Link>
-            </div>
+            </div> */}
         </section>
     );
 };
