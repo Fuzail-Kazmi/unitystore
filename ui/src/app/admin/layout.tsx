@@ -14,7 +14,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
           <div className="col-span-1">
             <AdminSidebar />
           </div>
-          <div className="col-span-5 w-full bg-white rounded-lg shadow-sm border border-gray-200">{children}</div>
+          <div className="col-span-5 w-full max-h-[100vh] overflow-auto bg-white rounded-lg shadow-sm border border-gray-200 hide-scrollbar">{children}</div>
         </section>
       </main>
     </>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { 
-  Plus, Search, Edit, Trash2, Eye, Package, 
+import {
+  Plus, Search, Edit, Trash2, Eye, Package,
   Filter, ArrowUpDown, Star, ChevronLeft, Save, Upload,
   MoreVertical, Calendar, DollarSign
 } from 'lucide-react';
@@ -91,19 +91,18 @@ const Index = () => {
       if (!formData.product_name.trim()) newErrors.product_name = 'Product name is required';
       if (!formData.price) newErrors.price = 'Price is required';
       if (formData.price && isNaN(formData.price)) newErrors.price = 'Price must be a number';
-      
+
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async () => {
       if (!validateForm()) return;
-      
+
       setIsSubmitting(true);
       try {
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         console.log('Submitting product:', formData);
         alert(`Product ${mode === 'add' ? 'added' : 'updated'} successfully!`);
         setCurrentView('list');
@@ -131,7 +130,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="max-w-4xl space-y-6">
+        <div className="max-w-6xl space-y-6">
           {/* Basic Information */}
           <div className="bg-white rounded-lg border p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h2>
@@ -145,9 +144,8 @@ const Index = () => {
                   name="product_name"
                   value={formData.product_name}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.product_name ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.product_name ? 'border-red-300' : 'border-gray-300'
+                    }`}
                   placeholder="Enter product name"
                 />
                 {errors.product_name && (
@@ -202,9 +200,8 @@ const Index = () => {
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.price ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.price ? 'border-red-300' : 'border-gray-300'
+                    }`}
                   placeholder="0.00"
                   step="0.01"
                 />
@@ -418,11 +415,11 @@ const Index = () => {
   // Filter products based on search and filters
   const filteredProducts = mockProducts.filter(product => {
     const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesFilter = filterBy === 'all' || 
-                         product.category?.name.toLowerCase() === filterBy.toLowerCase();
-    
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesFilter = filterBy === 'all' ||
+      product.category?.name.toLowerCase() === filterBy.toLowerCase();
+
     return matchesSearch && matchesFilter;
   });
 
@@ -439,55 +436,66 @@ const Index = () => {
     return <ProductDetail product={selectedProduct} />;
   }
 
+  const tableHeaders = [
+    { key: "image", label: "Image" },
+    { key: "name", label: "Name" },
+    { key: "category", label: "Category" },
+    { key: "brand", label: "Brand" },
+    { key: "price", label: "Price" },
+    { key: "active", label: "Active" },
+    { key: "created_at", label: "Created At" },
+    { key: "updated_at", label: "Updated At" },
+  ];
+
   // Products List View
   return (
     <div className="p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-200">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Products</h1>
           <p className="text-gray-600">Manage your product catalog</p>
         </div>
         <button
           onClick={() => setCurrentView('add')}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="flex items-center gap-2 bg-blue-600 text-white px-2 py-2 rounded-lg hover:bg-blue-700 cursor-pointer text-xs"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-3.5 h-3.5" />
           Add Product
         </button>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg border p-4 mb-6">
+      <div className="bg-white rounded-lg mb-6">
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="flex-1 max-w-md">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-3.5  h-3.5" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
               />
             </div>
           </div>
-          
+
           <div className="flex gap-2">
             <select
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="px-2 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-xs"
             >
               <option value="all">All Categories</option>
               <option value="smartphones">Smartphones</option>
               <option value="laptops">Laptops</option>
               <option value="tablets">Tablets</option>
             </select>
-            
+
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer text-xs"
             >
               <option value="created_at">Newest First</option>
               <option value="product_name">Name A-Z</option>
@@ -498,86 +506,102 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <div key={product.id} className="bg-white rounded-lg border hover:shadow-md transition-shadow">
-            <img
-              src={product.cover_image}
-              alt={product.product_name}
-              className="w-full h-48 object-cover rounded-t-lg"
-            />
-            <div className="p-4">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">
+      {/* Products Tabel */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-auto hide-scrollbar">
+        <table className="min-w-full text-sm text-left text-gray-700">
+          <thead className="bg-gray-100 border-b border-gray-400 text-gray-500 text-xs uppercase tracking-wider">
+            <tr>
+              {tableHeaders.map((col) => (
+                <th key={col.key} className="px-4 py-4">
+                  {col.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100 border-gray-900">
+            {filteredProducts.map((product) => (
+              <tr
+                key={product.id}
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setCurrentView("detail");
+                }}
+                className="cursor-pointer hover:bg-gray-50 transition-colors"
+              >
+                <td className="px-5 py-4">
+                  <img
+                    src={product.cover_image}
+                    alt={product.product_name}
+                    className="w-12 h-12 object-cover rounded-lg border"
+                  />
+                </td>
+                <td className="px-5 py-4 font-medium text-gray-900">
                   {product.product_name}
-                </h3>
-                <div className="relative">
-                  <button className="p-1 text-gray-400 hover:text-gray-600">
-                    <MoreVertical className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-              
-              <p className="text-xs text-gray-600 mb-2">{product.category?.name} • {product.brand?.name}</p>
-              
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                  <span className="text-xs text-gray-600">{product.rating}</span>
-                </div>
-                <div className="text-right">
-                  {product.discount_price && (
-                    <p className="text-xs text-gray-500 line-through">Rs. {product.price}</p>
+                </td>
+                <td className="px-5 py-4">{product.category?.name || "—"}</td>
+                <td className="px-5 py-4">{product.brand?.name || "—"}</td>
+                <td className="px-5 py-4">
+                  {product.discount_price ? (
+                    <div className="space-x-1">
+                      <span className="line-through text-gray-400">
+                        Rs. {product.price}
+                      </span>
+                      <span className="font-semibold text-gray-900">
+                        Rs. {product.discount_price}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="font-semibold text-gray-900">
+                      Rs. {product.price}
+                    </span>
                   )}
-                  <p className="font-semibold text-gray-900">
-                    Rs. {product.discount_price || product.price}
-                  </p>
-                </div>
-              </div>
+                </td>
+                <td className="px-5 py-4">
+                  {product.active ? (
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                      Active
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                      Inactive
+                    </span>
+                  )}
+                </td>
+                <td className="px-5 py-4 text-gray-500 text-xs">
+                  {new Date(product.created_at).toLocaleDateString()}
+                </td>
+                <td className="px-5 py-4 text-gray-500 text-xs">
+                  {new Date(product.updated_at).toLocaleDateString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-              <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setCurrentView('detail');
-                  }}
-                  className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 text-xs border border-gray-300 text-gray-700 rounded hover:bg-gray-50"
-                >
-                  <Eye className="w-3 h-3" />
-                  View
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setCurrentView('edit');
-                  }}
-                  className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 text-xs bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  <Edit className="w-3 h-3" />
-                  Edit
-                </button>
-              </div>
-            </div>
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-16">
+            <Package className="w-14 h-14 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+              No products found
+            </h3>
+            <p className="text-gray-600 mb-5 text-sm">
+              Try adjusting your search or filter criteria
+            </p>
+            <button
+              onClick={() => setCurrentView("add")}
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow-sm transition-colors cursor-pointer text-sm"
+            >
+              <Plus className="w-4 h-4" />
+              Add First Product
+            </button>
           </div>
-        ))}
+        )}
       </div>
 
-      {filteredProducts.length === 0 && (
-        <div className="text-center py-12">
-          <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
-          <p className="text-gray-600 mb-4">Try adjusting your search or filter criteria</p>
-          <button
-            onClick={() => setCurrentView('add')}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" />
-            Add First Product
-          </button>
-        </div>
-      )}
-    </div>
+    </div >
+
+
+
   );
 };
 
