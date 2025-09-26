@@ -62,7 +62,7 @@ export const useSearchProducts = (query: string) => {
   return useQuery({
     queryKey: ["products", query],
     queryFn: async () => {
-      const res = await axiosClient.get("api/products/", {
+      const res = await axiosClient.get("api/products/search?", {
         params: { search: query },
       });
       return res.data;

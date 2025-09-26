@@ -222,12 +222,18 @@ const Searchbar = () => {
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     if (!query.trim()) return;
     setIsOpen(false);
-
     event.preventDefault();
-
-    router.push("/search?query" + encodeURIComponent(query));
+    router.push("/search?query=" + encodeURIComponent(query));
   };
 
+
+  const handleSelect = (value: string) => {
+    if (!value) return;
+
+    setQuery(value);
+    setIsOpen(false);
+    router.push("/search?query=" + encodeURIComponent(value))
+  }
 
   const [results, setResults] = useState([
     "Apple mouse",
@@ -253,7 +259,6 @@ const Searchbar = () => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-
         <form className="flex items-center justify-between border border-accent rounded-full p-2 text-sm w-48 sm:w-80 lg:w-140 relative" onSubmit={handleSearch}>
           <input
             type="text"
@@ -274,13 +279,11 @@ const Searchbar = () => {
       <PopoverContent style={{
         width: "var(--radix-popover-trigger-width)"
       }} className="bg-white shadow-sm border border-accent outline-none rounded-md mt-2 z-50">
-
-        {
-          results.map((val, index) => (
-            <div key={index} className="whitespace-nowrap overflow-hidden text-ellipsis text-sm px-3 py-2 cursor-pointer hover:bg-slate-100"> {val}</div>
-          ))
-        }
-
+        {results.map((val, index) => (
+          <div key={index} 
+          onClick={() => handleSelect(val)}
+          className="whitespace-nowrap overflow-hidden text-ellipsis text-sm px-3 py-2 cursor-pointer hover:bg-slate-100"> {val}</div>
+        ))}
       </PopoverContent>
     </Popover>
   );
