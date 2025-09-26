@@ -475,7 +475,7 @@ const Index = () => {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
+                className="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
               />
             </div>
           </div>
@@ -507,7 +507,7 @@ const Index = () => {
       </div>
 
       {/* Products Tabel */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-auto hide-scrollbar">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm max-h-[68vh] h-[68vh] overflow-auto hide-scrollbar">
         <table className="min-w-full text-sm text-left text-gray-700">
           <thead className="bg-gray-100 border-b border-gray-400 text-gray-500 text-xs uppercase tracking-wider">
             <tr>

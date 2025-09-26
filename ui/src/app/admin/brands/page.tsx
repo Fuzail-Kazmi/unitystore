@@ -362,7 +362,7 @@ const AdminBrands = () => {
                 placeholder="Search brands..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
+                className="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
               />
             </div>
           </div>
@@ -381,19 +381,19 @@ const AdminBrands = () => {
         </div>
       </div>
 
-      <div className="mt-8 bg-white rounded-lg border shadow-sm overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead className="bg-gray-100 border-b text-gray-600 text-xs uppercase tracking-wider">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm max-h-[68vhh] h-[68vh] overflow-auto hide-scrollbar">
+        <table className="min-w-full text-sm text-left text-gray-700">
+          <thead className="bg-gray-100 border-b border-gray-400 text-gray-500 text-xs uppercase tracking-wider">
             <tr>
               {brandTableHeaders.map((col) => (
-                <th key={col.key} className="px-4 py-2 text-left">
+                <th key={col.key} className="px-4 py-4 text-left">
                   {col.label}
                 </th>
               ))}
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-100 border-gray-900">
             {sortedBrands.map((brand) => (
               <tr
                 key={brand.id}

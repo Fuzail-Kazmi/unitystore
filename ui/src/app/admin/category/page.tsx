@@ -87,6 +87,39 @@ const AdminCategories = () => {
       updated_at: '2024-01-21T09:20:00Z',
       product_count: 14,
       subcategories: []
+    },
+    {
+      id: '8',
+      name: 'Women\'s Clothing',
+      parent: '5',
+      parent_name: 'Fashion',
+      image: 'https://via.placeholder.com/300x200/ef4444/white?text=Women+Clothing',
+      created_at: '2024-01-11T16:30:00Z',
+      updated_at: '2024-01-21T09:20:00Z',
+      product_count: 14,
+      subcategories: []
+    },
+    {
+      id: '9',
+      name: 'Women\'s Clothing',
+      parent: '5',
+      parent_name: 'Fashion',
+      image: 'https://via.placeholder.com/300x200/ef4444/white?text=Women+Clothing',
+      created_at: '2024-01-11T16:30:00Z',
+      updated_at: '2024-01-21T09:20:00Z',
+      product_count: 14,
+      subcategories: []
+    },
+    {
+      id: '10',
+      name: 'Women\'s Clothing',
+      parent: '5',
+      parent_name: 'Fashion',
+      image: 'https://via.placeholder.com/300x200/ef4444/white?text=Women+Clothing',
+      created_at: '2024-01-11T16:30:00Z',
+      updated_at: '2024-01-21T09:20:00Z',
+      product_count: 14,
+      subcategories: []
     }
   ];
 
@@ -463,7 +496,7 @@ const AdminCategories = () => {
                 placeholder="Search categories..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
+                className="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-0 focus:ring-0 focus:border-0 text-xs"
               />
             </div>
           </div>
@@ -485,21 +518,21 @@ const AdminCategories = () => {
       <div className="bg-white rounded-lg border border-gray-300 p-6 mb-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
-            <p className="text-2xl font-bold text-blue-600">{parentCategories.length}</p>
+            <p className="text-2xl font-bold text-gray-600">{parentCategories.length}</p>
             <p className="text-sm text-gray-600">Main Categories</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-green-600">
+            <p className="text-2xl font-bold text-gray-600">
               {mockCategories.filter(cat => cat.parent).length}
             </p>
             <p className="text-sm text-gray-600">Subcategories</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-purple-600">{mockCategories.length}</p>
+            <p className="text-2xl font-bold text-gray-600">{mockCategories.length}</p>
             <p className="text-sm text-gray-600">Total Categories</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-orange-600">
+            <p className="text-2xl font-bold text-gray-600">
               {mockCategories.reduce((sum, cat) => sum + cat.product_count, 0)}
             </p>
             <p className="text-sm text-gray-600">Total Products</p>
@@ -507,7 +540,7 @@ const AdminCategories = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-auto hide-scrollbar">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm max-h-[55vh] h-[55vh] overflow-auto hide-scrollbar">
         <table className="min-w-full text-sm text-left text-gray-700">
           <thead className="bg-gray-100 border-b border-gray-400 text-gray-500 text-xs uppercase tracking-wider">
             <tr>
@@ -533,7 +566,7 @@ const AdminCategories = () => {
                   <img
                     src={category.image}
                     alt={category.name}
-                    className="w-14 h-10 object-cover rounded border"
+                    className="w-14 h-12 object-cover rounded border"
                   />
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900">{category.name}</td>

@@ -11,6 +11,7 @@ import {
   CheckCircle,
   XCircle,
   ShoppingBag,
+  Boxes,
 } from "lucide-react";
 import Link from "next/link";
 import { useOrders } from "@/api/orders";
@@ -169,7 +170,7 @@ export const OrdersConfirmPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
+      <main className="flex items-center justify-center">
         <p className="text-gray-600">Loading orders...</p>
       </main>
     );
@@ -177,14 +178,14 @@ export const OrdersConfirmPage: React.FC = () => {
 
   if (isError) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
+      <main className="flex items-center justify-center">
         <p className="text-red-600">Failed to load orders. Please try again.</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-4 md:py-8">
+    <main className="bg-gray-50 max-h-[89.5vh] h-[89.5vh] py-4 md:py-8">
       <div className="max-w-6xl mx-auto p-4 sm:p-6">
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900">Order History</h2>
@@ -193,7 +194,7 @@ export const OrdersConfirmPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 p-2 sm:p-4 mb-4 sm:mb-6">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 p-2 sm:p-4 mb-4 sm:mb-6 ">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -251,23 +252,11 @@ export const OrdersConfirmPage: React.FC = () => {
           {filteredOrders.length === 0 ? (
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Package className="w-8 h-8 text-gray-400" />
+                <Boxes className="w-8 h-8 text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 No orders found
               </h3>
-              <p className="text-gray-600 mb-6">
-                {searchTerm || statusFilter !== "all"
-                  ? "Try adjusting your search or filter criteria"
-                  : "You haven't placed any orders yet"}
-              </p>
-              <Link
-                href="/"
-                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold"
-              >
-                <ShoppingBag className="w-5 h-5 mr-2" />
-                Start Shopping
-              </Link>
             </div>
           ) : (
             filteredOrders.map((order: Order) => (

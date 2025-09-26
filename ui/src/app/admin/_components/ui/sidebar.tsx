@@ -8,6 +8,9 @@ import {
     UserRound,
     LogOut,
     LayoutDashboardIcon,
+    Layers,
+    Tags,
+    Boxes,
 } from "lucide-react";
 
 const AdminSidebar = () => {
@@ -16,10 +19,10 @@ const AdminSidebar = () => {
 
     const tabs = [
         { id: "dashboard", label: "Dashboard", icon: UserRound, href: "/admin" },
-        { id: "orders", label: "Orders", icon: Package, href: "/admin/orders" },
-        { id: "products", label: "Products", icon: MapPin, href: "/admin/products" },
-        { id: "category", label: "Category", icon: MapPin, href: "/admin/category" },
-        { id: "brands", label: "Brands", icon: MapPin, href: "/admin/brands" },
+        { id: "orders", label: "Orders", icon: Boxes, href: "/admin/orders" },
+        { id: "products", label: "Products", icon: Package, href: "/admin/products" },
+        { id: "category", label: "Category", icon: Layers, href: "/admin/category" },
+        { id: "brands", label: "Brands", icon: Tags, href: "/admin/brands" },
         { id: "logout", label: "Logout", icon: LogOut, action: handleLogout },
     ];
 
