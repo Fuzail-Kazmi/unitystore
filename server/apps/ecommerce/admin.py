@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.product import Product, ProductImage, Brand
+from .models.product import Product, ProductImage, Brand, ProductPrice , PriceList
 from .models.category import Category
 from .models.customer import Customer
 from .models.order import Order, OrderItem
@@ -18,9 +18,18 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ("name",)
 
 
+@admin.register(PriceList)
+class PriceListAdmin(admin.ModelAdmin):
+    list_display = ("price_list_name", "currency", "disabled", "buying", "selling")
+
 # ---------- PRODUCT ----------
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
+    extra = 1
+
+
+class ProductPriceInline(admin.TabularInline):
+    model = ProductPrice
     extra = 1
 
 
@@ -38,7 +47,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ("product_name", "description", "brand__name", "category__name")
     list_filter = ("category", "uom", "brand")
     ordering = ("-created_at",)
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline, ProductPriceInline]
 
 
 # ---------- BRAND ----------
@@ -55,7 +64,7 @@ class CustomerAdmin(admin.ModelAdmin):
     list_display = ("user", "phone_number", "city", "country", "created_at")
     search_fields = (
         "user__email",
-        "user__full_name",   
+        "user__full_name",
         "phone_number",
     )
     list_filter = ("city", "country")
@@ -112,7 +121,9 @@ class UOMAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     ordering = ("name",)
 
+
 # ---------- Address ----------
+
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
