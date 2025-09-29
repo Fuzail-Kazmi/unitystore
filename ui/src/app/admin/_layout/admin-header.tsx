@@ -14,7 +14,7 @@ return (
         <>
             <header className="border-b border-accent sticky top-0 z-50 bg-white">
                 <div className="flex items-center justify-between max-w-6xl mx-auto px-2 md:px-4 py-2">
-                    <Link href="/" className="flex-shrink-0">
+                    <Link href="/admin" className="flex-shrink-0">
                         <div className="h-10 md:h-12 flex items-center space-x-1">
                             <img
                                 src="/logo.png"
