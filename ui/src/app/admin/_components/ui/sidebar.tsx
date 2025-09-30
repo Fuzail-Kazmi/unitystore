@@ -20,8 +20,8 @@ const AdminSidebar = () => {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboardIcon, href: "/admin" },
     { id: "orders", label: "Orders", icon: Boxes, href: "/admin/orders" },
     { id: "products", label: "Products", icon: Package, href: "/admin/products" },
-    { id: "category", label: "Category", icon: Layers, href: "/admin/category" },
     { id: "brands", label: "Brands", icon: Tags, href: "/admin/brands" },
+    { id: "category", label: "Category", icon: Layers, href: "/admin/category" },
     { id: "logout", label: "Logout", icon: LogOut, action: handleLogout },
   ];
 
