@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { ChevronLeft, Edit, Trash2, Star, Calendar } from "lucide-react";
+import { useDeleteProduct } from "@/api/product";
+
 
 interface ProductDetailProps {
   product: any;
@@ -9,6 +11,26 @@ interface ProductDetailProps {
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, setSelectedProduct }) => {
+
+  const deleteMutation = useDeleteProduct();
+
+  const handleDelete = () => {
+    if (!product?.id) return;
+
+    if (confirm("Are you sure you want to delete this product?")) {
+      deleteMutation.mutate(product.id, {
+        onSuccess: () => {
+          setSelectedProduct(null);
+          setCurrentView("list");
+        },
+        onError: (err) => {
+          console.error("Delete failed:", err);
+          alert("Failed to delete product");
+        },
+      });
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6">
       <div className="flex items-center justify-between mb-6">
@@ -33,15 +55,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
             <Edit className="w-4 h-4" />
             Edit
           </button>
-          <button className="flex items-center gap-3 px-2 py-2 text-sm border border-red-600 text-red-600 rounded-lg hover:bg-red-50 cursor-pointer">
+          <button
+            onClick={handleDelete}
+            className="flex items-center gap-3 px-2 py-2 text-sm border border-red-600 text-red-600 rounded-lg hover:bg-red-50 cursor-pointer"
+          >
             <Trash2 className="w-4 h-4" />
-            Delete
+            {deleteMutation.isPending ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-4">
-        {/* Images */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg border border-gray-300 p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Images</h2>
@@ -55,9 +79,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
           </div>
         </div>
 
-        {/* Details */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Basic Information */}
           <div className="bg-white rounded-lg border border-gray-300 p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Product Information</h2>
             <div className="space-y-4">
@@ -95,7 +117,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
             </div>
           </div>
 
-          {/* Timestamps */}
           <div className="bg-white rounded-lg border border-gray-300 p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Timeline</h2>
             <div className="space-y-4">
@@ -122,3 +143,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
 };
 
 export default ProductDetail;
+
+
+

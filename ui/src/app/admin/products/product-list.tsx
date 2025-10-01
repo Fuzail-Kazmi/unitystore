@@ -1,18 +1,38 @@
 "use client";
 import React from "react";
 import { Plus, Search, Package } from "lucide-react";
+import { useProductsList } from "@/api/product";
+import { useState } from "react";
 
-const ProductList = ({
-  products,
+interface ProductListProps {
+  setCurrentView: (view: string) => void;
+  setSelectedProduct: (product: any) => void;
+}
+
+const ProductList: React.FC<ProductListProps> = ({
   setCurrentView,
   setSelectedProduct,
-  searchTerm,
-  setSearchTerm,
-  filterBy,
-  setFilterBy,
-  sortBy,
-  setSortBy,
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterBy, setFilterBy] = useState("all");
+  const [sortBy, setSortBy] = useState("created_at");
+
+  const { data, isLoading, isError } = useProductsList({
+    search: searchTerm || undefined,
+    category: filterBy !== "all" ? filterBy : undefined,
+    sort: sortBy,
+  });
+
+  const products = data?.results || data || [];
+
+  if (isLoading) {
+    return <div className="p-6">Loading products...</div>;
+  }
+
+  if (isError) {
+    return <div className="p-6 text-red-500">Failed to load products.</div>;
+  }
+
   const tableHeaders = [
     { key: "image", label: "Image" },
     { key: "name", label: "Name" },
@@ -26,7 +46,6 @@ const ProductList = ({
 
   return (
     <div className="p-6">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-200">
         <div>
           <h1 className="text-lg sm:text-2xl font-bold text-gray-900">Products</h1>
@@ -43,7 +62,6 @@ const ProductList = ({
         </button>
       </div>
 
-      {/* Filters and Search */}
       <div className="bg-white rounded-lg mb-6">
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="flex-1 max-w-md">
@@ -85,7 +103,6 @@ const ProductList = ({
         </div>
       </div>
 
-      {/* Products Table */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm max-h-[68vh] overflow-auto hide-scrollbar">
         <table className="min-w-full text-sm text-left text-gray-700">
           <thead className="bg-gray-100 border-b border-gray-400 text-gray-500 text-xs uppercase">
@@ -98,7 +115,7 @@ const ProductList = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {products.map((product) => (
+            {products.map((product: any) => (
               <tr
                 key={product.id}
                 onClick={() => {
@@ -114,9 +131,15 @@ const ProductList = ({
                     className="w-12 h-12 object-cover rounded-lg border"
                   />
                 </td>
-                <td className="px-5 py-4 font-medium">{product.product_name}</td>
-                <td className="px-5 py-4">{product.category?.name || "—"}</td>
-                <td className="px-5 py-4">{product.brand?.name || "—"}</td>
+                <td className="px-5 py-4 font-medium">
+                  {product.product_name}
+                </td>
+                <td className="px-5 py-4">
+                  {product.category?.name || "—"}
+                </td>
+                <td className="px-5 py-4">
+                  {product.brand?.name || "—"}
+                </td>
                 <td className="px-5 py-4">Rs. {product.price}</td>
                 <td className="px-5 py-4">Active</td>
                 <td className="px-5 py-4 text-xs">
@@ -152,3 +175,4 @@ const ProductList = ({
 };
 
 export default ProductList;
+

@@ -9,16 +9,15 @@ from apps.ecommerce.models.product import Product
 from apps.ecommerce.serializers.product import ProductSerializer, ProductListSerializer
 
 
-# ---------------- Pagination Class ----------------
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = "page_size"
     max_page_size = 50
 
 
-# ---------------- Product List API ----------------
-class ProductListAPIView(generics.ListAPIView):
-    serializer_class = ProductListSerializer
+# ----------- LIST + CREATE Products ------------
+class ProductListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = ProductSerializer
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
@@ -67,27 +66,14 @@ class ProductListAPIView(generics.ListAPIView):
             )
 
         return queryset.order_by("-created_at")
-    
-
-    def list(self, request, *args, **kwargs):
-        """Custom response with pagination"""
-        queryset = self.get_queryset()
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
 
 
-# ---------------- Product Detail API ----------------
-class ProductDetailAPIView(generics.RetrieveAPIView):
+# ----------- RETRIEVE + UPDATE + DELETE ----------
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     lookup_field = "pk"
 
     def get_queryset(self):
-        """Annotate final_price for detail view also"""
         return Product.objects.annotate(
             annotated_final_price=Case(
                 When(discount_price__isnull=False, discount_price__lt=F("price"), then=F("discount_price")),
@@ -96,7 +82,6 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
         )
 
     def get_object(self):
-        """Override to handle UUID and 404 properly"""
         pk = self.kwargs.get(self.lookup_field)
         try:
             uuid_obj = uuid.UUID(str(pk))
