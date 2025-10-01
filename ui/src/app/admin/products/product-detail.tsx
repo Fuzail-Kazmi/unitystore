@@ -37,12 +37,12 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
         <div className="flex items-center gap-4">
           <button
             onClick={() => setCurrentView("list")}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 cursor-pointer"
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
           >
             <ChevronLeft className="w-4 h-4" />
             Back to Products
           </button>
-          <h1 className="text-lg font-semibold text-gray-700">{product.product_name}</h1>
+          <h1 className="hidden sm:block text-lg font-semibold text-gray-700">{product.product_name}</h1>
         </div>
         <div className="flex gap-2">
           <button
@@ -75,6 +75,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
                 alt={product.product_name}
                 className="w-full aspect-square object-cover rounded-lg border border-gray-200"
               />
+            </div>
+            <div>
             </div>
           </div>
         </div>
@@ -109,6 +111,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, setCurrentView, 
                     <span className="text-gray-900">{product.rating}</span>
                   </div>
                 </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Short Description</label>
+                <p className="text-gray-900 mt-1">{product.short_description || "No short description available"}</p>
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-500">Description</label>

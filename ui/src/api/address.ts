@@ -25,7 +25,7 @@ export const useAddresses = () => {
   return useQuery({
     queryKey: ["addresses"],
     queryFn: async () => {
-      const res = await axiosClient.get("api/addresses");
+      const res = await axiosClient.get("api/addresses/");
       return res.data;
     },
   });
@@ -36,7 +36,7 @@ export const useCreateAddress = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (newAddress: Omit<Address, "id">) => {
-      const res = await axiosClient.post("api/addresses", newAddress);
+      const res = await axiosClient.post("api/addresses/", newAddress);
       return res.data;
     },
     onSuccess: () => {
@@ -50,7 +50,7 @@ export const useUpdateAddress = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (updated: Address) => {
-      const res = await axiosClient.put(`api/addresses/${updated.id}`, updated);
+      const res = await axiosClient.put(`api/addresses/${updated.id}/`, updated);
       return res.data;
     },
     onSuccess: () => {
@@ -64,7 +64,7 @@ export const useDeleteAddress = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await axiosClient.delete(`api/addresses/${id}`);
+      const res = await axiosClient.delete(`api/addresses/${id}/`);
       return res.data;
     },
     onSuccess: () => {

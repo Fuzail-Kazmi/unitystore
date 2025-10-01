@@ -24,7 +24,7 @@ const ProductTab = () => {
     <div className="mt-16 w-full max-w-6xl mx-auto">
       <div className="border-b border-gray-200 overflow-x-auto hide-scrollbar whitespace-nowrap">
         <nav className="-mb-px flex gap-8">
-          {["description", "specification"].map((tab) => (
+          {["description"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -47,9 +47,9 @@ const ProductTab = () => {
           </div>
         )}
 
-        {activeTab === "specification" && (
+        {/* {activeTab === "specification" && (
           <div>specification</div>
-        )}
+        )} */}
       </div>
     </div>
   );

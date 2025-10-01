@@ -73,8 +73,8 @@ urlpatterns = [
     path("api/profile", CustomerProfileAPIView.as_view(), name="customer-profile"),
 
     # Address Management
-    path("api/addresses", AddressListCreateAPIView.as_view(), name="address-list-create"),
-    path("api/addresses/<uuid:pk>", AddressDetailAPIView.as_view(), name="address-detail"),
+    path("api/addresses/", AddressListCreateAPIView.as_view(), name="address-list-create"),
+    path("api/addresses/<uuid:pk>/", AddressDetailAPIView.as_view(), name="address-detail"),
 
 ]
 

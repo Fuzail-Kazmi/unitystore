@@ -54,7 +54,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         </button>
 
         <section className="transition-all duration-300 ease-in-out flex-1 px-2 md:px-4 py-4 w-full">
-          <div className="w-full h-[90vh] overflow-auto bg-white rounded-lg shadow-sm border border-gray-200 hide-scrollbar max-w-6xl mx-auto">
+          <div className="w-full h-[90vh] overflow-y-auto bg-white rounded-lg shadow-sm border border-gray-200 hide-scrollbar max-w-6xl mx-auto">
             {children}
           </div>
         </section>

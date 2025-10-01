@@ -30,9 +30,9 @@ export default async function ProductPage({ params }: { params: { id: string } }
           <div className="flex items-center text-sm text-gray-500">
             <Link href="/" className="hover:text-gray-700">Home</Link>
             <ChevronRight className="w-max h-4 md:w-4 mx-2 " />
-            <Link href="/products" className="hover:text-gray-700">Products</Link>
+            <Link href="/" className="hover:text-gray-700">Products</Link>
             <ChevronRight className="w-max h-4 md:w-4 mx-2" />
-            <Link href={`/products/${product.category?.id}`} className="hover:text-gray-700 capitalize">
+            <Link href={`/`} className="hover:text-gray-700 capitalize">
               {product.category?.name}
             </Link>
             <ChevronRight className="w-max h-4 md:w-4 mx-2" />

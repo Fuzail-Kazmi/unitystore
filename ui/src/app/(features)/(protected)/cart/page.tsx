@@ -226,11 +226,11 @@ const Page = () => {
                             <div className="text-right">
                               <div className="flex items-center gap-2 justify-end">
                                 <span className="text-lg font-bold text-gray-900">
-                                  ${price.toFixed(2)}
+                                  Rs.{price.toFixed(2)}
                                 </span>
                               </div>
                               <p className="text-xs text-gray-500 mt-1">
-                                ${(price * item.quantity).toFixed(2)} total
+                                Rs.{(price * item.quantity).toFixed(2)} total
                               </p>
                             </div>
                           </div>
@@ -339,26 +339,26 @@ const Page = () => {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal</span>
-                  <span className="font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium">Rs.{subtotal.toFixed(2)}</span>
                 </div>
 
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-medium">
-                    {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? "Free" : `Rs.${shipping.toFixed(2)}`}
                   </span>
                 </div>
 
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Tax</span>
-                  <span className="font-medium">${tax.toFixed(2)}</span>
+                  <span className="font-medium">Rs.{tax.toFixed(2)}</span>
                 </div>
 
                 <hr className="border-gray-200" />
 
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>Rs.{total.toFixed(2)}</span>
                 </div>
               </div>
 
