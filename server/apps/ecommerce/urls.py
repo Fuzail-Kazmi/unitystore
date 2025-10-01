@@ -14,6 +14,9 @@ from apps.ecommerce.api.order.views import (
     OrderDetailAPIView,
     OrderCreateAPIView,
     OrderCancelAPIView,
+    AdminOrderListAPIView,
+    AdminOrderDetailAPIView,
+    AdminOrderActionAPIView
 )
 from apps.ecommerce.api.wishlist.views import (
     WishlistRetrieveAPIView,
@@ -54,6 +57,10 @@ urlpatterns = [
     path("api/orders/create/", OrderCreateAPIView.as_view(), name="order-create"),
     # path("api/orders/<uuid:pk>/", OrderDetailAPIView.as_view(), name="order-detail"),
     path("api/orders/<uuid:pk>/cancel/", OrderCancelAPIView.as_view(), name="order-cancel"),
+    path("api/admin/orders", AdminOrderListAPIView.as_view(), name="admin-order-list"),
+    path("api/admin/orders/<uuid:pk>", AdminOrderDetailAPIView.as_view(), name="admin-order-detail"),
+    path("api/admin/orders/<uuid:pk>/action/", AdminOrderActionAPIView.as_view(), name="admin-order-action"),
+
 
     # Reviews
     path("api/products/<uuid:product_id>/reviews", ProductReviewListCreateAPIView.as_view(), name="product-reviews"),

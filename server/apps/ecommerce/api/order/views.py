@@ -87,7 +87,6 @@ class OrderCreateAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
 class OrderCancelAPIView(generics.UpdateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -99,12 +98,65 @@ class OrderCancelAPIView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         order = self.get_object()
 
-        if order.status not in [OrderStatus.PENDING, OrderStatus.SHIPPED]:
+        if order.status != OrderStatus.PENDING:
             return Response(
-                {"detail": "Order cannot be canceled"},
+                {"detail": "Order cannot be canceled at this stage. Please contact support."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         order.status = OrderStatus.CANCELED
         order.save()
         return Response(OrderSerializer(order).data, status=status.HTTP_200_OK)
+
+
+class AdminOrderListAPIView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAdminUser] 
+
+    def get_queryset(self):
+        queryset = Order.objects.all().order_by("-order_date")
+        status_filter = self.request.GET.get("status")
+        if status_filter:
+            queryset = queryset.filter(status=status_filter)
+        return queryset
+
+class AdminOrderDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAdminUser] 
+    queryset = Order.objects.all()
+    lookup_field = "pk" 
+
+class AdminOrderActionAPIView(generics.UpdateAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Order.objects.all()
+    lookup_field = "pk"
+
+    def update(self, request, *args, **kwargs):
+        order = self.get_object()
+        action = request.data.get("action") 
+
+        if action == "accept":
+            if order.status == OrderStatus.PENDING:
+                order.status = OrderStatus.SHIPPED
+                order.save()
+                message = "Your order has been accepted and will be delivered in 4–6 working days."
+            else:
+                return Response({"detail": "Order cannot be accepted now."}, status=400)
+
+        elif action == "reject":
+            if order.status == OrderStatus.PENDING:
+                order.status = OrderStatus.CANCELED
+                order.save()
+                message = "Your order has not been placed due to some reasons."
+            else:
+                return Response({"detail": "Order cannot be rejected now."}, status=400)
+
+        else:
+            return Response({"detail": "Invalid action"}, status=400)
+
+        return Response({
+            "order": OrderSerializer(order).data,
+            "message": message
+        }, status=200)
+
