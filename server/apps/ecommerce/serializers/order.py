@@ -23,6 +23,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "id",
             "order_id",
             "customer",
+            "cancel_reason",
             "status",
             "total_amount",
             "total_qty",

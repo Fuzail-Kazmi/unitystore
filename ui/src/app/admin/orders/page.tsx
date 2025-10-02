@@ -1,9 +1,9 @@
 import React from 'react'
-import { OrdersConfirmPage } from './order-confirm-page'
+import { AdminOrdersPage } from './admin-orders-page'
 
 const Index = () => {
   return (
-    <div><OrdersConfirmPage/></div>
+    <div><AdminOrdersPage/></div>
   )
 }
 

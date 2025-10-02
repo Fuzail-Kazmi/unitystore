@@ -40,3 +40,20 @@ export const useOrderDetail = (orderId: string) => {
     },
   });
 };
+
+// -------- Cancel Order --------
+export const useCancelOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ orderId, reason }: { orderId: string; reason: string }) => {
+      const res = await axiosClient.put(`api/orders/${orderId}/cancel/`, {
+        reason,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+    },
+  });
+};

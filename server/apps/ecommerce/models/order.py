@@ -19,6 +19,7 @@ class Order(BaseModel):
     )
     order_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="orders")
+    cancel_reason = models.TextField(null=True, blank=True)
     total_qty = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     order_date = models.DateTimeField(auto_now_add=True)

@@ -4,16 +4,14 @@ import {
   Package,
   Truck,
   Calendar,
-  RotateCcw,
   ChevronDown,
   ChevronRight,
-  Clock,
   CheckCircle,
   XCircle,
   ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
-import { useOrders } from "@/api/orders";
+import { useOrders, useCancelOrder } from "@/api/orders";
 import BuyNowButton from "@/components/products/BuyButton";
 
 interface OrderItem {
@@ -48,6 +46,31 @@ export const OrdersPage: React.FC = () => {
   const [expandedOrders, setExpandedOrders] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("newest");
 
+  const [cancelOrderId, setCancelOrderId] = useState<string | null>(null);
+  const [cancelReason, setCancelReason] = useState("");
+
+  const cancelOrderMutation = useCancelOrder();
+
+  const handleCancelOrder = () => {
+    if (cancelOrderId) {
+      const confirmCancel = window.confirm(
+        "Are you sure you want to cancel this order?"
+      );
+      if (!confirmCancel) return;
+
+      cancelOrderMutation.mutate(
+        { orderId: cancelOrderId, reason: cancelReason || "No reason provided" },
+        {
+          onSuccess: () => {
+            setCancelOrderId(null);
+            setCancelReason("");
+          },
+        }
+      );
+    }
+  };
+
+
   const { data: rawOrders = [], isError, isLoading } = useOrders();
 
   const orders: Order[] = rawOrders.map((o: any) => ({
@@ -58,18 +81,19 @@ export const OrdersPage: React.FC = () => {
     total: parseFloat(o.total_amount),
     itemCount: parseInt(o.total_qty),
     trackingNumber: o.tracking_number || null,
-    items: o.items?.map((i: any) => ({
-      id: i.id,
-      productId: i.product?.id,
-      name: i.product?.product_name,
-      price: parseFloat(i.price),
-      quantity: parseInt(i.quantity),
-      image: i.product?.cover_image
-        ? `${process.env.NEXT_PUBLIC_DJANGO_API_URL}${i.product.cover_image}`
-        : undefined,
-      size: i.size || undefined,
-      color: i.color || undefined,
-    })) || [],
+    items:
+      o.items?.map((i: any) => ({
+        id: i.id,
+        productId: i.product?.id,
+        name: i.product?.product_name,
+        price: parseFloat(i.price),
+        quantity: parseInt(i.quantity),
+        image: i.product?.cover_image
+          ? `${process.env.NEXT_PUBLIC_DJANGO_API_URL}${i.product.cover_image}`
+          : undefined,
+        size: i.size || undefined,
+        color: i.color || undefined,
+      })) || [],
   }));
 
   useEffect(() => {
@@ -78,40 +102,71 @@ export const OrdersPage: React.FC = () => {
     }
   }, [orders, expandedOrders]);
 
+  // const getStatusColor = (status: string) => {
+  //   switch (status) {
+  //     case "delivered":
+  //       return "bg-green-100 text-green-800 border-green-200";
+  //     case "shipped":
+  //       return "bg-blue-100 text-blue-800 border-blue-200";
+  //     case "processing":
+  //       return "bg-yellow-100 text-yellow-800 border-yellow-200";
+  //     case "cancelled":
+  //       return "bg-red-100 text-red-800 border-red-200";
+  //     case "returned":
+  //       return "bg-gray-100 text-gray-800 border-gray-200";
+  //     default:
+  //       return "bg-gray-100 text-gray-800 border-gray-200";
+  //   }
+  // };
+
+  // const getStatusIcon = (status: string) => {
+  //   switch (status) {
+  //     case "delivered":
+  //       return <CheckCircle className="w-4 h-4" />;
+  //     case "shipped":
+  //       return <Truck className="w-4 h-4" />;
+  //     case "processing":
+  //       return <Package className="w-4 h-4" />;
+  //     case "cancelled":
+  //       return <XCircle className="w-4 h-4" />;
+  //     case "returned":
+  //       return <Package className="w-4 h-4" />;
+  //     default:
+  //       return <Package className="w-4 h-4" />;
+  //   }
+  // };
+
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "delivered":
         return "bg-green-100 text-green-800 border-green-200";
       case "shipped":
         return "bg-blue-100 text-blue-800 border-blue-200";
-      case "processing":
+      case "pending":
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "cancelled":
+      case "canceled":
+      case "cancelled": // just in case spelling difference
         return "bg-red-100 text-red-800 border-red-200";
-      case "returned":
-        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getStatusIcon = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "delivered":
         return <CheckCircle className="w-4 h-4" />;
       case "shipped":
         return <Truck className="w-4 h-4" />;
-      case "processing":
-        return <Clock className="w-4 h-4" />;
+      case "pending":
+        return <Package className="w-4 h-4" />;
+      case "canceled":
       case "cancelled":
         return <XCircle className="w-4 h-4" />;
-      case "returned":
-        return <RotateCcw className="w-4 h-4" />;
       default:
         return <Package className="w-4 h-4" />;
     }
   };
-
   const toggleOrderExpansion = (orderId: string) => {
     setExpandedOrders((prev) =>
       prev.includes(orderId)
@@ -119,9 +174,6 @@ export const OrdersPage: React.FC = () => {
         : [...prev, orderId]
     );
   };
-
-
-
 
   const filteredOrders = orders
     .filter((order: Order) => {
@@ -133,7 +185,8 @@ export const OrdersPage: React.FC = () => {
         );
 
       const matchesStatus =
-        statusFilter === "all" || order.status === statusFilter;
+        statusFilter === "all" || order.status.toLowerCase() === statusFilter.toLowerCase();
+
 
       let matchesDate = true;
       if (dateFilter !== "all") {
@@ -186,6 +239,7 @@ export const OrdersPage: React.FC = () => {
   return (
     <main className="min-h-screen bg-gray-50 py-4 md:py-8">
       <div className="max-w-6xl mx-auto p-4 sm:p-6">
+        {/* Header */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900">Order History</h2>
           <p className="text-gray-600 text-sm">
@@ -193,19 +247,9 @@ export const OrdersPage: React.FC = () => {
           </p>
         </div>
 
+        {/* Filters */}
         <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 p-2 sm:p-4 mb-4 sm:mb-6">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            {/* <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search orders, products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
-              />
-            </div> */}
-
             <div className="flex justify-between w-full gap-2">
               <div className="flex gap-2">
                 <select
@@ -214,12 +258,14 @@ export const OrdersPage: React.FC = () => {
                   className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all text-xs sm:text-sm"
                 >
                   <option value="all">All Status</option>
-                  <option value="delivered">Delivered</option>
+                  <option value="pending">Pending</option>
                   <option value="shipped">Shipped</option>
-                  <option value="processing">Processing</option>
-                  <option value="cancelled">Cancelled</option>
-                  <option value="returned">Returned</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="canceled">Canceled</option>
                 </select>
+
+
+
 
                 <select
                   value={dateFilter}
@@ -247,6 +293,7 @@ export const OrdersPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Orders List */}
         <div className="space-y-6">
           {filteredOrders.length === 0 ? (
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
@@ -273,7 +320,7 @@ export const OrdersPage: React.FC = () => {
             filteredOrders.map((order: Order) => (
               <div
                 key={order.id}
-                className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
+                className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative"
               >
                 <div className="p-4 sm:p-6 border-b border-gray-100">
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 sm:gap-4">
@@ -396,7 +443,14 @@ export const OrdersPage: React.FC = () => {
                           className="bg-black text-white cursor-pointer px-4 py-2 text-xs rounded-lg text-center"
                           label="Buy Again"
                         />
-                        <button className="border border-red-600 text-red-600 cursor-pointer px-4 py-2 text-xs rounded-lg">
+                        <button
+                          onClick={() => setCancelOrderId(order.id)}
+                          disabled={order.status.toLowerCase() !== "pending"}
+                          className={`border px-4 py-2 text-xs rounded-lg  ${order.status.toLowerCase() !== "pending"
+                            ? "border-gray-400 text-gray-400 cursor-not-allowed"
+                            : "border-red-600 text-red-600 cursor-pointer"
+                            }`}
+                        >
                           Cancel
                         </button>
                       </div>
@@ -407,8 +461,49 @@ export const OrdersPage: React.FC = () => {
             ))
           )}
         </div>
-      </div >
-    </main >
+      </div>
+      {cancelOrderId && (
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 relative top-30 left-75">
+            <button
+              onClick={() => setCancelOrderId(null)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+            >
+              <XCircle className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-lg font-semibold mb-3">Cancel Order</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Please tell us why you want to cancel this order:
+            </p>
+
+            <textarea
+              value={cancelReason}
+              onChange={(e) => setCancelReason(e.target.value)}
+              placeholder="Enter cancellation reason"
+              className="w-full border rounded-lg p-2 mb-4 text-sm focus:ring-1 focus:ring-red-500 focus:border-red-500"
+              rows={7}
+            />
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setCancelOrderId(null)}
+                className="px-4 py-2 text-sm rounded-lg border border-gray-300 hover:bg-gray-50"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleCancelOrder}
+                disabled={cancelOrderMutation.isPending}
+                className="px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700"
+              >
+                {cancelOrderMutation.isPending ? "Cancelling..." : "Confirm Cancel"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </main>
   );
 };
-

@@ -161,7 +161,7 @@ const ProductList: React.FC<ProductListProps> = ({
                   <img
                     src={product.cover_image}
                     alt={product.product_name}
-                    className="w-12 h-12 object-cover rounded-lg border"
+                    className="w-16 h-16 object-cover rounded-lg border"
                   />
                 </td>
                 <td className="px-5 py-4 font-medium">

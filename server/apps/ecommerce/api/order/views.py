@@ -79,7 +79,6 @@ class OrderCreateAPIView(generics.CreateAPIView):
         order.calculate_total()
         order.save()
 
-        # clear cart
         cart.items.all().delete()
         cart.calculate_totals()
         cart.save()
@@ -104,9 +103,14 @@ class OrderCancelAPIView(generics.UpdateAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        reason = request.data.get("reason", "")
+
         order.status = OrderStatus.CANCELED
+        order.cancel_reason = reason
         order.save()
+
         return Response(OrderSerializer(order).data, status=status.HTTP_200_OK)
+
 
 
 class AdminOrderListAPIView(generics.ListAPIView):
