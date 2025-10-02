@@ -16,16 +16,13 @@ class Brand(BaseModel):
 
 class Product(BaseModel):
     product_name = models.TextField()
+    short_description = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
     brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL)
     cover_image = models.ImageField(blank=True, null=True)
     uom = models.ForeignKey(
         UOM, on_delete=models.SET_NULL, related_name="products", null=True, blank=True
-    )
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    discount_price = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True
     )
     rating = models.FloatField(default=0.0)
 
@@ -36,13 +33,6 @@ class Product(BaseModel):
         avg_rating = self.reviews.aggregate(avg=Avg("rating"))["avg"]
         self.rating = avg_rating if avg_rating else 0.0
         self.save(update_fields=["rating"])
-
-    @property
-    def final_price(self):
-        """Return discounted price if available, else normal price"""
-        if self.discount_price and self.discount_price < self.price:
-            return self.discount_price
-        return self.price
 
     @property
     def all_images(self):
@@ -69,6 +59,9 @@ class PriceList(BaseModel):
     disabled = models.BooleanField(default=False)
     buying = models.BooleanField(default=True)
     selling = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.price_list_name
 
 
 class ProductPrice(BaseModel):

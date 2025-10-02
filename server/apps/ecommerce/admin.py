@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.product import Product, ProductImage, Brand, ProductPrice , PriceList
+from .models.product import Product, ProductImage, Brand, ProductPrice , PriceList, Currency
 from .models.category import Category
 from .models.customer import Customer
 from .models.order import Order, OrderItem
@@ -17,6 +17,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ("parent",)
     ordering = ("name",)
 
+
+admin.site.register(Currency)
 
 @admin.register(PriceList)
 class PriceListAdmin(admin.ModelAdmin):
@@ -39,8 +41,7 @@ class ProductAdmin(admin.ModelAdmin):
         "product_name",
         "brand",
         "category",
-        "price",
-        "discount_price",
+
         "rating",
         "created_at",
     )

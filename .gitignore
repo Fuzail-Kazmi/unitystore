@@ -49,12 +49,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+
+
 # =====================
-# Node.js
+# NextJS
 # =====================
 node_modules/
 dist-ssr/
 *.local
+.next/
+out/
 
 # =====================
 # Editor Directories and Files
