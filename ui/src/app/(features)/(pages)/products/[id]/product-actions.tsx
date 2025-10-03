@@ -12,11 +12,11 @@ export default function ProductActions({ product }: { product: Product }) {
 
   return (
     <div className="flex items-center gap-2">
-      <QuantitySelector
+      {/* <QuantitySelector
         initialQty={1}
         min={1}
         onChange={(qty) => setQuantity(qty)}
-      />
+      /> */}
 
       <AddToCartButton
         productId={product.id}

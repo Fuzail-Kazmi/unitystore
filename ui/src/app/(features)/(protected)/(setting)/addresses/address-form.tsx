@@ -1,5 +1,4 @@
 "use client";
-
 import { Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import {
@@ -8,6 +7,7 @@ import {
     PopoverContent,
 } from "@/components/ui/popover";
 import { useCreateAddress, useUpdateAddress } from "@/api/address";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle} from "@/components/ui/dialog";
 
 const defaultValues = {
     title: "",
@@ -79,8 +79,8 @@ const AddAddressForm = ({ open, setOpen, editingAddress, setEditingAddress }: an
     };
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
+        <Dialog>
+            <DialogTrigger asChild>
                 <button
                     onClick={() => {
                         resetForm();
@@ -90,9 +90,11 @@ const AddAddressForm = ({ open, setOpen, editingAddress, setEditingAddress }: an
                 >
                     <Plus className="h-4 w-4" /> Add Address
                 </button>
-            </PopoverTrigger>
+            </DialogTrigger>
 
-            <PopoverContent className="w-[400px] bg-white p-5 rounded-xl shadow-xl">
+            <DialogContent className="min-w-[600px] w-full bg-white p-5 rounded-md">
+                <DialogTitle>
+                </DialogTitle>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1">Title</label>
@@ -247,8 +249,8 @@ const AddAddressForm = ({ open, setOpen, editingAddress, setEditingAddress }: an
                         {editingAddress ? "Update Address" : "Save Address"}
                     </button>
                 </form>
-            </PopoverContent>
-        </Popover>
+            </DialogContent>
+        </Dialog>
     );
 };
 

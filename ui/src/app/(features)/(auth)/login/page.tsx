@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -48,7 +47,6 @@ export default function LoginPage() {
       <div className="w-full max-w-6xl mx-auto flex items-center justify-center relative z-10">
         <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full max-w-4xl">
           <div className="flex flex-col lg:flex-row md:min-h-[500px]">
-            {/* <div className="lg:w-1/2 bg-gradient-to-br from-blue-600 via-black to-red-600 p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden"> */}
             <div className="lg:w-1/2 bg-gradient-to-br from-blue-100 to-white p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden">
               <div className="absolute inset-0 bg-black/10"></div>
               <div className="relative z-10">
@@ -90,15 +88,6 @@ export default function LoginPage() {
 
             <div className="lg:w-1/2 p-6 md:p-8 flex items-center">
               <div className="w-full max-w-md mx-auto">
-                {/* <Link href="/" className="flex-shrink-0">
-                  <div className="h-16 md:h-30 flex justify-center items-center">
-                    <img
-                      src="/logo.png"
-                      alt="Al Hameed Computers"
-                      className="h-full w-auto object-contain"
-                    />
-                  </div>
-                </Link> */}
                 <div className="text-center mb-8">
                   <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2">
                     Welcome Back
