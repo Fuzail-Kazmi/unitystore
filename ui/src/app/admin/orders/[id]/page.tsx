@@ -3,6 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAdminOrderDetail, useOrderAction } from "@/api/admin-orders";
+import toast from "react-hot-toast";
 
 const AdminOrderDetail = () => {
   const router = useRouter();
@@ -17,7 +18,18 @@ const AdminOrderDetail = () => {
 
   const handleMarkDelivered = () => {
     if (window.confirm("Are you sure your order has been delivered?")) {
-      orderAction({ orderId, action: "delivered" });
+      orderAction(
+        { orderId, action: "delivered" },
+        {
+          onSuccess: () => {
+            toast.success("Order status marked as delivered!");
+          },
+          onError: (err: any) => {
+            console.error("Order update error:", err.response?.data || err);
+            toast.error("Failed to update order status!");
+          },
+        }
+      );
     }
   };
 
@@ -116,7 +128,47 @@ const AdminOrderDetail = () => {
           </div>
         </div>
       </div>
+      <div className="grid grid-cols-1 mb-6 bg-white rounded-2xl shadow p-4">
+        <h2 className="font-semibold mb-3 text-gray-800">Shipping Address</h2>
 
+        {order.delivery_address_snapshot ? (
+          <>
+            <p className="text-sm font-medium">
+              {order.delivery_address_snapshot?.title}
+            </p>
+            <p className="text-sm">
+              {order.delivery_address_snapshot?.address_line_1}
+            </p>
+            <p className="text-sm">
+              {order.delivery_address_snapshot?.address_line_2}
+            </p>
+            <p className="text-sm">
+              {order.delivery_address_snapshot?.city},{" "}
+              {order.delivery_address_snapshot?.state},{" "}
+              {order.delivery_address_snapshot?.country} -{" "}
+              {order.delivery_address_snapshot?.postal_code}
+            </p>
+            <p className="text-sm">
+              📧 {order.delivery_address_snapshot?.email}
+            </p>
+            <p className="text-sm">
+              📞 {order.delivery_address_snapshot?.phone_number}
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-sm font-medium">{order.delivery_address?.title}</p>
+            <p className="text-sm">{order.delivery_address?.address_line_1}</p>
+            <p className="text-sm">{order.delivery_address?.address_line_2}</p>
+            <p className="text-sm">
+              {order.delivery_address?.city}, {order.delivery_address?.state},{" "}
+              {order.delivery_address?.country} - {order.delivery_address?.postal_code}
+            </p>
+            <p className="text-sm">📧 {order.delivery_address?.email}</p>
+            <p className="text-sm">📞 {order.delivery_address?.phone_number}</p>
+          </>
+        )}
+      </div>
       <div className="bg-white rounded-2xl shadow p-4 overflow-x-auto">
         <h2 className="font-semibold mb-3">Ordered Items</h2>
         <table className="w-full text-sm border-collapse">

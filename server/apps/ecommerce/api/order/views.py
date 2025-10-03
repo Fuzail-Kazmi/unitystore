@@ -6,7 +6,7 @@ from apps.ecommerce.models.order import Order, OrderItem, OrderStatus
 from apps.ecommerce.models.cart import Cart
 from apps.ecommerce.serializers.order import OrderSerializer
 from apps.ecommerce.models.customer import Customer
-
+from apps.user_auth.models.base import Address 
 
 class OrderAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -46,7 +46,6 @@ class OrderDetailAPIView(generics.RetrieveAPIView):
     def get_queryset(self):
         return Order.objects.filter(customer=self.request.user.customer)
 
-
 class OrderCreateAPIView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -56,13 +55,24 @@ class OrderCreateAPIView(generics.CreateAPIView):
         cart = get_object_or_404(Cart, customer=customer)
 
         if not cart.items.exists():
-            return Response(
-                {"detail": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"detail": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
+
+        address_id = request.data.get("address_id")
+        if address_id:
+            delivery_address = get_object_or_404(Address, id=address_id, user=request.user)
+        else:
+            delivery_address = Address.objects.filter(user=request.user, default=True).first()
+
+        if not delivery_address:
+            return Response({"detail": "No delivery address found"}, status=status.HTTP_400_BAD_REQUEST)
+
+        from apps.ecommerce.serializers.address import AddressSerializer
+        address_snapshot = AddressSerializer(delivery_address).data
 
         order = Order.objects.create(
             customer=customer,
-            delivery_address=getattr(customer, "default_address", None),
+            delivery_address=delivery_address,
+            delivery_address_snapshot=address_snapshot, 
         )
 
         for cart_item in cart.items.all():
@@ -85,6 +95,7 @@ class OrderCreateAPIView(generics.CreateAPIView):
 
         serializer = self.get_serializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class OrderCancelAPIView(generics.UpdateAPIView):
     serializer_class = OrderSerializer
@@ -155,7 +166,14 @@ class AdminOrderActionAPIView(generics.UpdateAPIView):
                 message = "Your order has not been placed due to some reasons."
             else:
                 return Response({"detail": "Order cannot be rejected now."}, status=400)
-
+        elif action == "delivered":
+            if order.status == OrderStatus.SHIPPED:
+                order.status = OrderStatus.DELIVERED
+                order.save()
+                message = "Order has been marked as delivered."
+            else:
+                return Response({"detail": "Only shipped orders can be marked as delivered."}, status=400)
+            
         else:
             return Response({"detail": "Invalid action"}, status=400)
 

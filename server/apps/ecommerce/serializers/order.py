@@ -2,6 +2,7 @@ from rest_framework import serializers
 from apps.ecommerce.models.order import Order, OrderItem
 from apps.ecommerce.serializers.customer import CustomerProfileSerializer
 from apps.ecommerce.serializers.product import ProductListSerializer
+from apps.ecommerce.serializers.address import AddressSerializer
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -16,6 +17,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerProfileSerializer(read_only=True)
     items = OrderItemSerializer(many=True, read_only=True)
+    delivery_address = AddressSerializer(read_only=True)
+    delivery_address_snapshot = serializers.JSONField(read_only=True)
 
     class Meta:
         model = Order
@@ -29,4 +32,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "total_qty",
             "order_date",
             "items",
+            "delivery_address",
+            "delivery_address_snapshot",
         ]

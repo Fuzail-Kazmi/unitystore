@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, User, Phone } from "lucide-react";
 import Link from "next/link";
 import { useRegisterMutation } from "../_hooks";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [mounted, setMounted] = useState(false);
 
@@ -20,13 +21,17 @@ export default function RegisterPage() {
     e.preventDefault();
 
     register(
-      { username, email, password },
+      { username, email, mobile, password },
       {
         onSuccess: () => {
           toast.success("Account created successfully!");
         },
         onError: (err: any) => {
-          toast.error(err.response?.data?.detail || "Registration failed");
+          toast.error(
+            err.response?.data?.detail ||
+            err.response?.data?.mobile?.[0] ||
+            "Registration failed"
+          );
         },
       }
     );
@@ -44,7 +49,6 @@ export default function RegisterPage() {
 
       <div className="w-full flex items-center justify-center relative z-10">
         <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full max-w-4xl flex flex-col lg:flex-row">
-          {/* <div className="lg:w-1/2 bg-gradient-to-br from-blue-600 via-black to-red-600 p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden"> */}
           <div className="lg:w-1/2 bg-gradient-to-br from-blue-100 to-white p-2 lg:p-8 flex flex-col justify-between text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
@@ -113,7 +117,20 @@ export default function RegisterPage() {
                   required
                 />
               </div>
-
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900" />
+                </div>
+                <input
+                  type="tel"
+                  value={mobile}
+                  autoComplete="tel"
+                  onChange={(e) => setMobile(e.target.value)}
+                  className="w-full pl-10 pr-2 py-3 sm:pl-12 sm:pr-4 sm:py-4 border border-gray-200 rounded-lg sm:rounded-2xl  focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500 text-sm sm:text-base"
+                  placeholder="Phone Number"
+                  required
+                />
+              </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900" />
@@ -121,11 +138,12 @@ export default function RegisterPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-2 py-3 sm:pl-12 sm:pr-4 sm:py-4 border border-gray-200 rounded-lg sm:rounded-2xl  focus:ring-0 focus:border-transparent transition-all duration-200 bg-gray-50/50 backdrop-blur-sm text-gray-900 placeholder-gray-500 text-sm sm:text-base"
-                  placeholder="Password"
+                  placeholder="Password (min 8 chars)"
                   required
+                  minLength={8}
                 />
                 <button
                   type="button"

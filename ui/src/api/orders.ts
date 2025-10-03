@@ -8,8 +8,8 @@ export const useCreateOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async () => {
-      const res = await axiosClient.post("api/orders/create/");
+    mutationFn: async (data: { address_id: string }) => {
+      const res = await axiosClient.post("api/orders/create/", data);
       return res.data;
     },
     onSuccess: () => {

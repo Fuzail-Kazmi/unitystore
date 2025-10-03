@@ -4,6 +4,7 @@ import { ChevronLeft, Save, Upload } from "lucide-react";
 import { useCreateProduct, useUpdateProduct } from "@/api/product";
 import { useCategories } from "@/api/category";
 import { useBrandsList } from "@/api/brand";
+import TextEditor from "@/components/ui/text-editor";
 
 interface ProductFormProps {
   product?: any;
@@ -177,7 +178,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
               />
             </div>
 
-            <div className="md:col-span-2">
+            {/* <div className="md:col-span-2">
               <label className="block text-sm mb-2">Short Description</label>
               <textarea
                 name="short_description"
@@ -197,6 +198,38 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border rounded-lg border-gray-300 text-sm"
               />
+            </div> */}
+
+            <div className="md:col-span-2">
+              <label className="block text-sm mb-2">Short Description</label>
+              <TextEditor
+                defaultValue={formData.short_description}
+                onTextChange={(_, __, source, editor) => {
+                  if (source === "user") {
+                    setFormData((prev) => ({
+                      ...prev,
+                      short_description: editor.root.innerHTML, 
+                    }));
+                  }
+                }}
+              />
+
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm mb-2">Description</label>
+              <TextEditor
+                defaultValue={formData.description}
+                onTextChange={(_, __, source, editor) => {
+                  if (source === "user") {
+                    setFormData((prev) => ({
+                      ...prev,
+                      description: editor.root.innerHTML,
+                    }));
+                  }
+                }}
+              />
+
             </div>
           </div>
         </div>

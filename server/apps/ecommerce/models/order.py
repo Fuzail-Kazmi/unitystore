@@ -26,6 +26,7 @@ class Order(BaseModel):
     delivery_address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, blank=True
     )
+    delivery_address_snapshot = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"Order {self.order_id or self.pk} - {self.customer}"

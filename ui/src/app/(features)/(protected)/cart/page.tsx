@@ -1,6 +1,5 @@
 "use client";
-
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,9 +9,6 @@ import {
   ArrowLeft,
   Heart,
   ShoppingBag,
-  Shield,
-  Truck,
-  RotateCcw,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import {
@@ -21,7 +17,9 @@ import {
   useRemoveCartItem,
   useClearCart,
 } from "@/api/cart";
+import { useAddresses } from "@/api/address";
 import { useCreateOrder } from "@/api/orders";
+import AddAddressForm from "../(setting)/addresses/address-form";
 
 type CartItem = {
   id: string;
@@ -41,11 +39,18 @@ type CartItem = {
 
 const Page = () => {
   const { data: cartData, isLoading, isError, error } = useCart();
+  const { data: addresses, isLoading: addrLoading } = useAddresses();
   const createOrder = useCreateOrder();
 
   const updateCartItem = useUpdateCartItem();
   const removeCartItem = useRemoveCartItem();
   const clearCart = useClearCart();
+
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const [confirmAddress, setConfirmAddress] = useState(false);
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [editingAddress, setEditingAddress] = useState<any>(null);
 
   const cartItems: CartItem[] = cartData?.items || [];
 
@@ -60,16 +65,14 @@ const Page = () => {
 
   const updateQuantity = (itemId: string, newQuantity: number) => {
     const safeQuantity = Math.max(1, parseInt(String(newQuantity), 10));
-    console.log("Updating item:", { itemId, safeQuantity });
-
     updateCartItem.mutate(
       { item_id: itemId, quantity: safeQuantity },
       {
         onError: (err: any) => {
           console.error("Update quantity error:", err.response?.data || err);
-          alert(
+          toast.error(
             err?.response?.data?.message ||
-            "Failed to update quantity. Check console for details."
+            "Failed to update quantity. Try again!"
           );
         },
       }
@@ -80,10 +83,7 @@ const Page = () => {
     removeCartItem.mutate(itemId, {
       onError: (err: any) => {
         console.error("Remove item error:", err);
-        alert(
-          err?.response?.data?.message ||
-          "Failed to remove item. Check console for details."
-        );
+        toast.error("Failed to remove item. Try again!");
       },
     });
   };
@@ -92,15 +92,34 @@ const Page = () => {
     clearCart.mutate(undefined, {
       onError: (err: any) => {
         console.error("Clear cart error:", err);
-        alert(
-          err?.response?.data?.message ||
-          "Failed to clear cart. Check console for details."
-        );
+        toast.error("Failed to clear cart. Try again!");
       },
     });
   };
 
-  const moveToWishlist = (id: string) => { };
+  const handleCheckout = () => {
+    if (!selectedAddress) {
+      toast.error("⚠️ Please select an address.");
+      return;
+    }
+    if (!confirmAddress) {
+      toast.error("⚠️ Please confirm your address before checkout.");
+      return;
+    }
+
+    createOrder.mutate(
+      { address_id: selectedAddress },
+      {
+        onSuccess: () => {
+          toast.success("🎉 Order placed successfully!");
+        },
+        onError: (err: any) => {
+          console.error("Order create error:", err.response?.data || err);
+          toast.error("Failed to create order. Try again!");
+        },
+      }
+    );
+  };
 
   if (isLoading) {
     return (
@@ -110,25 +129,11 @@ const Page = () => {
     );
   }
 
-  const handleCheckout = () => {
-    createOrder.mutate(undefined, {
-      onSuccess: (data) => {
-        toast.success("Your order has been created!");
-      },
-      onError: (err: any) => {
-        console.error("Order create error:", err.response?.data || err);
-        toast.error("Failed to create order. Try again!");
-      },
-    });
-  };
-
   if (isError) {
     console.error("Cart fetch error:", error);
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600">
-          Failed to load cart. Check console for details.
-        </p>
+        <p className="text-red-600">Failed to load cart.</p>
       </div>
     );
   }
@@ -237,41 +242,43 @@ const Page = () => {
                           <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
                             <div className="flex items-center gap-2">
                               <span className="text-sm text-gray-600">Qty:</span>
-
                               <div className="flex items-center border border-gray-300 rounded-lg">
                                 <button
-                                  onClick={() => updateQuantity(item.id, Number(item.quantity) - 1)}
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.id,
+                                      Number(item.quantity) - 1
+                                    )
+                                  }
                                   disabled={Number(item.quantity) <= 1}
-                                  className="p-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="p-1 hover:bg-gray-100 disabled:opacity-50"
                                 >
                                   <Minus className="h-3 w-3" />
                                 </button>
-
                                 <span className="px-3 py-1 text-sm font-medium min-w-[2rem] text-center">
                                   {item.quantity}
                                 </span>
-
                                 <button
-                                  onClick={() => updateQuantity(item.id, Number(item.quantity) + 1)}
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.id,
+                                      Number(item.quantity) + 1
+                                    )
+                                  }
                                   className="p-1 hover:bg-gray-100"
                                 >
                                   <Plus className="h-3 w-3" />
                                 </button>
                               </div>
                             </div>
-
-
                             <div className="flex items-center gap-2">
-                              <button
-                                onClick={() => moveToWishlist(item.id)}
-                                className="text-xs text-gray-500 hover:text-red-500 flex items-center gap-1 transition-colors"
-                              >
+                              <button className="text-xs text-gray-500 hover:text-red-500 flex items-center gap-1">
                                 <Heart className="h-3 w-3" />
                                 Save
                               </button>
                               <button
                                 onClick={() => removeItem(item.id)}
-                                className="text-xs text-gray-500 hover:text-red-500 flex items-center gap-1 transition-colors"
+                                className="text-xs text-gray-500 hover:text-red-500 flex items-center gap-1"
                               >
                                 <Trash2 className="h-3 w-3" />
                                 Remove
@@ -288,92 +295,103 @@ const Page = () => {
                 );
               })}
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="flex items-center gap-3 p-4 bg-white rounded-lg border border-gray-200">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Truck className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    Free Shipping
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    On orders your first order
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 bg-white rounded-lg border border-gray-200">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <RotateCcw className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    Easy Returns
-                  </p>
-                  <p className="text-xs text-gray-500">30-day return policy</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 bg-white rounded-lg border border-gray-200">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <Shield className="h-5 w-5 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    Secure Payment
-                  </p>
-                  <p className="text-xs text-gray-500">SSL encrypted</p>
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-4">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Address</h2>
+
+              {addrLoading ? (
+                <p className="text-gray-500">Loading addresses...</p>
+              ) : addresses?.length ? (
+                <div className="space-y-3 mb-6">
+                  {addresses.map((addr: any) => (
+                    <label
+                      key={addr.id}
+                      className={`flex items-start gap-3 p-3 border rounded-lg cursor-pointer transition ${selectedAddress === addr.id
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200"
+                        }`}
+                    >
+                      <input
+                        type="radio"
+                        name="address"
+                        value={addr.id}
+                        checked={selectedAddress === addr.id}
+                        onChange={() => setSelectedAddress(addr.id)}
+                        className="mt-1"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-900">{addr.title}</p>
+                        <p className="text-sm text-gray-600">
+                          {addr.address_line_1}, {addr.city}, {addr.state}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {addr.phone_number || "No phone"}
+                        </p>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center mb-6">
+                  <p className="text-gray-600 mb-2">No address found</p>
+
+                  <AddAddressForm
+                    open={isPopoverOpen}
+                    setOpen={setIsPopoverOpen}
+                    editingAddress={editingAddress}
+                    setEditingAddress={setEditingAddress}
+                  />
+                </div>
+              )}
+
+              {addresses?.length > 0 && (
+                <label className="flex items-center gap-2 mt-4 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={confirmAddress}
+                    onChange={(e) => setConfirmAddress(e.target.checked)}
+                  />
+                  I confirm this is my delivery address
+                </label>
+              )}
+            </div>
+
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
               <h2 className="text-lg font-semibold text-gray-900 mb-6">
                 Order Summary
               </h2>
-
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal</span>
                   <span className="font-medium">Rs.{subtotal.toFixed(2)}</span>
                 </div>
-
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-medium">
                     {shipping === 0 ? "Free" : `Rs.${shipping.toFixed(2)}`}
                   </span>
                 </div>
-
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Tax</span>
                   <span className="font-medium">Rs.{tax.toFixed(2)}</span>
                 </div>
-
                 <hr className="border-gray-200" />
-
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
                   <span>Rs.{total.toFixed(2)}</span>
                 </div>
               </div>
-
-              {/* <button className="w-full bg-primary hover:bg-primary/85 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4">
-                Proceed to Checkout
-              </button> */}
-
               <button
                 onClick={handleCheckout}
                 disabled={createOrder.isPending}
                 className="w-full bg-primary hover:bg-primary/85 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4"
               >
-                {createOrder.isPending ? "Placing Order..." : "Proceed to Checkout"}
+                {createOrder.isPending
+                  ? "Placing Order..."
+                  : "Proceed to Checkout"}
               </button>
-
               <div className="text-center">
                 <Link
                   href="/products"
@@ -385,8 +403,8 @@ const Page = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

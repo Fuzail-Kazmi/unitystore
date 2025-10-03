@@ -20,3 +20,26 @@ html {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.ql-toolbar.ql-snow {
+	@apply border-none border-b;
+}
+
+.ql-container.ql-snow {
+	border: none !important;
+}
+
+.ql-editor li {
+	padding-left: 1rem !important;
+}
+.ql-editor ol {
+	padding-left: 0 !important;
+}
+
+.ql-container .ql-editor {
+  min-height: 200px; 
+}
+
+.ql-container.description .ql-editor {
+  min-height: 300px; 
+}
